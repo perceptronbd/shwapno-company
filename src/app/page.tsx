@@ -34,6 +34,7 @@ const Radioptions = [
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
   return (
     <div className="w-full h-screen flex flex-col gap-4 justify-center items-center px-4 bg-white text-black">
       <Text variant="headerLarge"> Hello There</Text>
@@ -49,7 +50,13 @@ export default function Home() {
         <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
       </div>
       <Switch />
-      <MultiSelectInput options={options} />
+      <MultiSelectInput
+        options={options}
+        value={selectedValues}
+        onChange={(values) => {
+          setSelectedValues(values);
+        }}
+      />
       <div>
         <Button variant="text" onClick={() => setIsModalOpen(true)}>
           Open Modal
