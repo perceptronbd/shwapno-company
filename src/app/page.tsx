@@ -13,6 +13,7 @@ import {
 } from "@/shared-components";
 import MultiSelectInput from "@/shared-components/src/components/inputs/multi-select-input/multi-select-input";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const options = [
   { label: "Times Square", value: "times_square" },
