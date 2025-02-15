@@ -6,7 +6,7 @@ import { makeStore, AppStore } from "./index";
 export default function ReduxProvider({
   children,
 }: {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }) {
   const storeRef = useRef<AppStore | null>(null);
   if (!storeRef.current) {
