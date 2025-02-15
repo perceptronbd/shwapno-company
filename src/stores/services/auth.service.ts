@@ -4,7 +4,7 @@ import type { LoginRequest, AuthResponse } from "../states/auth.state";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://shwapno-server.onrender.com/api/v1/",
+    baseUrl: "http://localhost:5001/api/v1/",
     credentials: "include",
   }),
   endpoints: (builder) => ({
@@ -13,7 +13,7 @@ export const authApi = createApi({
         url: "auth/login",
         method: "POST",
         body: credentials,
-      }),
+      }),  
     }),
     logout: builder.mutation<void, void>({
       query: () => ({
