@@ -1,11 +1,29 @@
 "use client";
 
 import { Button, FloatingLabelInput, Icons, Text } from "@/shared-components";
+import { useAppSelector } from "@/stores/hook";
+import { useLoginMutation } from "@/stores/services/auth.service";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function LoginForm() {
   const [isVisible, setIsVisible] = useState(false);
+
+  const [login, { isLoading }] = useLoginMutation();
+  const user = useAppSelector((state) => state.auth.user);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await login({
+        email: "shohag@shwapno.com",
+        password: "password1234",
+        rememberMe: true,
+      }).unwrap();
+    } catch (error: unknown) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     setIsVisible(true);
@@ -31,11 +49,12 @@ export default function LoginForm() {
                 Plase provide your credentials
               </Text>
             </article>
-            <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-8" onSubmit={handleSubmit}>
               <FloatingLabelInput
                 className="w-full"
                 label="Login"
                 placeholder="Login"
+                isIcon
                 Icon={Icons.Mail}
               />
               <div className="space-y-2">
@@ -56,7 +75,9 @@ export default function LoginForm() {
                 </Text>
               </div>
 
-              <Button className="w-full"> Log in</Button>
+              <Button className="w-full" loading={isLoading}>
+                Log in
+              </Button>
             </form>
           </div>
         </section>
