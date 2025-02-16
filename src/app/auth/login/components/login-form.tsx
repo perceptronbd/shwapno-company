@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, FloatingLabelInput, Icons, Text } from "@/shared-components";
-import { useAppSelector } from "@/stores/hook";
 import { useLoginMutation } from "@/stores/services/auth.service";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -16,8 +15,6 @@ export default function LoginForm() {
 
   const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
-  const user = useAppSelector((state) => state.auth.user);
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   const {
     register,
@@ -45,7 +42,6 @@ export default function LoginForm() {
     } catch (error: unknown) {
       // Handle error (e.g., show error message)
       if (error instanceof Error) {
-        console.error("Login failed:", error);
         toast.error(error.message);
       }
     }
@@ -111,17 +107,6 @@ export default function LoginForm() {
           </div>
         </section>
       </div>
-      {/* <Button
-        onClick={() => {
-          console.log("toast button clicked");
-          toast.success("Login successful!", {
-            duration: 1000,
-            position: "top-center",
-          });
-        }}
-      >
-        Toast
-      </Button> */}
     </section>
   );
 }
