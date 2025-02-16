@@ -1,9 +1,8 @@
 "use client";
 
 import { Button, FloatingLabelInput, Icons, Text } from "@/shared-components";
-import { useAppDispatch, useAppSelector } from "@/stores/hook";
-import { authApi, useLoginMutation } from "@/stores/services/auth.service";
-import { AuthResponse } from "@/stores/states/auth.state";
+import { useAppSelector } from "@/stores/hook";
+import { useLoginMutation } from "@/stores/services/auth.service";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LoginValidation, LoginValidationType } from "../validation";
@@ -15,8 +14,7 @@ export default function LoginForm() {
 
   const [login, { isLoading }] = useLoginMutation();
   const user = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
- 
+
   const {
     register,
     handleSubmit,
@@ -24,7 +22,6 @@ export default function LoginForm() {
   } = useForm<LoginValidationType>({
     resolver: zodResolver(LoginValidation),
   });
- 
 
   const onSubmit = async (data: LoginValidationType) => {
     console.log(data);
@@ -34,7 +31,7 @@ export default function LoginForm() {
         password: data.password,
         rememberMe: true,
       }).unwrap();
-  
+
       // Handle success (e.g., store token, redirect, etc.)
       console.log("Login successful:", result);
     } catch (error) {
@@ -42,7 +39,6 @@ export default function LoginForm() {
       console.error("Login failed:", error);
     }
   };
-  
 
   useEffect(() => {
     setIsVisible(true);
@@ -51,7 +47,6 @@ export default function LoginForm() {
 
   return (
     <section className="relative h-screen w-full">
-      
       <div
         className={`h-screen w-full transform shadow-lg transition-all duration-500 ease-out ${isVisible ? "translate-y-0" : "translate-y-3"}`}
       >
@@ -61,7 +56,7 @@ export default function LoginForm() {
               <Text
                 variant="headerMedium"
                 weight="bold"
-                className="text-secondary-400 text-center"
+                className="text-center text-secondary-400"
               >
                 Login
               </Text>
@@ -69,13 +64,17 @@ export default function LoginForm() {
                 Please provide your credentials
               </Text>
             </article>
-            <form className="space-y-8 w-full" onSubmit={handleSubmit(onSubmit)}>
+            <form
+              className="w-full space-y-8"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <FloatingLabelInput
                 className="w-full"
                 label="Email"
                 placeholder="Login"
                 Icon={Icons.Mail}
                 {...register("email")}
+                errorMessage={errors.email?.message}
               />
               <div className="space-y-2">
                 <FloatingLabelInput
@@ -84,6 +83,7 @@ export default function LoginForm() {
                   type="password"
                   Icon={Icons.Lock}
                   {...register("password")}
+                  errorMessage={errors.password?.message}
                 />
                 <Text variant="bodySmall" className="text-neutral-300">
                   Forgot your password? &nbsp;
