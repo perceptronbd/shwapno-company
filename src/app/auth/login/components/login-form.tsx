@@ -8,12 +8,16 @@ import { useEffect, useState } from "react";
 import { LoginValidation, LoginValidationType } from "../validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const [isVisible, setIsVisible] = useState(false);
 
   const [login, { isLoading }] = useLoginMutation();
+  const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   const {
     register,
@@ -33,7 +37,12 @@ export default function LoginForm() {
       }).unwrap();
 
       // Handle success (e.g., store token, redirect, etc.)
-      console.log("Login successful:", result);
+      if (result.success) {
+        toast.success("Login successful!");
+        setTimeout(() => {
+          router.push("/order");
+        }, 2000); // 2 seconds delay
+      }
     } catch (error) {
       // Handle error (e.g., show error message)
       console.error("Login failed:", error);
@@ -60,6 +69,7 @@ export default function LoginForm() {
               >
                 Login
               </Text>
+
               <Text variant="bodyBase" className="text-neutral-300">
                 Please provide your credentials
               </Text>
@@ -103,6 +113,17 @@ export default function LoginForm() {
           </div>
         </section>
       </div>
+      {/* <Button
+        onClick={() => {
+          console.log("toast button clicked");
+          toast.success("Login successful!", {
+            duration: 1000,
+            position: "top-center",
+          });
+        }}
+      >
+        Toast
+      </Button> */}
     </section>
   );
 }
