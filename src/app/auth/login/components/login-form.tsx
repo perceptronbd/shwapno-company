@@ -28,7 +28,6 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginValidationType) => {
-    console.log(data);
     try {
       const result = await login({
         email: data.email,
@@ -43,9 +42,12 @@ export default function LoginForm() {
           router.push("/order");
         }, 2000); // 2 seconds delay
       }
-    } catch (error) {
+    } catch (error: unknown) {
       // Handle error (e.g., show error message)
-      console.error("Login failed:", error);
+      if (error instanceof Error) {
+        console.error("Login failed:", error);
+        toast.error(error.message);
+      }
     }
   };
 
@@ -68,10 +70,6 @@ export default function LoginForm() {
                 className="text-center text-secondary-400"
               >
                 Login
-              </Text>
-
-              <Text variant="bodyBase" className="text-neutral-300">
-                Please provide your credentials
               </Text>
             </article>
             <form

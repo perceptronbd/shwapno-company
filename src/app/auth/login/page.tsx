@@ -15,7 +15,7 @@ async function DelayedLoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<>Loading...</>}>
+    <Suspense fallback={<LoginLoading />}>
       <DelayedLoginForm />
     </Suspense>
   );
