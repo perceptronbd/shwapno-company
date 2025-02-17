@@ -1,27 +1,28 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { LoginRequest, AuthResponse } from "../states/auth.state";
+import { AuthResponse, LoginRequest } from "../states/auth.state";
+import { secureApi } from "./secure.service";
 
-export const authApi = createApi({
-  reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5001/api/v1/",
-    credentials: "include",
-  }),
+export const authApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<AuthResponse, LoginRequest>({
-      query: (credentials) => ({
-        url: "auth/login",
+      query: () => ({
+        url: "/auth/login",
         method: "POST",
-        body: credentials,
-      }),  
+      }),
     }),
     logout: builder.mutation<void, void>({
       query: () => ({
-        url: "auth/logout",
+        url: "/auth/logout",
+        method: "POST",
+      }),
+    }),
+    refreshTokens: builder.mutation<void, void>({
+      query: () => ({
+        url: "/auth/refresh",
         method: "POST",
       }),
     }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useLogoutMutation, useRefreshTokensMutation } =
+  authApi;
