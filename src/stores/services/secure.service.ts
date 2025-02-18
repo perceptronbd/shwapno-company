@@ -3,15 +3,18 @@ import {
   createApi,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
+import { selectAccessToken } from "../slices/auth.slice";
+import { RootState } from "..";
 
 // api/baseQuery.ts
 let accessToken: string | null = null;
 
 const baseQuerySecure = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL,
-  prepareHeaders: (headers) => {
-    if (accessToken) {
-      headers.set("Authorization", `Bearer ${accessToken}`);
+  baseUrl: process.env.NEXT_PUBLIC_ENDPOINT,
+  prepareHeaders: (headers, { getState }) => {
+    const token = selectAccessToken(getState() as RootState);
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
     }
     return headers;
   },
@@ -40,6 +43,8 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
           refreshResult.meta.response.headers
             .get("Authorization")
             ?.split("Bearer ")[1] || null;
+
+        console.log("New access token:", accessToken);
 
         // Retry original request
         result = await baseQuerySecure(args, api, extraOptions);

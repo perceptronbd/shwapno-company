@@ -25,6 +25,7 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginValidationType) => {
+    console.log("Login Form FormData", data);
     try {
       const result = await login({
         email: data.email,
@@ -33,7 +34,7 @@ export default function LoginForm() {
       }).unwrap();
 
       // Handle success (e.g., store token, redirect, etc.)
-      if (result.success) {
+      if (result.accessToken.length > 0) {
         toast.success("Login successful!");
         setTimeout(() => {
           router.push("/order");
