@@ -1,4 +1,3 @@
-import { Toaster } from "@/shared-components";
 import Image from "next/image";
 
 export default function AuthLayout({
@@ -16,7 +15,6 @@ export default function AuthLayout({
         className="object-cover opacity-40"
       />
       {children}
-      <Toaster />
     </div>
   );
 }
