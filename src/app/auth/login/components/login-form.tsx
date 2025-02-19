@@ -25,7 +25,6 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginValidationType) => {
-    console.log("Login Form FormData", data);
     try {
       const result = await login({
         email: data.email,
