@@ -14,18 +14,13 @@ export const authApi = secureApi.injectEndpoints({
         response: AuthResponse,
         meta: FetchBaseQueryMeta | undefined,
       ): AuthState => {
-        console.log("Meta Response", response);
         const authHeader = meta?.response?.headers.get("Authorization");
         const accessToken = authHeader?.startsWith("Bearer ")
           ? authHeader.split(" ")[1]
           : "";
 
-        console.log("Access Token:", accessToken);
-
         if (!accessToken) {
-          console.warn(
-            "Authorization header missing or invalid in login response",
-          );
+          throw new Error("Access token not found in response headers.");
         }
 
         return { user: response.data, accessToken };

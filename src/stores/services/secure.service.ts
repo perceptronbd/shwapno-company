@@ -3,11 +3,10 @@ import {
   createApi,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
-import { selectAccessToken } from "../slices/auth.slice";
+import { selectAccessToken, accessTokenRefresh } from "../slices/auth.slice";
 import { RootState } from "..";
-
-// api/baseQuery.ts
-let accessToken: string | null = null;
+import { RefreshResponse } from "../states/auth.state";
+import { authApi } from "./auth.service";
 
 const baseQuerySecure = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_ENDPOINT,
@@ -15,6 +14,8 @@ const baseQuerySecure = fetchBaseQuery({
     const token = selectAccessToken(getState() as RootState);
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
+    } else {
+      console.warn("No access token found!");
     }
     return headers;
   },
@@ -22,40 +23,28 @@ const baseQuerySecure = fetchBaseQuery({
 });
 
 const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
-  let result = await baseQuerySecure(args, api, extraOptions);
+  const result = await baseQuerySecure(args, api, extraOptions);
 
-  if (result.error?.status === 401) {
-    try {
-      // Refresh tokens with rememberMe flag
-      const refreshResult = await baseQuerySecure(
-        {
-          url: "/auth/refresh",
-          method: "POST",
-          body: { rememberMe: localStorage.getItem("rememberMe") === "true" },
-        },
-        api,
-        extraOptions,
-      );
+  if (result.error && result.error.status === 401) {
+    console.warn("Access token expired, trying refresh...");
 
-      if (refreshResult.meta?.response?.headers.get("Authorization")) {
-        // Extract new access token from header
-        accessToken =
-          refreshResult.meta.response.headers
-            .get("Authorization")
-            ?.split("Bearer ")[1] || null;
+    const refreshResult = await baseQuerySecure(
+      { url: "/auth/refresh", method: "POST" },
+      api,
+      extraOptions,
+    );
 
-        console.log("New access token:", accessToken);
+    const refreshResponse = refreshResult.data as RefreshResponse;
 
-        // Retry original request
-        result = await baseQuerySecure(args, api, extraOptions);
-      } else {
-        //handle logout
-      }
-    } catch (error) {
-      //handle logout
-      console.error("Error refreshing access token:", error);
+    if (refreshResponse.data) {
+      api.dispatch(accessTokenRefresh({ accessToken: refreshResponse.data }));
+      return await baseQuerySecure(args, api, extraOptions);
+    } else {
+      api.dispatch(authApi.endpoints.logout.initiate()); // Logout call
+      return { error: { status: 401, data: "Unauthorized" } };
     }
   }
+
   return result;
 };
 

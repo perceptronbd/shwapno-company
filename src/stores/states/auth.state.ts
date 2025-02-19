@@ -23,3 +23,10 @@ export interface AuthState {
   user: User | null;
   accessToken: string;
 }
+
+export interface RefreshResponse {
+  success: boolean;
+  code: number;
+  data: string; // JWT token as string
+  message: string;
+}

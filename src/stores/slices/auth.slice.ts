@@ -11,7 +11,11 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    accessTokenRefresh: (state, action) => {
+      state.accessToken = action.payload.accessToken;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addMatcher(
@@ -29,5 +33,7 @@ export const authSlice = createSlice({
 });
 
 export const selectAccessToken = (state: RootState) => state.auth.accessToken;
+
+export const { accessTokenRefresh } = authSlice.actions;
 
 export default authSlice.reducer;
