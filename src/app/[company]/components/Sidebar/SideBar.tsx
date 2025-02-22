@@ -14,13 +14,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   return (
     <Drawer
       className="w-full bg-primary-400"
+      buttonClassName="bg-transparent bg-secondary-400 text-white hover:text-secondary-500 h-6 w-6"
       isOpen={isOpen}
       onClose={onClose}
       orientation="horizontal"
     >
-      <aside className="flex min-h-screen w-full flex-col bg-primary-400 p-4 text-white">
+      <aside className="flex min-h-screen w-full flex-col bg-primary-400 px-4 py-12 text-white">
         {/* Logo */}
-        <div className="mb-6 flex w-full justify-start border border-red-400">
+        <div className="mb-6 flex w-full justify-start">
           <Image
             src="/shwapno-logo.svg"
             alt="Logo"
@@ -38,11 +39,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </nav>
 
         {/* Bottom Links */}
-        <div className="mt-auto flex flex-col gap-2 border-t border-gray-700 pt-4">
+        <nav className="mt-auto flex flex-col gap-2 pt-4">
           {NavLinks.bottomLinks.map((link) => (
             <SidebarLink key={link.name} {...link} />
           ))}
-        </div>
+        </nav>
       </aside>
     </Drawer>
   );
