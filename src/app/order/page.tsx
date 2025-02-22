@@ -1,10 +1,13 @@
-import { columns, orderData } from "./components/order-table/columns";
-import { DataTable } from "./components/order-table/DataTable";
+// import { columns, orderData } from "./components/order-table/columns";
+// import { DataTable } from "./components/order-table/DataTable";
+
+import { Text } from "@/shared-components";
 
 const Order = () => {
   return (
     <div className="h-screen w-full bg-white px-4">
-      <DataTable columns={columns} data={orderData} />
+      <Text variant="headerLarge">This is supposed to be the order page</Text>
+      {/* <DataTable columns={columns} data={orderData} /> */}
     </div>
   );
 };

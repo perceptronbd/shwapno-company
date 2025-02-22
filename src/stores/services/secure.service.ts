@@ -19,13 +19,17 @@ const baseQuerySecure = fetchBaseQuery({
     }
     return headers;
   },
-  credentials: "include", // For cookie handling
+  credentials: "include",
 });
 
 const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
   const result = await baseQuerySecure(args, api, extraOptions);
 
-  if (result.error && result.error.status === 401) {
+  const isUnauthorizedError = result.error?.status === 401;
+  const isNotAuthEndpoint =
+    api.endpoint !== "login" && api.endpoint !== "logout";
+
+  if (isUnauthorizedError && isNotAuthEndpoint) {
     console.warn("Access token expired, trying refresh...");
 
     const refreshResult = await baseQuerySecure(
@@ -40,7 +44,7 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
       api.dispatch(accessTokenRefresh({ accessToken: refreshResponse.data }));
       return await baseQuerySecure(args, api, extraOptions);
     } else {
-      api.dispatch(authApi.endpoints.logout.initiate()); // Logout call
+      api.dispatch(authApi.endpoints.logout.initiate());
       return { error: { status: 401, data: "Unauthorized" } };
     }
   }
