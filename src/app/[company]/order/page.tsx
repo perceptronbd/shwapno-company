@@ -4,7 +4,7 @@ import { useLazyGetProfileQuery } from "@/stores/services/user.service";
 import { DataTable } from "./components/order-table/DataTable";
 import { orders } from "./components/order-table/dummyData";
 import { Button } from "@/shared-components";
-import { Icons } from "../../../utils";
+import { Icons } from "../../../../utils";
 
 const Order = () => {
   const [trigger, { data, error, isLoading }] = useLazyGetProfileQuery();

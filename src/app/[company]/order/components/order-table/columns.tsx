@@ -4,7 +4,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Order } from "./type";
 import { Chips } from "@/shared-components";
-import { Icons } from "../../../../../utils";
+import { Icons } from "../../../../../../utils";
 
 type IconType = (typeof Icons)[keyof typeof Icons];
 
