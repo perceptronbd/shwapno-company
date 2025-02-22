@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import TopBar from "./TopBar";
-import Sidebar from "./Sidebar/SideBar";
 import { NavLinks } from "./Sidebar/NavLinks";
+import Sidebar from "./Sidebar/SideBar";
 
 const HeaderWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, FloatingLabelInput, Icons, Text } from "@/shared-components";
+import { Button, FloatingLabelInput,  Text } from "@/shared-components";
 import { useLoginMutation } from "@/stores/services/auth.service";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { company } from "../../../../../utils/constants";
+import { Lock, Mail } from "lucide-react";
 
 export default function LoginForm() {
   const [isVisible, setIsVisible] = useState(false);
@@ -77,7 +78,7 @@ export default function LoginForm() {
                 className="w-full"
                 label="Email"
                 placeholder="Login"
-                Icon={Icons.Mail}
+                Icon={Mail}
                 {...register("email")}
                 errorMessage={errors.email?.message}
               />
@@ -86,7 +87,7 @@ export default function LoginForm() {
                   label="Password"
                   placeholder="Password"
                   type="password"
-                  Icon={Icons.Lock}
+                  Icon={Lock}
                   {...register("password")}
                   errorMessage={errors.password?.message}
                 />
