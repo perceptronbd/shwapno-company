@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { company } from "../../../../../utils/constants";
 
 export default function LoginForm() {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,7 +37,7 @@ export default function LoginForm() {
       if (result.accessToken.length > 0) {
         toast.success("Login successful!");
         setTimeout(() => {
-          router.push("/order");
+          router.push(`/${company}/order`);
         }, 2000); // 2 seconds delay
       }
     } catch (error: unknown) {

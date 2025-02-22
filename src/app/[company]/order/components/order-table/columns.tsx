@@ -4,9 +4,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Order } from "./type";
 import { Chips } from "@/shared-components";
-import { Icons } from "../../../../../../utils";
-
-type IconType = (typeof Icons)[keyof typeof Icons];
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 export const getOrderColumns = (
   toggleRow: (rowId: string) => void,
@@ -27,11 +25,11 @@ export const getOrderColumns = (
         >
           {isExpanded ? (
             <span>
-              <Icons.ChevronUp />
+              <ChevronUp />
             </span>
           ) : (
             <span>
-              <Icons.ChevronDown />
+              <ChevronDown />
             </span>
           )}
         </button>

@@ -1,23 +1,35 @@
-"use client";
-
-import { Drawer } from "@/shared-components";
+import { Drawer, Icons } from "@/shared-components";
 import Image from "next/image";
-import { NavLinks } from "./NavLinks";
 import { SidebarLink } from "./SidebarLink";
+
+type IconType = (typeof Icons)[keyof typeof Icons];
+
+interface NavLinks {
+  topLinks: { name: string; href: string; Icon: IconType }[];
+  bottomLinks: { name: string; href: string; Icon: IconType }[];
+}
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  NavLinks: NavLinks;
+  direction?: "left" | "right";
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  isOpen,
+  onClose,
+  NavLinks,
+  direction,
+}) => {
   return (
     <Drawer
       className="w-full bg-primary-400"
-      buttonClassName="bg-transparent bg-secondary-400 text-white hover:text-secondary-500 h-6 w-6"
+      buttonClassName="bg-transparent text-white hover:text-secondary-500 h-6 w-6"
       isOpen={isOpen}
       onClose={onClose}
       orientation="horizontal"
+      direction={direction}
     >
       <aside className="flex min-h-screen w-full flex-col bg-primary-400 px-4 py-12 text-white">
         {/* Logo */}

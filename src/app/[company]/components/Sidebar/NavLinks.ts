@@ -1,13 +1,6 @@
 import { Icons } from "@/shared-components";
 
-type IconType = (typeof Icons)[keyof typeof Icons];
-
-interface NavLinks {
-  topLinks: { name: string; href: string; Icon: IconType }[];
-  bottomLinks: { name: string; href: string; Icon: IconType }[];
-}
-
-export const NavLinks: NavLinks = {
+export const NavLinks = {
   topLinks: [
     {
       name: "Dashboard",
@@ -16,7 +9,7 @@ export const NavLinks: NavLinks = {
     },
     {
       name: "Orders",
-      href: "/orders",
+      href: "/order",
       Icon: Icons.Package,
     },
     {
