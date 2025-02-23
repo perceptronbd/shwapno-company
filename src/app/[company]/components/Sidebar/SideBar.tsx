@@ -46,14 +46,14 @@ const Sidebar: React.FC<SidebarProps> = ({
         {/* Navigation Links */}
         <nav className="flex flex-1 flex-col gap-2">
           {NavLinks.topLinks.map((link) => (
-            <SidebarLink key={link.name} {...link} />
+            <SidebarLink onClose={onClose} key={link.name} {...link} />
           ))}
         </nav>
 
         {/* Bottom Links */}
         <nav className="mt-auto flex flex-col gap-2 pt-4">
           {NavLinks.bottomLinks.map((link) => (
-            <SidebarLink key={link.name} {...link} />
+            <SidebarLink onClose={onClose} key={link.name} {...link} />
           ))}
         </nav>
       </aside>

@@ -1,53 +1,63 @@
-import { Icons } from "@/shared-components";
+import {
+  FileText,
+  Home,
+  Layers,
+  NotepadText,
+  Package,
+  Package2,
+  QrCode,
+  Settings,
+  Users2,
+} from "lucide-react";
 
 export const NavLinks = {
   topLinks: [
     {
       name: "Dashboard",
       href: "/",
-      Icon: Icons.Home,
+      Icon: Home,
     },
     {
       name: "Orders",
       href: "/order",
-      Icon: Icons.Package,
+      Icon: Package,
     },
     {
       name: "Invoice",
       href: "/invoice",
-      Icon: Icons.NotepadText,
+      Icon: NotepadText,
     },
     {
       name: "Sales",
       href: "/sales",
-      Icon: Icons.FileText,
+      Icon: FileText,
     },
     {
       name: "Stock",
       href: "/stock",
-      Icon: Icons.Layers,
+      Icon: Layers,
     },
     {
       name: "Products",
       href: "/products",
-      Icon: Icons.Package2,
+      Icon: Package2,
     },
   ],
   bottomLinks: [
     {
       name: "Employee",
       href: "/employee",
-      Icon: Icons.Users2,
+      Icon: Users2,
     },
     {
       name: "QR Code",
       href: "/settings",
-      Icon: Icons.QrCode,
+      Icon: QrCode,
     },
     {
       name: "Settings",
       href: "/settings",
-      Icon: Icons.Settings,
+      Icon: Settings,
     },
   ],
 };
