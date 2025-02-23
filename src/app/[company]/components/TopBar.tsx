@@ -1,4 +1,4 @@
-import { Button, Text } from "@/shared-components";
+import { Text } from "@/shared-components";
 import { Bell, Menu, User as UserIcon } from "lucide-react";
 import React from "react";
 import storage from "../../../../utils/local-storage";
@@ -20,7 +20,7 @@ const TopBar = ({ handleOpen }: TopBarProps) => {
           <UserIcon strokeWidth={1} className="h-5 w-5" />
         </span>
         <Text className="flex flex-col" variant="bodyBase">
-          {user.firstName}
+          {user?.firstName}
           <span>{user?.roles[0]}</span>
         </Text>
       </div>

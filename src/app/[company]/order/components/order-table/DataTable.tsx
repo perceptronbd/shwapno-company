@@ -33,7 +33,7 @@ export function DataTable({ data }: DataTableProps) {
     }));
   };
 
-  const columns = getOrderColumns(toggleRow, expandedRows);
+  const columns = getOrderColumns();
 
   const table = useReactTable({
     data,
