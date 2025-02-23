@@ -11,7 +11,7 @@ const HeaderWrapper = () => {
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
   return (
-    <div>
+    <div className="w-full px-3">
       <TopBar handleOpen={handleOpen} />
       <Sidebar
         direction="right"

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "../states/auth.state";
 import { authApi } from "../services/auth.service";
 import { RootState } from "..";
+import storage from "../../../utils/local-storage";
 
 const initialState: AuthState = {
   user: null,
@@ -23,11 +24,13 @@ export const authSlice = createSlice({
         (state, { payload }) => {
           state.user = payload.user;
           state.accessToken = payload.accessToken;
+          storage.set("loggedUser", payload.user);
         },
       )
       .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
         state.user = null;
         state.accessToken = "";
+        storage.remove("loggedUser");
       });
   },
 });
