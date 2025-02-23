@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
+import { LOGIN, PUBLIC_ROUTES, ROOT } from "../utils/routes";
 
 export async function middleware(request: NextRequest) {
+  const refreshToken = request.cookies.get("refreshToken");
+
   const { pathname } = request.nextUrl;
 
-  // Handle root path redirect
-  if (pathname === "/") {
-    return NextResponse.redirect(new URL(`/auth/login`, request.url));
+  if (pathname === ROOT) {
+    return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
   }
+
+  const isPublicRoute = PUBLIC_ROUTES.find((route) =>
+    pathname.startsWith(route),
+  );
+
+  if (!refreshToken && !isPublicRoute)
+    return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
 
   return NextResponse.next();
 }

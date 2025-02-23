@@ -1,19 +1,22 @@
 "use client";
 
-import { Button, FloatingLabelInput, Icons, Text } from "@/shared-components";
-import { useAppSelector } from "@/stores/hook";
+import { Button, FloatingLabelInput,  Text } from "@/shared-components";
 import { useLoginMutation } from "@/stores/services/auth.service";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LoginValidation, LoginValidationType } from "../validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { company } from "../../../../../utils/constants";
+import { Lock, Mail } from "lucide-react";
 
 export default function LoginForm() {
   const [isVisible, setIsVisible] = useState(false);
 
   const [login, { isLoading }] = useLoginMutation();
-  const user = useAppSelector((state) => state.auth.user);
+  const router = useRouter();
 
   const {
     register,
@@ -24,7 +27,6 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginValidationType) => {
-    console.log(data);
     try {
       const result = await login({
         email: data.email,
@@ -33,10 +35,17 @@ export default function LoginForm() {
       }).unwrap();
 
       // Handle success (e.g., store token, redirect, etc.)
-      console.log("Login successful:", result);
-    } catch (error) {
+      if (result.accessToken.length > 0) {
+        toast.success("Login successful!");
+        setTimeout(() => {
+          router.push(`/${company}/order`);
+        }, 2000); // 2 seconds delay
+      }
+    } catch (error: unknown) {
       // Handle error (e.g., show error message)
-      console.error("Login failed:", error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
   };
 
@@ -60,9 +69,6 @@ export default function LoginForm() {
               >
                 Login
               </Text>
-              <Text variant="bodyBase" className="text-neutral-300">
-                Please provide your credentials
-              </Text>
             </article>
             <form
               className="w-full space-y-8"
@@ -72,7 +78,7 @@ export default function LoginForm() {
                 className="w-full"
                 label="Email"
                 placeholder="Login"
-                Icon={Icons.Mail}
+                Icon={Mail}
                 {...register("email")}
                 errorMessage={errors.email?.message}
               />
@@ -81,7 +87,7 @@ export default function LoginForm() {
                   label="Password"
                   placeholder="Password"
                   type="password"
-                  Icon={Icons.Lock}
+                  Icon={Lock}
                   {...register("password")}
                   errorMessage={errors.password?.message}
                 />

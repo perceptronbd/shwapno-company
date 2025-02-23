@@ -21,5 +21,12 @@ export interface AuthResponse {
 
 export interface AuthState {
   user: User | null;
-  isAuthenticated: boolean;
+  accessToken: string;
+}
+
+export interface RefreshResponse {
+  success: boolean;
+  code: number;
+  data: string; // JWT token as string
+  message: string;
 }

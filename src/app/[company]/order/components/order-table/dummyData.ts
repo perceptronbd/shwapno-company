@@ -1,0 +1,55 @@
+// file: dummyData.ts
+import { Order } from "./type";
+
+export const orders: Order[] = [
+  {
+    id: "1",
+    name: "Sabrina",
+    mobile: "01302137980",
+    status: "Pending",
+    total: 1664.4,
+    address: "Gulshan, Dhaka, Bangladesh",
+    date: "2025-02-16",
+    note: "Urgent delivery requested",
+  },
+  {
+    id: "2",
+    name: "Asif",
+    mobile: "01712345678",
+    status: "Pending",
+    total: 342.5,
+    address: "Mirpur, Dhaka, Bangladesh",
+    date: "2025-02-14",
+    note: "N/A",
+  },
+  {
+    id: "3",
+    name: "Ferdous",
+    mobile: "01678901234",
+    status: "Delivered",
+    total: 922.0,
+    address: "Sylhet, Bangladesh",
+    date: "2025-02-13",
+    note: "Call before delivery",
+  },
+  {
+    id: "4",
+    name: "Arif",
+    mobile: "01987654321",
+    status: "Declined",
+    total: 142.55,
+    address: "Barishal, Bangladesh",
+    date: "2025-02-12",
+    note: "Payment incomplete",
+  },
+  {
+    id: "5",
+    name: "Karim",
+    mobile: "01812349876",
+    status: "Declined",
+    total: 200,
+    address: "Rangpur, Bangladesh",
+    date: "2025-02-10",
+    note: "",
+  },
+];
