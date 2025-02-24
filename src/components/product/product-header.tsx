@@ -1,0 +1,31 @@
+import { Button, Input, Text } from "@/shared-components";
+import { FilePlus, Filter, Search } from "lucide-react";
+
+const ProductHeader = () => {
+  return (
+    <>
+      <div className="mt-5 flex h-12 items-center justify-between">
+        <Text variant="titleLarge" weight="bold">
+          Product List
+        </Text>
+        <div className="flex items-center gap-2">
+          <Button size="sm">
+            <FilePlus /> Add
+          </Button>
+          <Button size="sm" variant="outline">
+            Add CSV
+          </Button>
+        </div>
+      </div>
+      <div className="mt-5 flex items-center justify-between gap-6">
+        <div className="flex h-full items-center gap-2 rounded-md border-2 border-neutral-200 bg-white px-4">
+          <Search size={24} />
+          <Input placeholder="Search" className="h-10 border-none" />
+        </div>
+        <Filter size={24} />
+      </div>
+    </>
+  );
+};
+
+export default ProductHeader;

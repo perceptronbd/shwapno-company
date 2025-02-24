@@ -1,7 +1,12 @@
+import ProductHeader from "@/components/product/product-header";
 import React from "react";
 
 const Product = () => {
-  return <div>Product</div>;
+  return (
+    <div>
+      <ProductHeader />
+    </div>
+  );
 };
 
 export default Product;
