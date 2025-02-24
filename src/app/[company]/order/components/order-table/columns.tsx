@@ -3,31 +3,22 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Order } from "./type";
-import {
-  Chips,
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/shared-components";
+
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { Chips } from "@/shared-components";
 
 export const getOrderColumns = (): ColumnDef<Order>[] => [
   {
-    id: "expand",
-    header: "",
-    cell: ({ row }) => {
-      return (
-        <Accordion type="single" collapsible>
-          <AccordionItem value={row.id}>
-            <AccordionTrigger className="flex items-center justify-center rounded-full bg-neutral-200 p-1 text-neutral-400"></AccordionTrigger>
-            <AccordionContent>
-              {/* Row details go here */}
-              <div className="p-4">Expanded content for {row.id}</div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      );
-    },
+    id: "expander",
+    header: () => null,
+    cell: ({ row }) => (
+      <button
+        aria-label={expandedRows[row.id] ? "Collapse row" : "Expand row"}
+        onClick={() => toggleRow(row.id)}
+      >
+        {expandedRows[row.id] ? <ChevronUp /> : <ChevronDown />}
+      </button>
+    ),
   },
   {
     accessorKey: "name",

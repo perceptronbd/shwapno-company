@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
+  OnChangeFn,
   useReactTable,
+  type ExpandedState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -22,15 +25,12 @@ interface DataTableProps {
 }
 
 export function DataTable({ data }: DataTableProps) {
-  const [expandedRows, setExpandedRows] = useState<{ [key: string]: boolean }>(
-    {},
-  );
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  const toggleRow = (rowId: string) => {
-    setExpandedRows((prev) => ({
-      ...prev,
-      [rowId]: !prev[rowId],
-    }));
+  const handleExpandedChange: OnChangeFn<ExpandedState> = (updater) => {
+    setExpanded((prev) =>
+      typeof updater === "function" ? updater(prev) : { ...updater },
+    );
   };
 
   const columns = getOrderColumns();
@@ -39,6 +39,9 @@ export function DataTable({ data }: DataTableProps) {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
+    onExpandedChange: handleExpandedChange,
+    state: { expanded },
   });
 
   return (
@@ -60,12 +63,13 @@ export function DataTable({ data }: DataTableProps) {
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
+        <TableBody key={table.getRowModel().rows.length}>
           {table.getRowModel().rows.length ? (
             table.getRowModel().rows.map((row) => (
-              <Fragment key={row.id}>
+              <>
                 <TableRow
-                  onClick={() => toggleRow(row.id)}
+                  key={row.id}
+                  onClick={() => row.toggleExpanded()}
                   className="cursor-pointer border-none hover:bg-gray-50"
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -77,11 +81,10 @@ export function DataTable({ data }: DataTableProps) {
                     </TableCell>
                   ))}
                 </TableRow>
-                {expandedRows[row.id] && (
-                  <TableRow>
+                {row.getIsExpanded() && (
+                  <TableRow key={`${row.id}-expanded`}>
                     <TableCell colSpan={columns.length}>
                       <div className="bg-gray-50 p-4">
-                        {/* Expanded content */}
                         <p>
                           <strong>Address:</strong> {row.original.address}
                         </p>
@@ -97,7 +100,7 @@ export function DataTable({ data }: DataTableProps) {
                     </TableCell>
                   </TableRow>
                 )}
-              </Fragment>
+              </>
             ))
           ) : (
             <TableRow>
