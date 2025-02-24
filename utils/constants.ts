@@ -1,1 +1,1 @@
-export const company = "shawpno";
+export const COMPANY = "shawpno" as const;

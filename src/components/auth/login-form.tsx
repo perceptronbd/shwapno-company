@@ -13,7 +13,7 @@ import {
   LoginValidation,
   LoginValidationType,
 } from "@/validations/login-validations";
-import { company } from "../../../utils/constants";
+import { COMPANY } from "../../../utils/constants";
 
 export default function LoginForm() {
   const [isVisible, setIsVisible] = useState(false);
@@ -41,7 +41,7 @@ export default function LoginForm() {
       if (result.accessToken.length > 0) {
         toast.success("Login successful!");
         setTimeout(() => {
-          router.push(`/${company}/order`);
+          router.push(`/${COMPANY}/order`);
         }, 2000); // 2 seconds delay
       }
     } catch (error: unknown) {

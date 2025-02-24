@@ -1,23 +1,38 @@
 "use client";
 
 import React, { useState } from "react";
-import Sidebar from "./sidebar/side-bar";
 import TopBar from "./top-bar";
-import { NavLinks } from "./sidebar/nav-links";
+
+import { Sidebar } from "@/shared-components";
+import { usePathname } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { navLinks } from "./sidebar/nav-links";
 
 const HeaderWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
+
   return (
     <div className="w-full px-3">
       <TopBar handleOpen={handleOpen} />
       <Sidebar
-        direction="right"
-        NavLinks={NavLinks}
+        LinkComponent={Link}
+        Logo={
+          <Image
+            width={88}
+            height={48}
+            src="/shwapno-logo.svg"
+            alt="shwapno-logo"
+          />
+        }
+        currentPath={pathname}
         isOpen={isOpen}
         onClose={handleClose}
+        NavLinks={navLinks}
       />
     </div>
   );

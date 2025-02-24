@@ -3,7 +3,7 @@
 import { cn } from "@/shared-components";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { company } from "../../../utils/constants";
+import { COMPANY } from "../../../utils/constants";
 import { LucideIcon } from "lucide-react";
 
 interface SidebarLinkProps {
@@ -21,7 +21,7 @@ export const SidebarLink: React.FC<SidebarLinkProps> = ({
 }) => {
   const pathname = usePathname();
 
-  const fullHref = `/${company}${href}`;
+  const fullHref = `/${COMPANY}${href}`;
 
   return (
     <Link

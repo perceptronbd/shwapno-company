@@ -1,3 +1,4 @@
+import { link } from "fs";
 import {
   FileText,
   Home,
@@ -9,17 +10,18 @@ import {
   Settings,
   Users2,
 } from "lucide-react";
+import { COMPANY } from "../../../utils/constants";
 
-export const NavLinks = {
+export const navLinks = {
   topLinks: [
     {
       name: "Dashboard",
-      href: "/",
+      href: `/${COMPANY}`,
       Icon: Home,
     },
     {
       name: "Orders",
-      href: "/order",
+      href: `/${COMPANY}/orders`,
       Icon: Package,
     },
     {
@@ -33,13 +35,13 @@ export const NavLinks = {
       Icon: FileText,
     },
     {
-      name: "Stock",
-      href: "/stock",
+      name: "Stocks",
+      href: `/${COMPANY}/stocks`,
       Icon: Layers,
     },
     {
       name: "Products",
-      href: "/products",
+      href: `/${COMPANY}/products`,
       Icon: Package2,
     },
   ],
