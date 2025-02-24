@@ -7,7 +7,7 @@ export default function CompanyLayout({
   readonly children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-white">
+    <div className="bg-background-primary relative flex min-h-screen flex-col items-center justify-center">
       <HeaderWrapper />
       {children}
       <Toaster />

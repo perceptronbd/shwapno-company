@@ -19,7 +19,7 @@ export const getOrderColumns = (): ColumnDef<Order>[] => [
       return (
         <Accordion type="single" collapsible>
           <AccordionItem value={row.id}>
-            <AccordionTrigger className="p-2"></AccordionTrigger>
+            <AccordionTrigger className="flex items-center justify-center rounded-full bg-neutral-200 p-1 text-neutral-400"></AccordionTrigger>
             <AccordionContent>
               {/* Row details go here */}
               <div className="p-4">Expanded content for {row.id}</div>
@@ -41,8 +41,8 @@ export const getOrderColumns = (): ColumnDef<Order>[] => [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("status") as Order["status"];
-      let variant: "success" | "warning" | "error" | "primary" = "primary";
+      const status = row.getValue("status");
+      let variant: "success" | "warning" | "error" | "primary";
       let label = status;
 
       switch (status) {
@@ -63,7 +63,11 @@ export const getOrderColumns = (): ColumnDef<Order>[] => [
           break;
       }
 
-      return <Chips variant={variant}>{label}</Chips>;
+      return (
+        <Chips className="p-1 text-2xs" rounded="full" variant={variant}>
+          {label}
+        </Chips>
+      );
     },
   },
   {

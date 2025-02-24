@@ -18,7 +18,7 @@ import { getOrderColumns } from "./columns";
 import type { Order } from "./type";
 
 interface DataTableProps {
-  data: Order[];
+  readonly data: Order[];
 }
 
 export function DataTable({ data }: DataTableProps) {
@@ -48,7 +48,7 @@ export function DataTable({ data }: DataTableProps) {
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
+                <TableHead className="py-7" key={header.id}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -66,10 +66,10 @@ export function DataTable({ data }: DataTableProps) {
               <Fragment key={row.id}>
                 <TableRow
                   onClick={() => toggleRow(row.id)}
-                  className="cursor-pointer hover:bg-gray-50"
+                  className="cursor-pointer border-none hover:bg-gray-50"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell className="py-7" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
