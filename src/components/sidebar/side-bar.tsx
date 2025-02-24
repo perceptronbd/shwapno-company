@@ -1,12 +1,11 @@
-import { Drawer, Icons } from "@/shared-components";
+import { Drawer } from "@/shared-components";
 import Image from "next/image";
-import { SidebarLink } from "./SidebarLink";
-
-type IconType = (typeof Icons)[keyof typeof Icons];
+import { SidebarLink } from "./sidebar-links";
+import { LucideIcon } from "lucide-react";
 
 interface NavLinks {
-  topLinks: { name: string; href: string; Icon: IconType }[];
-  bottomLinks: { name: string; href: string; Icon: IconType }[];
+  topLinks: { name: string; href: string; Icon: LucideIcon }[];
+  bottomLinks: { name: string; href: string; Icon: LucideIcon }[];
 }
 
 interface SidebarProps {

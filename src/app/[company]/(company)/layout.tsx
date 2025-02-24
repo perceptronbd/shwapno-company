@@ -1,5 +1,5 @@
+import HeaderWrapper from "@/components/header-wrapper";
 import { Toaster } from "@/shared-components";
-import HeaderWrapper from "./components/HeaderWrapper";
 
 export default function CompanyLayout({
   children,
@@ -7,7 +7,7 @@ export default function CompanyLayout({
   readonly children: React.ReactNode;
 }) {
   return (
-    <div className="bg-background-primary relative flex min-h-screen flex-col items-center justify-center">
+    <div className="relative flex min-h-screen flex-col bg-background-primary">
       <HeaderWrapper />
       {children}
       <Toaster />

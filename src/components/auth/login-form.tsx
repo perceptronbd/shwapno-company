@@ -1,16 +1,19 @@
 "use client";
 
-import { Button, FloatingLabelInput,  Text } from "@/shared-components";
+import { Button, FloatingLabelInput, Text } from "@/shared-components";
 import { useLoginMutation } from "@/stores/services/auth.service";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { LoginValidation, LoginValidationType } from "../validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { company } from "../../../../../utils/constants";
 import { Lock, Mail } from "lucide-react";
+import {
+  LoginValidation,
+  LoginValidationType,
+} from "@/validations/login-validations";
+import { company } from "../../../utils/constants";
 
 export default function LoginForm() {
   const [isVisible, setIsVisible] = useState(false);

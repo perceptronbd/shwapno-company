@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import TopBar from "./TopBar";
-import { NavLinks } from "./Sidebar/NavLinks";
-import Sidebar from "./Sidebar/SideBar";
+import Sidebar from "./sidebar/side-bar";
+import TopBar from "./top-bar";
+import { NavLinks } from "./sidebar/nav-links";
 
 const HeaderWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);

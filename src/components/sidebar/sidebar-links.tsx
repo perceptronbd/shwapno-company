@@ -3,7 +3,7 @@
 import { cn } from "@/shared-components";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { company } from "../../../../../utils/constants";
+import { company } from "../../../utils/constants";
 import { LucideIcon } from "lucide-react";
 
 interface SidebarLinkProps {

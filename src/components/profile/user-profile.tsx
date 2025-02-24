@@ -7,6 +7,7 @@ import { ChevronLeft, Edit, Phone, RefreshCcw, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { company } from "../../../utils/constants";
 
 const UserProfile = () => {
   const { data, isLoading, error } = useGetProfileQuery();
@@ -22,7 +23,7 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     logout();
-    router.push("/login");
+    router.push(`/${company}/login`);
   };
 
   if (isLoading) return <p>Loading...</p>;

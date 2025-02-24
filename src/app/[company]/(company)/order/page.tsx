@@ -1,5 +1,5 @@
-import DataTable from "./components/order-table/DataTable";
-import { orders } from "./components/order-table/dummyData";
+import DataTable from "../../../components/order/order-table/DataTable";
+import { orders } from "../../../components/order/order-table/dummyData";
 
 const Order = () => {
   return (
