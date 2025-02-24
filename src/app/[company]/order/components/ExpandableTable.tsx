@@ -14,8 +14,6 @@ import {
   TableRow,
 } from "@/shared-components";
 
-import { ChevronDown, ChevronRight } from "lucide-react";
-
 interface Column {
   key: string;
   label: string;

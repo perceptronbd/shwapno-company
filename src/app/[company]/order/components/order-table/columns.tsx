@@ -1,23 +1,28 @@
-// file: columns.ts
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Order } from "./type";
-
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { Chips } from "@/shared-components";
+import { Chips, Button } from "@/shared-components";
+import { ChevronDown } from "lucide-react";
 
 export const getOrderColumns = (): ColumnDef<Order>[] => [
   {
-    id: "expander",
+    id: "expand",
     header: () => null,
     cell: ({ row }) => (
-      <button
-        aria-label={expandedRows[row.id] ? "Collapse row" : "Expand row"}
-        onClick={() => toggleRow(row.id)}
+      <Button
+        variant="text"
+        size="sm"
+        onClick={() => row.toggleExpanded()}
+        className="flex w-full items-center gap-2 transition-all duration-200"
       >
-        {expandedRows[row.id] ? <ChevronUp /> : <ChevronDown />}
-      </button>
+        <ChevronDown
+          size={16}
+          className={`transform transition-transform duration-200 ${
+            row.getIsExpanded() ? "rotate-180" : "rotate-0"
+          }`}
+        />
+      </Button>
     ),
   },
   {
