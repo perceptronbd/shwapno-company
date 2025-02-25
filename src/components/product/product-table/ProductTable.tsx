@@ -21,16 +21,16 @@ import {
 import { ChevronDown } from "lucide-react";
 
 interface ProductTableProps {
-  readonly data: Product[];
+  readonly productData: Product[];
 }
 
-const ProductTable = ({ data }: ProductTableProps) => {
+const ProductTable = ({ productData }: ProductTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns = getProductColumns();
 
   const table = useReactTable({
-    data,
+    data: productData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

@@ -1,20 +1,25 @@
 "use client";
 
 import ProductHeader from "@/components/product/product-header";
-import { dummyProducts } from "@/components/product/product-table/data";
 import ProductTable from "@/components/product/product-table/ProductTable";
+import { useGetProductsQuery } from "@/stores/services/product.service";
 import React, { useState } from "react";
 
 const Product = () => {
+  const { data: products, isLoading } = useGetProductsQuery();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const filteredProducts = dummyProducts.filter((product) =>
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const filteredProducts = products?.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
   return (
     <div>
       <ProductHeader setSearchTerm={setSearchTerm} />
-      <ProductTable data={filteredProducts} />
+      <ProductTable productData={filteredProducts || []} />
     </div>
   );
 };

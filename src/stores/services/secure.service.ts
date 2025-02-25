@@ -55,6 +55,6 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 export const secureApi = createApi({
   reducerPath: "secureApi",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["UserProfile"],
+  tagTypes: ["UserProfile", "Product"],
   endpoints: () => ({}),
 });
