@@ -1,7 +1,11 @@
 import { Button, Input, Text } from "@/shared-components";
 import { FilePlus, Filter, Search } from "lucide-react";
 
-const ProductHeader = () => {
+const ProductHeader = ({
+  setSearchTerm,
+}: {
+  setSearchTerm: (value: string) => void;
+}) => {
   return (
     <>
       <div className="mt-5 flex h-12 items-center justify-between">
@@ -20,7 +24,11 @@ const ProductHeader = () => {
       <div className="mt-5 flex items-center justify-between gap-6">
         <div className="flex h-full items-center gap-2 rounded-md border-2 border-neutral-200 bg-white px-4">
           <Search size={24} />
-          <Input placeholder="Search" className="h-10 border-none" />
+          <Input
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search"
+            className="h-10 border-none"
+          />
         </div>
         <Filter size={24} />
       </div>
