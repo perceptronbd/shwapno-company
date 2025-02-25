@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Product } from "@/stores/states/product.state";
-import ActionCell from "@/components/action-cell";
+import ActionCell from "@/components/product/product-table/action-cell";
 
 export const getProductColumns = (): ColumnDef<Product>[] => [
   {

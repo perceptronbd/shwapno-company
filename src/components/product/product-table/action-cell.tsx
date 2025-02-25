@@ -5,6 +5,7 @@ import { ActionMenu } from "@/components/action-menu";
 import { Product } from "@/stores/states/product.state";
 import { Row } from "@tanstack/react-table";
 import { Modal } from "@/shared-components";
+import ProductViewCard from "../product-view-card";
 
 interface ActionCellProps {
   product: Product;
@@ -40,11 +41,13 @@ const ActionCell: React.FC<ActionCellProps> = ({ product, row }) => {
         onSelect={handleAction}
         row={row}
       />
-      <Modal isOpen={isModalOpen} onClose={setIsModalOpen}>
-        <div className="w-full bg-blue-400 p-4">
-          <h2 className="text-lg font-semibold">Modal Title</h2>
-          <p className="mt-2">This is a sample modal content.</p>
-        </div>
+      <Modal
+        className="w-full px-5"
+        isOpen={isModalOpen}
+        onClose={setIsModalOpen}
+        isCrossVisible={false}
+      >
+        <ProductViewCard product={product} onClose={setIsModalOpen} />
       </Modal>
     </>
   );
