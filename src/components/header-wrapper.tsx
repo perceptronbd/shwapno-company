@@ -7,7 +7,7 @@ import { Sidebar } from "@/shared-components";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { navLinks } from "./sidebar/nav-links";
+import { NavLinks } from "../../utils/nav-link";
 
 const HeaderWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ const HeaderWrapper = () => {
         currentPath={pathname}
         isOpen={isOpen}
         onClose={handleClose}
-        NavLinks={navLinks}
+        NavLinks={NavLinks}
       />
     </div>
   );
