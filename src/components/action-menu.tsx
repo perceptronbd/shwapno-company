@@ -2,19 +2,19 @@ import { useState } from "react";
 import { EllipsisVertical, LucideIcon } from "lucide-react";
 import { Row } from "@tanstack/react-table";
 
-interface ActionMenuProps<T extends string> {
+interface ActionMenuProps<T, A extends string> {
   row: Row<T>;
-  options: T[];
-  onSelect: (option: T, row: Row<T>) => void;
+  options: A[];
+  onSelect: (option: A, row: Row<T>) => void;
   Button?: LucideIcon;
 }
 
-export const ActionMenu = <T extends string>({
+export const ActionMenu = <T, A extends string>({
   row,
   options,
   onSelect,
-  Button = EllipsisVertical as LucideIcon,
-}: ActionMenuProps<T>) => {
+  Button = EllipsisVertical,
+}: ActionMenuProps<T, A>) => {
   const [open, setOpen] = useState(false);
 
   return (
