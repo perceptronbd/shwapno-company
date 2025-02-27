@@ -1,11 +1,14 @@
 import { Button, Input, Text } from "@/shared-components";
 import { FilePlus, Filter, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { COMPANY } from "../../../utils/constants";
 
 const ProductHeader = ({
   setSearchTerm,
 }: {
   setSearchTerm: (value: string) => void;
 }) => {
+  const router = useRouter();
   return (
     <>
       <div className="mt-5 flex h-12 items-center justify-between">
@@ -13,7 +16,10 @@ const ProductHeader = ({
           Product List
         </Text>
         <div className="flex items-center gap-2">
-          <Button size="sm">
+          <Button
+            onClick={() => router.push(`/${COMPANY}/products/add`)}
+            size="sm"
+          >
             <FilePlus /> Add
           </Button>
           <Button size="sm" variant="outline">
