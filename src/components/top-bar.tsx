@@ -2,7 +2,7 @@ import { Text } from "@/shared-components";
 import { Bell, Menu, User as UserIcon } from "lucide-react";
 import React from "react";
 import { User } from "@/stores/states/auth.state";
-import storage from "../../utils/local-storage";
+import storage from "../utils/local-storage";
 
 interface TopBarProps {
   readonly handleOpen: () => void;

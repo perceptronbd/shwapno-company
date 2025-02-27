@@ -2,7 +2,7 @@
 
 import { Button, Text } from "@/shared-components";
 import { Product } from "@/stores/states/product.state";
-import { formatDate } from "../../../utils/format-time";
+import { formatDate } from "../../utils/format-time";
 
 interface ProductViewCardProps {
   product: Product;

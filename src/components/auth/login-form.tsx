@@ -13,7 +13,7 @@ import {
   LoginValidation,
   LoginValidationType,
 } from "@/validations/login-validations";
-import { COMPANY } from "../../../utils/constants";
+import { COMPANY } from "../../utils/constants";
 
 export default function LoginForm() {
   const [isVisible, setIsVisible] = useState(false);

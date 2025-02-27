@@ -9,9 +9,9 @@ import {
   useAddProductMutation,
   useGetCategoriesQuery,
 } from "@/stores/services/product.service";
-import { BRANCH_ID } from "../../../../utils/constants";
+import { BRANCH_ID } from "../../../utils/constants";
 import { AddProduct } from "@/stores/states/product.state";
-import { convertToFormData } from "../../../../utils/convert-to-form-data";
+import { convertToFormData } from "../../../utils/convert-to-form-data";
 
 const AddProductsForm = () => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();

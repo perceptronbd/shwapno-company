@@ -7,7 +7,7 @@ import { Sidebar } from "@/shared-components";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { NavLinks } from "../../utils/nav-link";
+import { NavLinks } from "../utils/nav-link";
 
 const HeaderWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "../states/auth.state";
 import { authApi } from "../services/auth.service";
 import { RootState } from "..";
-import storage from "../../../utils/local-storage";
+import storage from "../../utils/local-storage";
 
 const initialState: AuthState = {
   user: null,

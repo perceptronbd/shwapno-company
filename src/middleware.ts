@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { LOGIN, PUBLIC_ROUTES, ROOT } from "../utils/routes";
+import { LOGIN, PUBLIC_ROUTES, ROOT } from "./utils/routes";
 
 export async function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get("refreshToken");

@@ -1,7 +1,7 @@
 import { Button, Input, Text } from "@/shared-components";
 import { FilePlus, Filter, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { COMPANY } from "../../../utils/constants";
+import { COMPANY } from "../../utils/constants";
 
 const ProductHeader = ({
   setSearchTerm,
