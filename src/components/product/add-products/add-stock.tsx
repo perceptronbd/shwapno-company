@@ -10,7 +10,7 @@ const products = [
   { label: "Product 4", value: "product4" },
 ];
 
-export const AddStock = () => {
+export const InputSelect = () => {
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

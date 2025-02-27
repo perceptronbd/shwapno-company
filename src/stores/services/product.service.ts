@@ -1,4 +1,9 @@
-import { Product, ProductResponse } from "../states/product.state";
+import {
+  Category,
+  CategoryResponse,
+  Product,
+  ProductResponse,
+} from "../states/product.state";
 import { secureApi } from "./secure.service";
 
 export const productApi = secureApi.injectEndpoints({
@@ -8,7 +13,12 @@ export const productApi = secureApi.injectEndpoints({
       transformResponse: (response: ProductResponse) => response.data,
       providesTags: [{ type: "Product" }],
     }),
+    getCategories: builder.query<Category[], void>({
+      query: () => "products/categories",
+      transformResponse: (response: CategoryResponse) => response.data,
+      providesTags: [{ type: "Category" }],
+    }),
   }),
 });
 
-export const { useGetProductsQuery } = productApi;
+export const { useGetProductsQuery, useGetCategoriesQuery } = productApi;
