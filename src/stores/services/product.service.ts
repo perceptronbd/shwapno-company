@@ -18,7 +18,21 @@ export const productApi = secureApi.injectEndpoints({
       transformResponse: (response: CategoryResponse) => response.data,
       providesTags: [{ type: "Category" }],
     }),
+    addProduct: builder.mutation<
+      void,
+      { branchId: string; formData: FormData }
+    >({
+      query: ({ branchId, formData }) => ({
+        url: `/products/${branchId}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetCategoriesQuery } = productApi;
+export const {
+  useGetProductsQuery,
+  useGetCategoriesQuery,
+  useAddProductMutation,
+} = productApi;

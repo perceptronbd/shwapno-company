@@ -2,8 +2,7 @@ export interface Product {
   id: string;
   barcode: string | null;
   name: string;
-  imgURL: string | null;
-  imgPublicId: string | null;
+  image: string | null;
   description: string;
   price: string;
   categoryId: string | null;
@@ -31,3 +30,5 @@ export interface CategoryResponse {
   data: Category[]; // Use 'Category[]' instead of 'Category'
   message: string;
 }
+
+export type AddProduct = Omit<Product, "id" | "createdAt" | "updatedAt">;

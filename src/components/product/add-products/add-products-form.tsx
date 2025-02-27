@@ -1,22 +1,51 @@
 "use client";
 
-import { FieldValues, useForm } from "react-hook-form";
+import { Controller, FieldValues, useForm } from "react-hook-form";
 import { Button, ImageInput, Input, InputSelect } from "@/shared-components";
 import { Textarea } from "@/shared-components/src/components/inputs/textarea/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateProductValidation } from "@/validations/product-validation";
-import { useGetCategoriesQuery } from "@/stores/services/product.service";
+import {
+  useAddProductMutation,
+  useGetCategoriesQuery,
+} from "@/stores/services/product.service";
+import { BRANCH_ID } from "../../../../utils/constants";
+import { AddProduct } from "@/stores/states/product.state";
+import { convertToFormData } from "../../../../utils/convert-to-form-data";
 
 const AddProductsForm = () => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();
+  const [addProduct, { isLoading: isAddingProduct }] = useAddProductMutation();
+
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({ resolver: zodResolver(CreateProductValidation) });
 
   const onSubmit = (data: FieldValues) => {
-    console.log("Form Submitted", data);
+    const categoryId = categories?.find(
+      (c) => c.name === data.selectedCategory,
+    )?.id;
+
+    console.log(data.image);
+
+    const newProduct: AddProduct = {
+      name: data.name,
+      barcode: data.barcode,
+      description: data.description,
+      price: data.price,
+      categoryId: categoryId ?? "",
+      image: data.image,
+    };
+
+    console.log("new product", newProduct);
+
+    const newFormData = convertToFormData(newProduct);
+
+    const response = addProduct({ branchId: BRANCH_ID, formData: newFormData });
+    console.log(response);
   };
 
   if (isLoading) {
@@ -29,9 +58,26 @@ const AddProductsForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
-      <ImageInput
-        {...register("image", { required: "Image is required" })}
-        error={errors.image?.message}
+      <Controller
+        name="image"
+        control={control}
+        rules={{ required: "Image is required" }}
+        render={({ field: { value, onChange } }) => (
+          <ImageInput
+            value={value}
+            onChange={onChange}
+            error={errors.image?.message}
+          />
+        )}
+      />
+      <Input
+        placeholder="Product Name"
+        type="text"
+        {...register("name", { required: true })}
+        error={errors.name?.message}
+        className={
+          "rounded-md border-neutral-300 focus:border-none focus:outline-primary-300"
+        }
       />
       <Input
         placeholder="Barcode"
@@ -65,7 +111,7 @@ const AddProductsForm = () => {
         }
         error={errors.description?.message}
       />
-      <Button className="w-full" type="submit">
+      <Button loading={isAddingProduct} className="w-full" type="submit">
         Submit
       </Button>
     </form>
