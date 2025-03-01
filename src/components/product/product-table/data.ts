@@ -1,4 +1,4 @@
-import { Product, ProductResponse } from "@/stores/states/product.state";
+import { Product, ProductsResponse } from "@/stores/states/product.state";
 
 export const dummyProducts: Product[] = [
   {
@@ -63,7 +63,7 @@ export const dummyProducts: Product[] = [
   },
 ];
 
-export const dummyProductResponse: ProductResponse = {
+export const dummyProductResponse: ProductsResponse = {
   success: true,
   code: 200,
   data: dummyProducts,

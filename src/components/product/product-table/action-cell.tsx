@@ -9,6 +9,7 @@ import ProductViewCard from "../product-view-card";
 import { useDeleteProductMutation } from "@/stores/services/product.service";
 import DeleteModal from "../DeleteModal";
 import { useRouter } from "next/navigation";
+import { COMPANY } from "@/utils/constants";
 
 interface ActionCellProps {
   product: Product;
@@ -30,9 +31,10 @@ const ActionCell: React.FC<ActionCellProps> = ({ product, row }) => {
   const handleAction = (action: "View" | "Edit" | "Delete" | "See Log") => {
     switch (action) {
       case "View":
+        router.push(`/${COMPANY}/products/details/${product.id}`);
         break;
       case "Edit":
-        router.push(`/products/edit/${product.id}`);
+        router.push(`/${COMPANY}/products/edit/${product.id}`);
         break;
       case "Delete":
         setDeleteModalOpen(true);

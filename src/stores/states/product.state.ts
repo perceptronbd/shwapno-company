@@ -10,10 +10,17 @@ export interface Product {
   updatedAt: string;
 }
 
-export interface ProductResponse {
+export interface ProductsResponse {
   success: boolean;
   code: number;
   data: Product[];
+  message: string;
+}
+
+export interface ProductResponse {
+  success: boolean;
+  code: number;
+  data: Product;
   message: string;
 }
 

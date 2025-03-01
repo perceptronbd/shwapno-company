@@ -3,6 +3,7 @@ import {
   CategoryResponse,
   Product,
   ProductResponse,
+  ProductsResponse,
 } from "../states/product.state";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
@@ -11,7 +12,7 @@ export const productApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<Product[], void>({
       query: () => "/products",
-      transformResponse: (response: ProductResponse) => response.data,
+      transformResponse: (response: ProductsResponse) => response.data,
       providesTags: (result) =>
         result
           ? [
@@ -20,9 +21,13 @@ export const productApi = secureApi.injectEndpoints({
             ]
           : ["Product"],
     }),
-
+    getProductById: builder.query<Product, string>({
+      query: (id) => `/products/${id}`,
+      transformResponse: (response: ProductResponse) => response.data,
+      providesTags: (result, error, id) => [{ type: TAG_TYPES.PRODUCT, id }],
+    }),
     getCategories: builder.query<Category[], void>({
-      query: () => "products/categories",
+      query: () => "/products/categories",
       transformResponse: (response: CategoryResponse) => response.data,
       providesTags: [TAG_TYPES.CATEGORY],
     }),
@@ -57,6 +62,7 @@ export const productApi = secureApi.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useGetProductByIdQuery,
   useGetCategoriesQuery,
   useAddProductMutation,
   useUpdateProductMutation,
