@@ -7,6 +7,7 @@ import { selectAccessToken, accessTokenRefresh } from "../slices/auth.slice";
 import { RootState } from "..";
 import { RefreshResponse } from "../states/auth.state";
 import { authApi } from "./auth.service";
+import { TAG_TYPES_LIST } from "../tagTypes";
 
 const baseQuerySecure = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_ENDPOINT,
@@ -55,6 +56,6 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 export const secureApi = createApi({
   reducerPath: "secureApi",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["UserProfile", "Product", "Category"],
+  tagTypes: TAG_TYPES_LIST,
   endpoints: () => ({}),
 });

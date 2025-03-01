@@ -4,6 +4,7 @@ import {
   Product,
   ProductResponse,
 } from "../states/product.state";
+import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
 
 export const productApi = secureApi.injectEndpoints({
@@ -14,7 +15,7 @@ export const productApi = secureApi.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Product" as const, id })),
+              ...result.map(({ id }) => ({ type: TAG_TYPES.PRODUCT, id })),
               "Product",
             ]
           : ["Product"],
@@ -23,7 +24,7 @@ export const productApi = secureApi.injectEndpoints({
     getCategories: builder.query<Category[], void>({
       query: () => "products/categories",
       transformResponse: (response: CategoryResponse) => response.data,
-      providesTags: ["Category"],
+      providesTags: [TAG_TYPES.CATEGORY],
     }),
     addProduct: builder.mutation<
       void,
@@ -34,7 +35,7 @@ export const productApi = secureApi.injectEndpoints({
         method: "POST",
         body: formData,
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: [TAG_TYPES.PRODUCT],
     }),
     updateProduct: builder.mutation<void, Product>({
       query: (product) => ({
@@ -42,14 +43,14 @@ export const productApi = secureApi.injectEndpoints({
         method: "PATCH",
         body: product,
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: [TAG_TYPES.PRODUCT],
     }),
     deleteProduct: builder.mutation<void, string>({
       query: (productId) => ({
         url: `/products/${productId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: [TAG_TYPES.PRODUCT],
     }),
   }),
 });
