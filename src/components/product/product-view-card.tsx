@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Text } from "@/shared-components";
 import { Product } from "@/stores/states/product.state";
 import { formatDate } from "../../utils/format-time";
@@ -10,7 +8,6 @@ interface ProductViewCardProps {
 }
 
 const ProductViewCard = ({ product, onClose }: ProductViewCardProps) => {
-  console.log("product view card", product);
   return (
     <div className="w-full rounded-base bg-white px-3 py-5">
       <Text

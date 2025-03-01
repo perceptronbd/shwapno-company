@@ -41,7 +41,7 @@ export default function LoginForm() {
       if (result.accessToken.length > 0) {
         toast.success("Login successful!");
         setTimeout(() => {
-          router.push(`/${COMPANY}/order`);
+          router.push(`/${COMPANY}/orders`);
         }, 2000); // 2 seconds delay
       }
     } catch (error: unknown) {

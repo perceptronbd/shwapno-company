@@ -1,5 +1,5 @@
 import HeaderWrapper from "@/components/header-wrapper";
-import { Toaster } from "@/shared-components";
+import { Toaster } from "sonner";
 
 export default function CompanyLayout({
   children,

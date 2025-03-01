@@ -11,12 +11,19 @@ export const productApi = secureApi.injectEndpoints({
     getProducts: builder.query<Product[], void>({
       query: () => "/products",
       transformResponse: (response: ProductResponse) => response.data,
-      providesTags: [{ type: "Product" }],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Product" as const, id })),
+              "Product",
+            ]
+          : ["Product"],
     }),
+
     getCategories: builder.query<Category[], void>({
       query: () => "products/categories",
       transformResponse: (response: CategoryResponse) => response.data,
-      providesTags: [{ type: "Category" }],
+      providesTags: ["Category"],
     }),
     addProduct: builder.mutation<
       void,
@@ -27,6 +34,22 @@ export const productApi = secureApi.injectEndpoints({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Product"],
+    }),
+    updateProduct: builder.mutation<void, Product>({
+      query: (product) => ({
+        url: `/products/${product.id}`,
+        method: "PATCH",
+        body: product,
+      }),
+      invalidatesTags: ["Product"],
+    }),
+    deleteProduct: builder.mutation<void, string>({
+      query: (productId) => ({
+        url: `/products/${productId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Product"],
     }),
   }),
 });
@@ -35,4 +58,6 @@ export const {
   useGetProductsQuery,
   useGetCategoriesQuery,
   useAddProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
 } = productApi;

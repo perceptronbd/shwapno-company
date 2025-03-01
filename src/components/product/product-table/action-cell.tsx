@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActionMenu } from "@/components/action-menu";
 import { Product } from "@/stores/states/product.state";
 import { Row } from "@tanstack/react-table";
 import { Modal } from "@/shared-components";
 import ProductViewCard from "../product-view-card";
+import { useDeleteProductMutation } from "@/stores/services/product.service";
+import DeleteModal from "../DeleteModal";
+import { useRouter } from "next/navigation";
 
 interface ActionCellProps {
   product: Product;
@@ -14,19 +17,28 @@ interface ActionCellProps {
 
 const ActionCell: React.FC<ActionCellProps> = ({ product, row }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [deleteProduct, { isSuccess }] = useDeleteProductMutation();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("Product deleted successfully!");
+    }
+  }, [isSuccess]);
 
   const handleAction = (action: "View" | "Edit" | "Delete" | "See Log") => {
     switch (action) {
       case "View":
-        setIsModalOpen(true);
         break;
       case "Edit":
-        console.log("Editing product:", product);
+        router.push(`/products/edit/${product.id}`);
         break;
       case "Delete":
-        console.log("Deleting product:", product);
+        setDeleteModalOpen(true);
         break;
       case "See Log":
+        setIsModalOpen(true);
         console.log("Viewing log for product:", product);
         break;
       default:
@@ -48,6 +60,18 @@ const ActionCell: React.FC<ActionCellProps> = ({ product, row }) => {
         isCrossVisible={false}
       >
         <ProductViewCard product={product} onClose={setIsModalOpen} />
+      </Modal>
+      <Modal
+        className="w-full px-5"
+        isOpen={deleteModalOpen}
+        onClose={setDeleteModalOpen}
+        isCrossVisible={false}
+      >
+        <DeleteModal
+          id={product.id}
+          deleteProduct={deleteProduct}
+          setDeleteModalOpen={setDeleteModalOpen}
+        />
       </Modal>
     </>
   );
