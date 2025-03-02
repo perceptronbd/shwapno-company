@@ -12,7 +12,6 @@ const TopBar = ({ handleOpen }: TopBarProps) => {
   const storedData = storage.get("loggedUser");
   const user = storedData as User;
 
-  console.log(user);
   return (
     <div className="mt-16 flex w-full items-center justify-between">
       <div className="flex items-center gap-3">

@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   barcode: string | null;
   name: string;
-  image: string | null;
+  imgURL: string | null;
   description: string;
   price: string;
   categoryId: string | null;
@@ -38,4 +38,7 @@ export interface CategoryResponse {
   message: string;
 }
 
-export type AddProduct = Omit<Product, "id" | "createdAt" | "updatedAt">;
+export type AddProduct = Omit<
+  Product,
+  "id" | "createdAt" | "updatedAt" | "imgURL"
+> & { image: File };
