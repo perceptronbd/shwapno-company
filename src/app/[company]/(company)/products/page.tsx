@@ -1,7 +1,7 @@
 "use client";
 
 import ProductHeader from "@/components/product/product-header";
-import ProductTable from "@/components/product/product-table/ProductTable";
+import ProductTable from "@/components/product/product-table/product-table";
 import { useGetProductsQuery } from "@/stores/services/product.service";
 import React, { useState } from "react";
 

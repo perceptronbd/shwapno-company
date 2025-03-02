@@ -17,9 +17,9 @@ export const productApi = secureApi.injectEndpoints({
         result
           ? [
               ...result.map(({ id }) => ({ type: TAG_TYPES.PRODUCT, id })),
-              "Product",
+              TAG_TYPES.PRODUCT,
             ]
-          : ["Product"],
+          : [TAG_TYPES.PRODUCT],
     }),
     getProductById: builder.query<Product, string>({
       query: (id) => `/products/${id}`,

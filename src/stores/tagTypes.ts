@@ -2,6 +2,7 @@ export const TAG_TYPES = {
   USER_PROFILE: "UserProfile",
   PRODUCT: "Product",
   CATEGORY: "Category",
+  STOCK: "Stock",
 } as const;
 
 export const TAG_TYPES_LIST = Object.values(TAG_TYPES);

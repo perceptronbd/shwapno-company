@@ -7,7 +7,7 @@ import { Row } from "@tanstack/react-table";
 import { Modal } from "@/shared-components";
 import ProductViewCard from "../product-view-card";
 import { useDeleteProductMutation } from "@/stores/services/product.service";
-import DeleteModal from "../DeleteModal";
+import DeleteModal from "../delete-modal";
 import { useRouter } from "next/navigation";
 import { COMPANY } from "@/utils/constants";
 
