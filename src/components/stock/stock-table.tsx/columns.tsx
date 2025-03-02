@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Stock } from "@/stores/states/stock.states";
+import ActionCell from "./action-cell";
 
 export const getStockColumns = (): ColumnDef<Stock>[] => [
   {
@@ -19,6 +20,6 @@ export const getStockColumns = (): ColumnDef<Stock>[] => [
   {
     accessorKey: "action",
     header: "Action",
-    cell: ({ row }) => <div>will render {row.original.branch.location}</div>,
+    cell: ({ row }) => <ActionCell stock={row.original} row={row} />,
   },
 ];

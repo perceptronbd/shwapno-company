@@ -1,6 +1,7 @@
 import { Button, Text } from "@/shared-components";
 import { Stock } from "@/stores/states/stock.states";
 import { formatDate } from "@/utils/format-time";
+import Image from "next/image";
 
 interface StockViewCardProps {
   stock: Stock;
@@ -9,51 +10,59 @@ interface StockViewCardProps {
 
 const StockViewCard = ({ stock, onClose }: StockViewCardProps) => {
   return (
-    <div className="w-full rounded-base bg-white px-3 py-5">
+    <div className="w-full rounded-lg border border-gray-300 bg-white p-5 shadow-md">
+      {/* Title */}
       <Text
         weight="bold"
         variant="titleLarge"
-        className="mt-2 text-center text-gray-600"
+        className="text-center text-black"
       >
-        Product Details
+        Stock Details
       </Text>
-      <hr className="my-2 border-gray-300 px-4" />
+      <hr className="my-2 border-gray-300" />
 
-      <div className="mt-6 space-y-1 text-neutral-500">
-        <Text weight="bold" variant="bodyBase">
-          {stock.product.name}
-        </Text>
-        <Text variant="bodySmall">
-          <span className="font-semibold">code:</span>{" "}
-          <span className="font-bold">{stock.product.barcode}</span>
-        </Text>
-        <Text variant="bodySmall">
-          <span className="font-semibold">category:</span>{" "}
-          {stock.product.categoryId}
-        </Text>
-        <Text variant="bodySmall">
-          <span className="font-semibold">Available Stock:</span> 200
-        </Text>
+      {/* Product Image & Details */}
+      <div className="flex items-center gap-2">
+        {stock.product.imgURL && (
+          <Image src={stock.product.imgURL} alt="" width={130} height={120} />
+        )}
+        {/* Placeholder for Image */}
+        <div className="mt-3 text-center text-neutral-600">
+          <Text weight="bold" variant="bodyBase" className="text-black">
+            {stock.product.name}
+          </Text>
+          <Text variant="bodySmall">
+            <span className="font-semibold">code:</span> {stock.product.barcode}
+          </Text>
+          <Text variant="bodySmall">
+            <span className="font-semibold">category:</span> Category Name
+          </Text>
+          <Text variant="bodySmall">
+            <span className="font-semibold">Available Stock:</span>{" "}
+            <span className="font-bold">{stock.quantity}</span>
+          </Text>
+        </div>
       </div>
 
+      {/* Created & Updated Section */}
       <div className="mt-5 space-y-1 text-neutral-500">
-        <Text weight="bold" variant="bodyBase">
-          Log
+        <Text variant="bodySmall">
+          <span className="text-gray-400">Created at:</span>{" "}
+          <span className="font-bold text-black">
+            {formatDate(stock.createdAt)} - Asif Aslam
+          </span>
         </Text>
-        <Text className="mt-2 flex flex-col" variant="bodyBase">
-          <span className="text-sm font-semibold">Created at:</span>-{" "}
-          {formatDate(stock.product.createdAt)}
-        </Text>
-        <Text className="flex flex-col" variant="bodyBase">
-          <span className="text-sm font-semibold">Updated at:</span>-{" "}
-          {formatDate(stock.product.updatedAt)}
+        <Text variant="bodySmall">
+          <span className="text-gray-400">Updated at:</span>{" "}
+          <span className="font-bold text-black">
+            {formatDate(stock.updatedAt)} - Asif Aslam
+          </span>
         </Text>
       </div>
 
+      {/* OK Button */}
       <div className="mt-6 flex justify-center">
-        <Button size="md" onClick={() => onClose(false)}>
-          OK
-        </Button>
+        <Button onClick={() => onClose(false)}>OK</Button>
       </div>
     </div>
   );
