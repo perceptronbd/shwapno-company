@@ -17,3 +17,10 @@ export interface StockResponse {
   data: Stock[];
   message: string;
 }
+
+export interface StockByIdResponse {
+  success: boolean;
+  code: number;
+  data: Stock;
+  message: string;
+}

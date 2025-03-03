@@ -6,12 +6,14 @@ import { useGetStocksQuery } from "@/stores/services/stock.service";
 import React, { useState } from "react";
 
 const StockPage = () => {
-  const { data: stocks, isLoading } = useGetStocksQuery({ page: 1, limit: 10 });
+  const { data: stocks, isLoading } = useGetStocksQuery();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const filteredProducts = stocks?.data.filter((stock) =>
-    stock.id.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredProducts = stocks?.filter((stock) =>
+    stock.product.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  console.log(filteredProducts);
 
   if (isLoading) {
     return <div>Loading...</div>;
