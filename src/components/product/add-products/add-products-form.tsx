@@ -112,7 +112,7 @@ const AddProductsForm = () => {
         error={errors.description?.message}
       />
       <Button loading={isAddingProduct} className="w-full" type="submit">
-        Submit
+        Add
       </Button>
     </form>
   );

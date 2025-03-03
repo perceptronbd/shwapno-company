@@ -1,7 +1,7 @@
 import React from "react";
 
-const AddStocks = () => {
-  return <div>Add Stocks</div>;
+const AddStock = () => {
+  return <div>add stock</div>;
 };
 
-export default AddStocks;
+export default AddStock;

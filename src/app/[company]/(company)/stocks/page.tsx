@@ -13,8 +13,6 @@ const StockPage = () => {
     stock.product.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  console.log(filteredProducts);
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
