@@ -1,7 +1,6 @@
 import { Button, Text } from "@/shared-components";
 import { Stock } from "@/stores/states/stock.states";
 import { formatDate } from "@/utils/format-time";
-import Image from "next/image";
 
 interface StockViewCardProps {
   stock: Stock;
@@ -23,16 +22,16 @@ const StockViewCard = ({ stock, onClose }: StockViewCardProps) => {
 
       {/* Product Image & Details */}
       <div className="flex items-center gap-2">
-        {stock.product.imgURL && (
+        {/* {stock.product.imgURL && (
           <Image src={stock.product.imgURL} alt="" width={130} height={120} />
-        )}
+        )} */}
         {/* Placeholder for Image */}
         <div className="mt-3 text-center text-neutral-600">
           <Text weight="bold" variant="bodyBase" className="text-black">
-            {stock.product.name}
+            product name
           </Text>
           <Text variant="bodySmall">
-            <span className="font-semibold">code:</span> {stock.product.barcode}
+            <span className="font-semibold">code:</span> {stock.id}
           </Text>
           <Text variant="bodySmall">
             <span className="font-semibold">category:</span> Category Name

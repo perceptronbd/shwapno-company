@@ -1,19 +1,19 @@
+import { BRANCH_ID } from "@/utils/constants";
 import { StockResponse } from "../states/stock.states";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
 
 export const stockApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
-    getStocks: builder.query<StockResponse, { page?: number; limit?: number }>({
-      query: ({ page = 1, limit = 10 }) => ({
-        url: "/products/stocks",
+    getStocks: builder.query<StockResponse, void>({
+      query: () => ({
+        url: `/products/stocks/branch/${BRANCH_ID}`,
         method: "GET",
-        params: { page, limit },
       }),
       providesTags: (result) =>
         result
           ? [
-              ...result.data.stocks.map(({ id }) => ({
+              ...result.data.map(({ id }) => ({
                 type: TAG_TYPES.STOCK,
                 id,
               })),

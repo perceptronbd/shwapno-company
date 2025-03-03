@@ -6,11 +6,11 @@ import ActionCell from "./action-cell";
 
 export const getStockColumns = (): ColumnDef<Stock>[] => [
   {
-    accessorKey: "product.barcode",
+    accessorKey: "barcode",
     header: "Barcode",
   },
   {
-    accessorKey: "product.name",
+    accessorKey: "",
     header: "Product Name",
   },
   {
