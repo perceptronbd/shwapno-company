@@ -3,10 +3,11 @@ import {
   StockResponse,
   Stock,
   StockByIdResponse,
+  CreateStock,
+  UpdateStock,
 } from "../states/stock.states";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
-import { CreateStock, UpdateStock } from "@/validations/stock.validation";
 
 export const stockApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({

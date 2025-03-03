@@ -11,6 +11,16 @@ export interface Stock {
   product: Product;
 }
 
+export interface CreateStock {
+  quantity: Stock["quantity"];
+  productId: Stock["productId"];
+}
+
+export interface UpdateStock {
+  quantity?: Stock["quantity"] | null;
+  productId?: Stock["productId"] | null;
+}
+
 export interface StockResponse {
   success: boolean;
   code: number;

@@ -1,7 +1,12 @@
 "use client";
 
 import { Controller, FieldValues, useForm } from "react-hook-form";
-import { Button, ImageInput, Input, InputSelect } from "@/shared-components";
+import {
+  Button,
+  FilterableDropdown,
+  ImageInput,
+  Input,
+} from "@/shared-components";
 import { Textarea } from "@/shared-components/src/components/inputs/textarea/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateProductValidation } from "@/validations/product-validation";
@@ -12,10 +17,13 @@ import {
 import { BRANCH_ID } from "../../../utils/constants";
 import { AddProduct } from "@/stores/states/product.state";
 import { convertToFormData } from "../../../utils/convert-to-form-data";
+import { transformToOptions } from "@/utils/transform-to-options";
 
 const AddProductsForm = () => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();
   const [addProduct, { isLoading: isAddingProduct }] = useAddProductMutation();
+
+  const modifiedCategories = transformToOptions(categories || []);
 
   const {
     register,
@@ -25,22 +33,15 @@ const AddProductsForm = () => {
   } = useForm({ resolver: zodResolver(CreateProductValidation) });
 
   const onSubmit = (data: FieldValues) => {
-    const categoryId = categories?.find(
-      (c) => c.name === data.selectedCategory,
-    )?.id;
-
-    console.log(data.image);
-
+    console.log(data);
     const newProduct: AddProduct = {
       name: data.name,
       barcode: data.barcode,
       description: data.description,
       price: data.price,
-      categoryId: categoryId ?? "",
+      categoryId: data.categoryId,
       image: data.image,
     };
-
-    console.log("new product", newProduct);
 
     const newFormData = convertToFormData(newProduct);
 
@@ -88,11 +89,11 @@ const AddProductsForm = () => {
           "rounded-md border-neutral-300 focus:border-none focus:outline-primary-300"
         }
       />
-      <InputSelect
-        {...register("selectedCategory", { required: true })}
-        placeholder="Select Category"
-        categories={categories ?? []}
-        error={errors.selectedCategory?.message}
+      <FilterableDropdown
+        name="categoryId"
+        control={control}
+        options={modifiedCategories}
+        placeholder="Select a category"
       />
       <Input
         placeholder="price"

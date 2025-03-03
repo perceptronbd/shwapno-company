@@ -6,7 +6,7 @@ export const product = z.object({
   barcode: z.string().min(1, "Barcode is required"),
   price: z.string().min(1, "Price is required"),
   description: z.string().min(1, "Description is required"),
-  selectedCategory: z.string().min(1, "Category is required"),
+  categoryId: z.string().min(1, "Category is required"),
 });
 
 export const CreateProductValidation = z.object({
@@ -15,7 +15,7 @@ export const CreateProductValidation = z.object({
   barcode: product.shape.barcode,
   price: product.shape.price,
   description: product.shape.description,
-  selectedCategory: product.shape.selectedCategory,
+  categoryId: product.shape.categoryId,
 });
 
 export const UpdateProductValidation = z.object({
@@ -24,7 +24,7 @@ export const UpdateProductValidation = z.object({
   barcode: product.shape.barcode.optional(),
   price: product.shape.price.optional(),
   description: product.shape.description.optional(),
-  selectedCategory: product.shape.selectedCategory.optional(),
+  categoryId: product.shape.categoryId.optional(),
 });
 
 export type CreateProductValidationType = z.infer<
