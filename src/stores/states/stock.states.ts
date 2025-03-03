@@ -1,11 +1,14 @@
+import { Product } from "./product.state";
+
 export interface Stock {
   id: string;
   branchId: string;
   productId: string;
   quantity: number;
   lowStockAlert: number | null;
-  createdAt: string; // or Date if you're handling it as a Date object
-  updatedAt: string; // or Date if you're handling it as a Date object
+  createdAt: string;
+  updatedAt: string;
+  product: Product;
 }
 
 export interface StockResponse {
