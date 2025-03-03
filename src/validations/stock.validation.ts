@@ -8,7 +8,6 @@ export const stock = z.object({
 export const CreateStockValidation = z.object({ ...stock.shape });
 export const UpdateStockValidation = z.object({
   quantity: stock.shape.quantity.optional(),
-  productId: stock.shape.productId.optional(),
 });
 
 export type CreateStock = z.infer<typeof CreateStockValidation>;

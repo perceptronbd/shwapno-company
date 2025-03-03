@@ -62,7 +62,9 @@ const AddStock = () => {
           error={errors.quantity?.message}
         />
 
-        <Button type="submit">Save</Button>
+        <Button className="w-full" type="submit">
+          Save
+        </Button>
       </form>
     </div>
   );
