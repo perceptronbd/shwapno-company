@@ -6,6 +6,7 @@ import {
 } from "../states/stock.states";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
+import { CreateStock, UpdateStock } from "@/validations/stock.validation";
 
 export const stockApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -34,6 +35,22 @@ export const stockApi = secureApi.injectEndpoints({
       transformResponse: (response: StockByIdResponse) => response.data,
       providesTags: (result, error, id) => [{ type: TAG_TYPES.STOCK, id }],
     }),
+    updateStock: builder.mutation<void, UpdateStock>({
+      query: (stock) => ({
+        url: `/products/stocks/branch/${BRANCH_ID}`,
+        method: "PATCH",
+        body: stock,
+      }),
+      invalidatesTags: [TAG_TYPES.STOCK],
+    }),
+    addStock: builder.mutation<void, CreateStock>({
+      query: (stock) => ({
+        url: `/products/stocks/branch/${BRANCH_ID}`,
+        method: "PATCH",
+        body: stock,
+      }),
+      invalidatesTags: [TAG_TYPES.STOCK],
+    }),
     deleteStock: builder.mutation<void, string>({
       query: (id) => ({
         url: `/products/stocks/${id}`,
@@ -48,4 +65,6 @@ export const {
   useGetStocksQuery,
   useDeleteStockMutation,
   useGetStockByIdQuery,
+  useAddStockMutation,
+  useUpdateStockMutation,
 } = stockApi;
