@@ -1,4 +1,4 @@
-import OrderContainer from "@/components/order/OrderContainer";
+import OrderContainer from "@/components/order/container/OrderContainer";
 
 const OrderPage = () => {
   return (

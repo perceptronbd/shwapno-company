@@ -1,4 +1,9 @@
-import { Order, OrderByIdResponse, OrderResponse } from "../states/order.state";
+import {
+  Order,
+  OrderById,
+  OrderByIdResponse,
+  OrderResponse,
+} from "../states/order.state";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
 
@@ -36,7 +41,7 @@ export const orderApi = secureApi.injectEndpoints({
     updateOrderStatus: builder.mutation<Order, { id: string; status: string }>({
       query: ({ id, status }) => ({
         url: `/orders/${id}/status`,
-        method: "PUT",
+        method: "PATCH",
         body: { status },
       }),
     }),

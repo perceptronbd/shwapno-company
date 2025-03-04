@@ -59,19 +59,21 @@ export interface OrderResponse {
   message: string;
 }
 
+export interface OrderById {
+  id: string;
+  customerId: string;
+  branchId: string;
+  orderDate: string;
+  totalAmount: string;
+  status: status;
+  customer: Customer;
+  items: OrderItem[];
+  branch: Branch;
+}
+
 export interface OrderByIdResponse {
   success: boolean;
   code: number;
-  data: {
-    id: string;
-    customerId: string;
-    branchId: string;
-    orderDate: string;
-    totalAmount: string;
-    status: status;
-    customer: Customer;
-    items: OrderItem[];
-    branch: Branch;
-  };
+  data: OrderById;
   message: string;
 }

@@ -18,7 +18,7 @@ const ActionCell: React.FC<ActionCellProps> = ({ order, row }) => {
   const handleAction = (action: "View" | "Approve" | "Decline") => {
     switch (action) {
       case "View":
-        router.push(`/${COMPANY}/stocks/details/${order.id}`);
+        router.push(`/${COMPANY}/orders/details/${order.id}`);
         break;
       case "Approve":
         break;
