@@ -2,15 +2,16 @@
 
 import {
   Button,
+  FilterableDropdown,
   ImageInput,
   Input,
-  InputSelect,
   Textarea,
 } from "@/shared-components";
 import {
   useGetCategoriesQuery,
   useGetProductByIdQuery,
 } from "@/stores/services/product.service";
+import { transformToOptions } from "@/utils/transform-to-options";
 import { UpdateProductValidation } from "@/validations/product-validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
@@ -43,12 +44,11 @@ const ProductEditPage = () => {
       barcode: undefined,
       price: "0",
       description: "",
-      selectedCategory: "",
+      categoryId: "",
     },
   });
 
-  const categoryName =
-    categories?.find((c) => c.id === product?.categoryId)?.name ?? "";
+  const modifiedCategories = transformToOptions(categories || []);
 
   useEffect(() => {
     if (product && categories) {
@@ -58,10 +58,10 @@ const ProductEditPage = () => {
         barcode: product.barcode ?? undefined,
         price: product.price,
         description: product.description,
-        selectedCategory: categoryName,
+        categoryId: product.categoryId ?? undefined,
       });
     }
-  }, [product, categories, reset, categoryName]);
+  }, [product, categories, reset]);
 
   const onSubmit = (data: FieldValues) => {
     console.log(data);
@@ -107,12 +107,11 @@ const ProductEditPage = () => {
           "rounded-md border-neutral-300 focus:border-none focus:outline-primary-300"
         }
       />
-      <InputSelect
-        {...register("selectedCategory", { required: true })}
-        searchString={categoryName}
-        placeholder="Select Category"
-        categories={categories ?? []}
-        error={errors.selectedCategory?.message}
+      <FilterableDropdown
+        name="categoryId"
+        control={control}
+        options={modifiedCategories}
+        placeholder="Select a category"
       />
       <Input
         placeholder="price"
