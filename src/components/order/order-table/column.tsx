@@ -2,8 +2,9 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button, Chips } from "@/shared-components";
-import { MoreVertical, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { Order } from "@/stores/states/order.state";
+import ActionCell from "./action-cell";
 
 export const getOrderColumns = (): ColumnDef<Order>[] => [
   {
@@ -78,12 +79,6 @@ export const getOrderColumns = (): ColumnDef<Order>[] => [
     id: "actions",
     header: "Action",
     minSize: 40,
-    cell: () => (
-      <div className="flex justify-center">
-        <Button variant="text" size="sm" className="p-0">
-          <MoreVertical className="h-4 w-4" />
-        </Button>
-      </div>
-    ),
+    cell: ({ row }) => <ActionCell order={row.original} row={row} />,
   },
 ];

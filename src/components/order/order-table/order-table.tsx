@@ -110,21 +110,24 @@ const OrderTable = ({ orderData }: OrderTableProps) => {
                   ))}
                 </TableRow>
                 {row.getIsExpanded() && (
-                  <TableRow>
-                    <TableCell colSpan={columns.length} className="p-0">
-                      <div className="bg-white p-4">
-                        <div className="grid grid-cols-4 gap-4 text-2xs">
-                          <div className="text-neutral-500">Barcode</div>
-                          <div className="text-neutral-500">Product name</div>
-                          <div className="text-neutral-500">Unit Price</div>
-                          <div className="text-neutral-500">Quantity</div>
-                          <div className="text-neutral-500">Amount</div>
+                  <TableRow className="transition-all duration-300">
+                    <TableCell
+                      colSpan={columns.length}
+                      className="p-0 transition-all duration-300"
+                    >
+                      <div className="bg-neutral-100 p-4">
+                        <div className="grid grid-cols-5 gap-4 text-center text-2xs text-neutral-500">
+                          <div>Barcode</div>
+                          <div>Product name</div>
+                          <div>Unit Price</div>
+                          <div>Quantity</div>
+                          <div>Amount</div>
                         </div>
                         {row.original.items.map((orderItem) =>
                           orderItem.product ? (
                             <div
                               key={orderItem.product.id}
-                              className="mt-2 grid grid-cols-5 gap-4 text-2xs"
+                              className="mt-2 grid grid-cols-5 gap-4 text-center text-2xs font-medium text-primary-400"
                             >
                               <div>{orderItem.product.barcode}</div>
                               <div>{orderItem.product.name}</div>
