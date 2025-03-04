@@ -23,7 +23,7 @@ const OrderContainer = () => {
     return <div>Error</div>;
   }
   return (
-    <div className="h-screen w-full bg-white px-4">
+    <div className="h-screen w-full">
       <OrderTable orderData={orders?.data.orders || []} />
     </div>
   );

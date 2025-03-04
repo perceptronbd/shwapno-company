@@ -98,7 +98,10 @@ const OrderTable = ({ orderData }: OrderTableProps) => {
               <>
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="px-2 py-7 text-2xs">
+                    <TableCell
+                      key={cell.id}
+                      className="px-2 py-7 text-center text-2xs"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

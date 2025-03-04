@@ -1,26 +1,27 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/shared-components";
-import { MoreVertical, ChevronDown, ChevronRight } from "lucide-react";
+import { Button, Chips } from "@/shared-components";
+import { MoreVertical, ChevronDown, ChevronUp } from "lucide-react";
 import { Order } from "@/stores/states/order.state";
 
 export const getOrderColumns = (): ColumnDef<Order>[] => [
   {
     id: "expand",
     header: "",
+    minSize: 60,
     cell: ({ row }) => {
       return (
         <Button
           variant="text"
           size="sm"
           onClick={() => row.toggleExpanded()}
-          className="p-0"
+          className="rounded-full bg-neutral-200 p-2 font-bold text-neutral-400"
         >
-          {row.getIsExpanded() ? (
-            <ChevronDown className="h-4 w-4" />
+          {!row.getIsExpanded() ? (
+            <ChevronDown strokeWidth={2} className="h-4 w-4" />
           ) : (
-            <ChevronRight className="h-4 w-4" />
+            <ChevronUp strokeWidth={2} className="h-4 w-4" />
           )}
         </Button>
       );
@@ -29,6 +30,7 @@ export const getOrderColumns = (): ColumnDef<Order>[] => [
   {
     accessorKey: "name",
     header: "Name",
+    minSize: 60,
     cell: ({ row }) => (
       <div className="text-center">{row.original.customer.firstName}</div>
     ),
@@ -36,6 +38,7 @@ export const getOrderColumns = (): ColumnDef<Order>[] => [
   {
     accessorKey: "mobile",
     header: "Mobile",
+    minSize: 60,
     cell: ({ row }) => (
       <div className="text-center">{row.original.customer.mobile}</div>
     ),
@@ -43,30 +46,30 @@ export const getOrderColumns = (): ColumnDef<Order>[] => [
   {
     accessorKey: "status",
     header: "Status",
+    minSize: 60,
     cell: ({ row }) => {
       const status = row.original.status;
-      let statusClass = "bg-yellow-100 text-yellow-800"; // Default for Pending
+      let statusClass: "error" | "success" | "warning";
 
       if (status === "COMPLETED") {
-        statusClass = "bg-green-100 text-green-800";
+        statusClass = "success";
       } else if (status === "CANCELLED") {
-        statusClass = "bg-red-100 text-red-800";
+        statusClass = "error";
+      } else {
+        statusClass = "warning";
       }
 
       return (
-        <div className="flex justify-center">
-          <span
-            className={`rounded-full px-3 py-1 text-xs font-medium ${statusClass}`}
-          >
-            {status}
-          </span>
-        </div>
+        <Chips rounded="lg" className="p-1 text-2xs" variant={statusClass}>
+          {status}
+        </Chips>
       );
     },
   },
   {
     accessorKey: "totalAmount",
     header: "Total Amount",
+    minSize: 60,
     cell: ({ row }) => (
       <div className="text-center">{row.original.totalAmount}</div>
     ),
@@ -74,6 +77,7 @@ export const getOrderColumns = (): ColumnDef<Order>[] => [
   {
     id: "actions",
     header: "Action",
+    minSize: 40,
     cell: () => (
       <div className="flex justify-center">
         <Button variant="text" size="sm" className="p-0">
