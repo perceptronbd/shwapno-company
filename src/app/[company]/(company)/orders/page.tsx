@@ -1,10 +1,11 @@
-const Order = () => {
+import OrderContainer from "@/components/order/OrderContainer";
+
+const OrderPage = () => {
   return (
-    <div className="h-screen w-full bg-white px-4">
-      {/* <DataTable data={orders} /> */}
-      Data Table
+    <div>
+      <OrderContainer />
     </div>
   );
 };
 
-export default Order;
+export default OrderPage;
