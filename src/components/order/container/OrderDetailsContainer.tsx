@@ -10,7 +10,10 @@ import {
   TableRow,
   Text,
 } from "@/shared-components";
-import { useGetOrderByIdQuery } from "@/stores/services/order.service";
+import {
+  useGetOrderByIdQuery,
+  useUpdateOrderStatusMutation,
+} from "@/stores/services/order.service";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -18,6 +21,7 @@ const OrderDetailsContainer = () => {
   const params = useParams();
   const id = params.id as string;
   const { data: order, isFetching, error } = useGetOrderByIdQuery(id);
+  const [updateStatus, { isLoading }] = useUpdateOrderStatusMutation();
   const [status, setStatus] = useState<
     "success" | "error" | "warning" | "primary" | "disabled"
   >("success");
@@ -42,6 +46,24 @@ const OrderDetailsContainer = () => {
   if (error) {
     return <div>Error</div>;
   }
+
+  const handleApprove = async (id: string) => {
+    try {
+      const response = await updateStatus({ id, status: "COMPLETED" });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDecline = async (id: string) => {
+    try {
+      const response = await updateStatus({ id, status: "CANCELLED" });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="mx-auto mt-10 w-full rounded-3xl bg-white p-5">
@@ -128,8 +150,19 @@ const OrderDetailsContainer = () => {
 
       {/* Action Buttons */}
       <div className="flex justify-between gap-4">
-        <Button>Approve</Button>
-        <Button variant="outline">Decline</Button>
+        <Button
+          loading={isLoading}
+          onClick={() => handleApprove(orderData?.id ?? "")}
+        >
+          Approve
+        </Button>
+        <Button
+          loading={isLoading}
+          onClick={() => handleDecline(orderData?.id ?? "")}
+          variant="outline"
+        >
+          Decline
+        </Button>
       </div>
     </div>
   );

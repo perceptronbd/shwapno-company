@@ -77,3 +77,11 @@ export interface OrderByIdResponse {
   data: OrderById;
   message: string;
 }
+
+export type OrderStatus =
+  | "PENDING"
+  | "PROCESSING"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "DELIVERED"
+  | "RETURNED";

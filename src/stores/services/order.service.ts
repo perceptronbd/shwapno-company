@@ -1,8 +1,8 @@
 import {
   Order,
-  OrderById,
   OrderByIdResponse,
   OrderResponse,
+  OrderStatus,
 } from "../states/order.state";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
@@ -38,12 +38,18 @@ export const orderApi = secureApi.injectEndpoints({
           : [TAG_TYPES.ORDER],
     }),
 
-    updateOrderStatus: builder.mutation<Order, { id: string; status: string }>({
+    updateOrderStatus: builder.mutation<
+      Order,
+      { id: string; status: OrderStatus }
+    >({
       query: ({ id, status }) => ({
         url: `/orders/${id}/status`,
         method: "PATCH",
         body: { status },
       }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: TAG_TYPES.ORDER, id },
+      ],
     }),
 
     deleteOrder: builder.mutation<{ result: string }, string>({
