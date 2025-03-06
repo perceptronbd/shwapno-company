@@ -3,6 +3,7 @@
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import {
   Button,
+  CustomToast,
   FilterableDropdown,
   ImageInput,
   Input,
@@ -14,13 +15,14 @@ import {
   useAddProductMutation,
   useGetCategoriesQuery,
 } from "@/stores/services/product.service";
-import { BRANCH_ID } from "../../../utils/constants";
-import { AddProduct } from "@/stores/states/product.state";
+
 import { convertToFormData } from "../../../utils/convert-to-form-data";
 import { transformToOptions } from "@/utils/transform-to-options";
+import { BRANCH_ID } from "@/utils/routes";
+import { toast } from "sonner";
 
 const AddProductsForm = () => {
-  const { data: categories, isLoading, error } = useGetCategoriesQuery();
+  const { data: categories, isLoading } = useGetCategoriesQuery();
   const [addProduct, { isLoading: isAddingProduct }] = useAddProductMutation();
 
   const modifiedCategories = transformToOptions(categories || []);
@@ -32,9 +34,9 @@ const AddProductsForm = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(CreateProductValidation) });
 
-  const onSubmit = (data: FieldValues) => {
+  const onSubmit = async (data: FieldValues) => {
     console.log(data);
-    const newProduct: AddProduct = {
+    const newProduct = {
       name: data.name,
       barcode: data.barcode,
       description: data.description,
@@ -45,16 +47,19 @@ const AddProductsForm = () => {
 
     const newFormData = convertToFormData(newProduct);
 
-    const response = addProduct({ branchId: BRANCH_ID, formData: newFormData });
-    console.log(response);
+    const response = await addProduct({
+      branchId: BRANCH_ID,
+      formData: newFormData,
+    });
+    if (response.data?.success) {
+      toast(<CustomToast title="Product added successfully" type="success" />);
+    } else {
+      toast(<CustomToast title="Failed to add product" type="error" />);
+    }
   };
 
   if (isLoading) {
     return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error fetching categories</p>;
   }
 
   return (

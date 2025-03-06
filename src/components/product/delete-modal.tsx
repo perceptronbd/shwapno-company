@@ -1,4 +1,4 @@
-import { Button, Text } from "@/shared-components";
+import { Button, CustomToast, Text } from "@/shared-components";
 import React from "react";
 import { toast } from "sonner";
 
@@ -26,7 +26,12 @@ const DeleteModal = ({
           onClick={() => {
             setDeleteModalOpen(false);
             deleteProduct(id);
-            toast.success("Product deleted successfully");
+            toast(
+              <CustomToast
+                title="Product deleted successfully"
+                type="success"
+              />,
+            );
           }}
         >
           Delete
