@@ -1,6 +1,7 @@
 import { FetchBaseQueryMeta } from "@reduxjs/toolkit/query";
-import { AuthResponse, AuthState, LoginRequest } from "../states/auth.state";
+import { AuthState, LoginRequest, User } from "../states/auth.state";
 import { secureApi } from "./secure.service";
+import { ApiResponse } from "@/lib/types/api";
 
 export const authApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +12,7 @@ export const authApi = secureApi.injectEndpoints({
         body: credentials,
       }),
       transformResponse: (
-        response: AuthResponse,
+        response: ApiResponse<User>,
         meta: FetchBaseQueryMeta | undefined,
       ): AuthState => {
         const authHeader = meta?.response?.headers.get("Authorization");
