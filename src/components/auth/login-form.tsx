@@ -1,6 +1,11 @@
 "use client";
 
-import { Button, FloatingLabelInput, Text } from "@/shared-components";
+import {
+  Button,
+  CustomToast,
+  FloatingLabelInput,
+  Text,
+} from "@/shared-components";
 import { useLoginMutation } from "@/stores/services/auth.service";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -13,7 +18,7 @@ import {
   LoginValidation,
   LoginValidationType,
 } from "@/validations/login-validations";
-import { COMPANY } from "../../utils/constants";
+import { ROUTES } from "@/utils/routes";
 
 export default function LoginForm() {
   const [isVisible, setIsVisible] = useState(false);
@@ -39,9 +44,9 @@ export default function LoginForm() {
 
       // Handle success (e.g., store token, redirect, etc.)
       if (result.accessToken.length > 0) {
-        toast.success("Login successful!");
         setTimeout(() => {
-          router.push(`/${COMPANY}/orders`);
+          toast(<CustomToast title="Login Successful" type="success" />);
+          router.push(ROUTES.ORDERS);
         }, 2000); // 2 seconds delay
       }
     } catch (error: unknown) {

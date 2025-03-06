@@ -1,7 +1,7 @@
 import { Button, Input, Text } from "@/shared-components";
+import { ROUTES } from "@/utils/routes";
 import { FilePlus, Filter, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { COMPANY } from "../../utils/constants";
 
 const StockHeader = ({
   setSearchTerm,
@@ -16,10 +16,7 @@ const StockHeader = ({
           Stock List
         </Text>
         <div className="flex items-center gap-2">
-          <Button
-            onClick={() => router.push(`/${COMPANY}/stocks/add`)}
-            size="sm"
-          >
+          <Button onClick={() => router.push(ROUTES.ADD_STOCK)} size="sm">
             <FilePlus /> Add
           </Button>
           <Button size="sm" variant="outline">

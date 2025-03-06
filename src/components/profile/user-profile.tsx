@@ -3,11 +3,11 @@
 import { Button, Chips, Text } from "@/shared-components";
 import { useLogoutMutation } from "@/stores/services/auth.service";
 import { useGetProfileQuery } from "@/stores/services/user.service";
+import { ROUTES } from "@/utils/routes";
 import { ChevronLeft, Edit, Phone, RefreshCcw, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { COMPANY } from "../../utils/constants";
 
 const UserProfile = () => {
   const { data, isLoading, error } = useGetProfileQuery();
@@ -23,7 +23,7 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     logout();
-    router.push(`/${COMPANY}/login`);
+    router.push(ROUTES.LOGIN);
   };
 
   if (isLoading) return <p>Loading...</p>;

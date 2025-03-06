@@ -4,12 +4,12 @@ import { ActionMenu } from "@/components/action-menu";
 
 import { Row } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
-import { COMPANY } from "@/utils/constants";
 import { Order } from "@/stores/states/order.state";
 import { useUpdateOrderStatusMutation } from "@/stores/services/order.service";
 import { useState } from "react";
 import { Modal } from "@/shared-components";
 import PopupModal from "../popup-modal";
+import { ROUTES } from "@/utils/routes";
 
 interface ActionCellProps {
   order: Order;
@@ -43,7 +43,7 @@ const ActionCell: React.FC<ActionCellProps> = ({ order, row }) => {
   const handleAction = (action: "View" | "Approve" | "Decline") => {
     switch (action) {
       case "View":
-        router.push(`/${COMPANY}/orders/details/${order.id}`);
+        router.push(ROUTES.ORDER_DETAILS(order.id));
         break;
       case "Approve":
         setIsApproveModalOpen(true);
