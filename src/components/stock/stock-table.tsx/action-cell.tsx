@@ -37,10 +37,8 @@ const ActionCell: React.FC<ActionCellProps> = ({ stock, row }) => {
         break;
       case "See Log":
         setIsModalOpen(true);
-        console.log("Viewing log for stock:", stock);
         break;
       default:
-        console.warn("Unknown action:", action);
     }
   };
 

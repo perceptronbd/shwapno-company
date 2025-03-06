@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/shared-components";
+import { Button, CustomToast, Input } from "@/shared-components";
 import { FilterableDropdown } from "@/shared-components/src/components/inputs/filterable-dropdown/filterable.dropdown";
 import { transformToOptions } from "@/utils/transform-to-options";
 import { useGetProductsQuery } from "@/stores/services/product.service";
@@ -11,6 +11,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAddStockMutation } from "@/stores/services/stock.service";
+import { toast } from "sonner";
 
 // Define the form values type
 
@@ -38,8 +39,11 @@ const AddStock = () => {
     };
 
     const response = await addStock(stockData);
-    console.log(response);
-    // Process form data
+    if (response.data?.success) {
+      toast(<CustomToast title="Stock added successfully" type="success" />);
+    } else {
+      toast(<CustomToast title="Failed to add stock" type="error" />);
+    }
   };
 
   return (

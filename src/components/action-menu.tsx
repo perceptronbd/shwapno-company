@@ -32,7 +32,6 @@ export const ActionMenu = <T, A extends string>({
               key={option}
               className="text-neutral-400 hover:bg-secondary-100 hover:text-primary-400"
               onClick={() => {
-                console.log(option);
                 onSelect(option, row);
                 setOpen(false);
               }}

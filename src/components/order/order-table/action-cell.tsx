@@ -7,9 +7,10 @@ import { useRouter } from "next/navigation";
 import { Order } from "@/stores/states/order.state";
 import { useUpdateOrderStatusMutation } from "@/stores/services/order.service";
 import { useState } from "react";
-import { Modal } from "@/shared-components";
+import { CustomToast, Modal } from "@/shared-components";
 import PopupModal from "../popup-modal";
 import { ROUTES } from "@/utils/routes";
+import { toast } from "sonner";
 
 interface ActionCellProps {
   order: Order;
@@ -21,22 +22,21 @@ const ActionCell: React.FC<ActionCellProps> = ({ order, row }) => {
   const [updateStatus, { isLoading }] = useUpdateOrderStatusMutation();
   const [isApproveModalOpen, setIsApproveModalOpen] = useState<boolean>(false);
   const [isDeclineModalOpen, setIsDeclineModalOpen] = useState<boolean>(false);
-
   const handleApprove = async (id: string) => {
-    try {
-      const response = await updateStatus({ id, status: "COMPLETED" });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    const response = await updateStatus({ id, status: "COMPLETED" });
+    if (response.data?.success) {
+      toast(<CustomToast title="Order approved successfully" type="success" />);
+    } else {
+      toast(<CustomToast title="Failed to approve order" type="error" />);
     }
   };
 
   const handleDecline = async (id: string) => {
-    try {
-      const response = await updateStatus({ id, status: "CANCELLED" });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    const response = await updateStatus({ id, status: "CANCELLED" });
+    if (response.data?.success) {
+      toast(<CustomToast title="Order declined successfully" type="success" />);
+    } else {
+      toast(<CustomToast title="Failed to decline order" type="error" />);
     }
   };
 
@@ -52,7 +52,7 @@ const ActionCell: React.FC<ActionCellProps> = ({ order, row }) => {
         setIsDeclineModalOpen(true);
         break;
       default:
-        console.warn("Unknown action:", action);
+        toast(<CustomToast title="Invalid action" type="error" />);
     }
   };
 

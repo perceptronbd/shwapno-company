@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/shared-components";
+import { Button, CustomToast, Input } from "@/shared-components";
 
 import {
   UpdateStock,
@@ -13,6 +13,8 @@ import {
   useUpdateStockMutation,
 } from "@/stores/services/stock.service";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
+import React from "react";
 
 // Define the form values type
 
@@ -29,16 +31,18 @@ const EditStock = () => {
     resolver: zodResolver(UpdateStockValidation),
   });
 
-  const onSubmit = async (data: UpdateStock, e: any) => {
-    e.preventDefault();
+  const onSubmit = async (data: UpdateStock) => {
     const stockData = {
       quantity: Number(data.quantity),
       productId: stock?.productId,
     };
 
     const response = await updateStock(stockData);
-    console.log(response);
-    // Process form data
+    if (response.data?.success) {
+      toast(<CustomToast title="Stock updated successfully" type="success" />);
+    } else {
+      toast(<CustomToast title="Failed to update stock" type="error" />);
+    }
   };
 
   if (isFetching) {

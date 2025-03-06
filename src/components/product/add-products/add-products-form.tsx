@@ -35,7 +35,6 @@ const AddProductsForm = () => {
   } = useForm({ resolver: zodResolver(CreateProductValidation) });
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
     const newProduct = {
       name: data.name,
       barcode: data.barcode,

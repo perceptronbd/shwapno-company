@@ -2,6 +2,7 @@
 import {
   Button,
   Chips,
+  CustomToast,
   Table,
   TableBody,
   TableCell,
@@ -16,6 +17,7 @@ import {
 } from "@/stores/services/order.service";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const OrderDetailsContainer = () => {
   const params = useParams();
@@ -48,20 +50,20 @@ const OrderDetailsContainer = () => {
   }
 
   const handleApprove = async (id: string) => {
-    try {
-      const response = await updateStatus({ id, status: "COMPLETED" });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    const response = await updateStatus({ id, status: "COMPLETED" });
+    if (response.data?.success) {
+      toast(<CustomToast title="Order approved successfully" type="success" />);
+    } else {
+      toast(<CustomToast title="Failed to approve order" type="error" />);
     }
   };
 
   const handleDecline = async (id: string) => {
-    try {
-      const response = await updateStatus({ id, status: "CANCELLED" });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    const response = await updateStatus({ id, status: "CANCELLED" });
+    if (response.data?.success) {
+      toast(<CustomToast title="Order declined successfully" type="success" />);
+    } else {
+      toast(<CustomToast title="Failed to decline order" type="error" />);
     }
   };
 

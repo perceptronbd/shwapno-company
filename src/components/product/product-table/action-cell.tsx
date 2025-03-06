@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ActionMenu } from "@/components/action-menu";
 import { Product } from "@/stores/states/product.state";
 import { Row } from "@tanstack/react-table";
-import { Modal } from "@/shared-components";
+import { CustomToast, Modal } from "@/shared-components";
 import ProductViewCard from "../product-view-card";
 import { useDeleteProductMutation } from "@/stores/services/product.service";
 import DeleteModal from "../delete-modal";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/utils/routes";
+import { toast } from "sonner";
 
 interface ActionCellProps {
   product: Product;
@@ -19,14 +20,8 @@ interface ActionCellProps {
 const ActionCell: React.FC<ActionCellProps> = ({ product, row }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [deleteProduct, { isSuccess }] = useDeleteProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
   const router = useRouter();
-
-  useEffect(() => {
-    if (isSuccess) {
-      console.log("Product deleted successfully!");
-    }
-  }, [isSuccess]);
 
   const handleAction = (action: "View" | "Edit" | "Delete" | "See Log") => {
     switch (action) {
@@ -41,10 +36,9 @@ const ActionCell: React.FC<ActionCellProps> = ({ product, row }) => {
         break;
       case "See Log":
         setIsModalOpen(true);
-        console.log("Viewing log for product:", product);
         break;
       default:
-        console.warn("Unknown action:", action);
+        toast(<CustomToast title="Invalid action" type="error" />);
     }
   };
 
