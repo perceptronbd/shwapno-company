@@ -2,6 +2,7 @@
 
 import {
   Button,
+  CustomToast,
   FilterableDropdown,
   ImageInput,
   Input,
@@ -10,26 +11,27 @@ import {
 import {
   useGetCategoriesQuery,
   useGetProductByIdQuery,
+  useUpdateProductMutation,
 } from "@/stores/services/product.service";
+import { convertToFormData } from "@/utils/convert-to-form-data";
 import { transformToOptions } from "@/utils/transform-to-options";
 import { UpdateProductValidation } from "@/validations/product-validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { Controller, FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const ProductEditPage = () => {
   const params = useParams();
-  const {
-    data: product,
-    isLoading,
-    error,
-  } = useGetProductByIdQuery(params.id as string);
-  const {
-    data: categories,
-    isLoading: isCategoriesLoading,
-    error: categoriesError,
-  } = useGetCategoriesQuery();
+  const { data: product, isLoading } = useGetProductByIdQuery(
+    params.id as string,
+  );
+  const { data: categories, isLoading: isCategoriesLoading } =
+    useGetCategoriesQuery();
+
+  const [productUpdate, { isLoading: isUpdating }] = useUpdateProductMutation();
+
   const {
     register,
     handleSubmit,
@@ -63,16 +65,23 @@ const ProductEditPage = () => {
     }
   }, [product, categories, reset]);
 
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
+  const onSubmit = async (data: FieldValues) => {
+    const formattedData = convertToFormData(data);
+    const response = await productUpdate({
+      id: params.id as string,
+      formData: formattedData,
+    });
+    if (response.data?.success) {
+      toast(
+        <CustomToast title="Product updated successfully" type="success" />,
+      );
+    } else {
+      toast(<CustomToast title="Failed to update product" type="error" />);
+    }
   };
 
   if (isLoading || isCategoriesLoading) {
     return <div>Loading...</div>;
-  }
-
-  if (error || categoriesError) {
-    return <div>Error</div>;
   }
 
   return (
@@ -130,7 +139,7 @@ const ProductEditPage = () => {
         }
         error={errors.description?.message}
       />
-      <Button className="w-full" type="submit">
+      <Button loading={isUpdating} className="w-full" type="submit">
         Submit
       </Button>
     </form>

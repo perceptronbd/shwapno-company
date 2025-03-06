@@ -1,35 +1,26 @@
 "use client";
 
-import { Button, Chips, Text } from "@/shared-components";
+import { Button, Chips, CustomToast, Text } from "@/shared-components";
 import { useLogoutMutation } from "@/stores/services/auth.service";
 import { useGetProfileQuery } from "@/stores/services/user.service";
 import { ROUTES } from "@/utils/routes";
 import { ChevronLeft, Edit, Phone, RefreshCcw, User } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { toast } from "sonner";
 
 const UserProfile = () => {
-  const { data, isLoading, error } = useGetProfileQuery();
-  const [logout, { isLoading: isLogoutLoading, error: logoutError }] =
-    useLogoutMutation();
+  const { data, isLoading } = useGetProfileQuery();
+  const [logout, { isLoading: isLogoutLoading }] = useLogoutMutation();
   const router = useRouter();
-
-  useEffect(() => {
-    if (logoutError) {
-      toast.error(logoutError?.message || "An error occurred during logout");
-    }
-  }, [logoutError]);
 
   const handleLogout = () => {
     logout();
+    toast(<CustomToast title="Logout Successful" type="success" />);
     router.push(ROUTES.LOGIN);
   };
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error fetching profile</p>;
 
-  console.log(data);
   return (
     <article className="flex h-screen flex-col bg-white px-3 py-16">
       <div>

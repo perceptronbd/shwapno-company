@@ -10,20 +10,6 @@ export interface Product {
   updatedAt: string;
 }
 
-export interface ProductsResponse {
-  success: boolean;
-  code: number;
-  data: Product[];
-  message: string;
-}
-
-export interface ProductResponse {
-  success: boolean;
-  code: number;
-  data: Product;
-  message: string;
-}
-
 export interface Category {
   id: string;
   name: string;
@@ -31,14 +17,12 @@ export interface Category {
   updatedAt: string;
 }
 
-export interface CategoryResponse {
-  success: boolean;
-  code: number;
-  data: Category[]; // Use 'Category[]' instead of 'Category'
-  message: string;
-}
+export type AddProductPayload = {
+  branchId: string;
+  formData: FormData;
+};
 
-export type AddProduct = Omit<
-  Product,
-  "id" | "createdAt" | "updatedAt" | "imgURL"
-> & { image: File };
+export type UpdateProductPayload = {
+  id: string;
+  formData: FormData;
+};
