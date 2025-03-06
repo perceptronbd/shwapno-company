@@ -1,5 +1,3 @@
-import { ST } from "next/dist/shared/lib/utils";
-
 export const LOGIN = "/auth/login";
 export const ROOT = "/";
 
@@ -24,4 +22,4 @@ export const ROUTES = {
   PRODUCT_EDIT: (id: string) => `${COMPANY}/products/edit/${id}`,
 } as const;
 
-export const PUBLIC_ROUTES = ["/auth/login", "/auth/reset-password"];
+export const PUBLIC_ROUTES = [ROUTES.LOGIN];
