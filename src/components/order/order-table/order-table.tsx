@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { getOrderColumns } from "./column";
 import {
   flexRender,
@@ -95,8 +95,8 @@ const OrderTable = ({ orderData }: OrderTableProps) => {
         <TableBody>
           {table.getRowModel().rows.length > 0 ? (
             table.getRowModel().rows.map((row) => (
-              <>
-                <TableRow key={row.id}>
+              <Fragment key={row.id}>
+                <TableRow>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
@@ -145,7 +145,7 @@ const OrderTable = ({ orderData }: OrderTableProps) => {
                     </TableCell>
                   </TableRow>
                 )}
-              </>
+              </Fragment>
             ))
           ) : (
             <TableRow>

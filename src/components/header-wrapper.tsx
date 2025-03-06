@@ -33,6 +33,7 @@ const HeaderWrapper = () => {
         isOpen={isOpen}
         onClose={handleClose}
         NavLinks={NavLinks}
+        direction="right"
       />
     </div>
   );

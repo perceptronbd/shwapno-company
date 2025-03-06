@@ -49,11 +49,11 @@ const AddStock = () => {
           name="productId"
           control={control}
           options={modifiedProducts}
-          placeholder="Type to filter countries..."
+          placeholder="Select Product"
         />
 
         <Input
-          placeholder="quantity"
+          placeholder="Quantity"
           type="number"
           {...register("quantity", { required: true })}
           className={
