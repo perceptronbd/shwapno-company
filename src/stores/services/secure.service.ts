@@ -5,9 +5,9 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { selectAccessToken, accessTokenRefresh } from "../slices/auth.slice";
 import { RootState } from "..";
-import { RefreshResponse } from "../states/auth.state";
 import { authApi } from "./auth.service";
 import { TAG_TYPES_LIST } from "../tagTypes";
+import { ApiResponse } from "@/lib/types/api";
 
 const baseQuerySecure = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_ENDPOINT,
@@ -39,7 +39,7 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
       extraOptions,
     );
 
-    const refreshResponse = refreshResult.data as RefreshResponse;
+    const refreshResponse = refreshResult.data as ApiResponse<string>;
 
     if (refreshResponse.data) {
       api.dispatch(accessTokenRefresh({ accessToken: refreshResponse.data }));
