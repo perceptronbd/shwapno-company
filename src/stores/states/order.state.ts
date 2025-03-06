@@ -1,6 +1,12 @@
 import { Product } from "./product.state";
 
-type status = "PENDING" | "COMPLETED" | "CANCELLED";
+export type OrderStatus =
+  | "PENDING"
+  | "PROCESSING"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "DELIVERED"
+  | "RETURNED";
 
 interface Branch {
   id: string;
@@ -42,21 +48,16 @@ export interface Order {
   branchId: string;
   orderDate: string;
   totalAmount: string;
-  status: status;
+  status: OrderStatus;
   customer: Customer;
   items: OrderItem[];
 }
 
-export interface OrderResponse {
-  success: boolean;
-  code: number;
-  data: {
-    orders: Order[];
-    total: number;
-    page: number;
-    limit: number;
-  };
-  message: string;
+export interface OrderData {
+  orders: Order[];
+  total: number;
+  page: number;
+  limit: number;
 }
 
 export interface OrderById {
@@ -65,23 +66,19 @@ export interface OrderById {
   branchId: string;
   orderDate: string;
   totalAmount: string;
-  status: status;
+  status: OrderStatus;
   customer: Customer;
   items: OrderItem[];
   branch: Branch;
 }
 
-export interface OrderByIdResponse {
-  success: boolean;
-  code: number;
-  data: OrderById;
-  message: string;
+export interface OrderByBranchQuery {
+  branchId: string;
+  page: number;
+  limit: number;
 }
 
-export type OrderStatus =
-  | "PENDING"
-  | "PROCESSING"
-  | "COMPLETED"
-  | "CANCELLED"
-  | "DELIVERED"
-  | "RETURNED";
+export interface UpdateOrderStatusPayload {
+  id: string;
+  status: OrderStatus;
+}

@@ -1,15 +1,16 @@
+import { ApiResponse } from "@/lib/types/api";
 import {
   Order,
-  OrderByIdResponse,
-  OrderResponse,
-  OrderStatus,
+  OrderByBranchQuery as Query,
+  OrderData,
+  UpdateOrderStatusPayload as Status,
 } from "../states/order.state";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
 
 export const orderApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
-    getOrderById: builder.query<OrderByIdResponse, string>({
+    getOrderById: builder.query<ApiResponse<Order>, string>({
       query: (id) => ({
         url: `/orders/${id}`,
         method: "GET",
@@ -17,10 +18,7 @@ export const orderApi = secureApi.injectEndpoints({
       providesTags: (result, error, id) => [{ type: TAG_TYPES.ORDER, id }],
     }),
 
-    getOrdersByBranch: builder.query<
-      OrderResponse,
-      { branchId: string; page?: number; limit?: number }
-    >({
+    getOrdersByBranch: builder.query<ApiResponse<OrderData>, Query>({
       query: ({ branchId, page = 1, limit = 10 }) => ({
         url: `/orders/branch/${branchId}`,
         method: "GET",
@@ -38,10 +36,7 @@ export const orderApi = secureApi.injectEndpoints({
           : [TAG_TYPES.ORDER],
     }),
 
-    updateOrderStatus: builder.mutation<
-      Order,
-      { id: string; status: OrderStatus }
-    >({
+    updateOrderStatus: builder.mutation<ApiResponse<Order>, Status>({
       query: ({ id, status }) => ({
         url: `/orders/${id}/status`,
         method: "PATCH",
@@ -52,7 +47,7 @@ export const orderApi = secureApi.injectEndpoints({
       ],
     }),
 
-    deleteOrder: builder.mutation<{ result: string }, string>({
+    deleteOrder: builder.mutation<void, string>({
       query: (id) => ({
         url: `/orders/${id}`,
         method: "DELETE",
