@@ -20,17 +20,3 @@ export interface UpdateStock {
   quantity?: Stock["quantity"] | null;
   productId?: Stock["productId"] | null;
 }
-
-export interface StockResponse {
-  success: boolean;
-  code: number;
-  data: Stock[];
-  message: string;
-}
-
-export interface StockByIdResponse {
-  success: boolean;
-  code: number;
-  data: Stock;
-  message: string;
-}

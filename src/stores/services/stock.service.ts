@@ -1,13 +1,8 @@
-import { BRANCH_ID } from "@/utils/constants";
-import {
-  StockResponse,
-  Stock,
-  StockByIdResponse,
-  CreateStock,
-  UpdateStock,
-} from "../states/stock.states";
+import { BRANCH_ID } from "@/utils/routes";
+import { Stock, CreateStock, UpdateStock } from "../states/stock.states";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
+import { ApiResponse } from "@/lib/types/api";
 
 export const stockApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,7 +11,7 @@ export const stockApi = secureApi.injectEndpoints({
         url: `/products/stocks/branch/${BRANCH_ID}`,
         method: "GET",
       }),
-      transformResponse: (response: StockResponse) => response.data,
+      transformResponse: (response: ApiResponse<Stock[]>) => response.data,
       providesTags: (result) =>
         result
           ? [
@@ -33,10 +28,10 @@ export const stockApi = secureApi.injectEndpoints({
         url: `/products/stocks/${id}`,
         method: "GET",
       }),
-      transformResponse: (response: StockByIdResponse) => response.data,
+      transformResponse: (response: ApiResponse<Stock>) => response.data,
       providesTags: (result, error, id) => [{ type: TAG_TYPES.STOCK, id }],
     }),
-    updateStock: builder.mutation<void, UpdateStock>({
+    updateStock: builder.mutation<ApiResponse<Stock>, UpdateStock>({
       query: (stock) => ({
         url: `/products/stocks/branch/${BRANCH_ID}`,
         method: "PATCH",
@@ -44,7 +39,7 @@ export const stockApi = secureApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.STOCK],
     }),
-    addStock: builder.mutation<void, CreateStock>({
+    addStock: builder.mutation<ApiResponse<Stock>, CreateStock>({
       query: (stock) => ({
         url: `/products/stocks/branch/${BRANCH_ID}`,
         method: "PATCH",
