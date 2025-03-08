@@ -1,4 +1,4 @@
-export const convertToFormData = <T extends Record<string, any>>(
+export const convertToFormData = <T extends Record<string, unknown>>(
   obj: T,
   form?: FormData,
   parentKey?: string,
@@ -23,7 +23,7 @@ export const convertToFormData = <T extends Record<string, any>>(
       });
     } else if (typeof value === "object" && value !== null) {
       // Handle nested objects
-      convertToFormData(value, formData, fullKey);
+      convertToFormData(value as Record<string, unknown>, formData, fullKey);
     } else {
       // Handle primitive values
       formData.append(fullKey, String(value ?? ""));

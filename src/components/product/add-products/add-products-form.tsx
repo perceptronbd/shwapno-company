@@ -18,8 +18,8 @@ import {
 
 import { convertToFormData } from "../../../utils/convert-to-form-data";
 import { transformToOptions } from "@/utils/transform-to-options";
-import { BRANCH_ID } from "@/utils/routes";
 import { toast } from "sonner";
+import { BRANCH_ID } from "@/utils/constant";
 
 const AddProductsForm = () => {
   const { data: categories, isLoading } = useGetCategoriesQuery();
