@@ -9,14 +9,14 @@ export const ROUTES = {
   LOGIN: `${COMPANY}/login`,
   PROFILE: `${COMPANY}/profile`,
   ORDERS: `${COMPANY}/orders`,
-  ORDER_DETAILS: (id: string) => `${COMPANY}/orders/${id}`,
+  ORDER_DETAILS: (id: string) => `${COMPANY}/orders/details/${id}`,
   STOCKS: `${COMPANY}/stocks`,
   ADD_STOCK: `${COMPANY}/stocks/add`,
-  STOCK_DETAILS: (id: string) => `${COMPANY}/stocks/${id}`,
+  STOCK_DETAILS: (id: string) => `${COMPANY}/stocks/details/${id}`,
   STOCK_EDIT: (id: string) => `${COMPANY}/stocks/edit/${id}`,
   PRODUCTS: `${COMPANY}/products`,
   ADD_PRODUCT: `${COMPANY}/products/add`,
-  PRODUCT_DETAILS: (id: string) => `${COMPANY}/products/${id}`,
+  PRODUCT_DETAILS: (id: string) => `${COMPANY}/products//details/${id}`,
   PRODUCT_EDIT: (id: string) => `${COMPANY}/products/edit/${id}`,
 } as const;
 

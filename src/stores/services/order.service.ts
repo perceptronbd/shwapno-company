@@ -52,6 +52,7 @@ export const orderApi = secureApi.injectEndpoints({
         url: `/orders/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: (result, error, id) => [{ type: TAG_TYPES.ORDER, id }],
     }),
   }),
 });
