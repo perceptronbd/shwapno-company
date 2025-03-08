@@ -65,6 +65,10 @@ const ProductEditPage = () => {
     }
   }, [product, categories, reset]);
 
+  const categoryName = categories?.find(
+    (category) => category.id === product?.categoryId,
+  )?.name;
+
   const onSubmit = async (data: FieldValues) => {
     const formattedData = convertToFormData(data);
     const response = await productUpdate({
@@ -121,6 +125,7 @@ const ProductEditPage = () => {
         control={control}
         options={modifiedCategories}
         placeholder="Select a category"
+        defaultText={categoryName}
       />
       <Input
         placeholder="price"
