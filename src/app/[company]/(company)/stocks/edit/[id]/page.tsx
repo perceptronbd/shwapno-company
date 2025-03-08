@@ -14,7 +14,7 @@ import {
 } from "@/stores/services/stock.service";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
-import React from "react";
+import React, { useEffect } from "react";
 
 // Define the form values type
 
@@ -26,10 +26,21 @@ const EditStock = () => {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(UpdateStockValidation),
+    defaultValues: {
+      quantity: "",
+    },
   });
+
+  useEffect(() => {
+    if (stock) {
+      const quantity = String(stock.quantity);
+      reset({ quantity });
+    }
+  }, [stock, reset]);
 
   const onSubmit = async (data: UpdateStock) => {
     const stockData = {
@@ -59,7 +70,6 @@ const EditStock = () => {
         <Input
           placeholder="quantity"
           type="number"
-          value={String(stock?.quantity)}
           {...register("quantity")}
           className={
             "rounded-md border-neutral-300 focus:border-none focus:outline-primary-300"
