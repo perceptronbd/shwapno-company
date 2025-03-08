@@ -98,7 +98,9 @@ const OrderDetailsContainer = () => {
             <span className="col-span-2">: {orderData?.customer.mobile}</span>
 
             <span className="text-gray-500">Email</span>
-            <span className="col-span-2">: {orderData?.customer.email}</span>
+            <span className="col-span-2 truncate">
+              : {orderData?.customer.email}
+            </span>
 
             <span className="text-gray-500">Address</span>
             <span className="col-span-2">: {orderData?.customer.address}</span>
