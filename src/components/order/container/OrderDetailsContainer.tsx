@@ -23,10 +23,14 @@ const OrderDetailsContainer = () => {
   const params = useParams();
   const id = params.id as string;
   const { data: order, isFetching, error } = useGetOrderByIdQuery(id);
-  const [updateStatus, { isLoading }] = useUpdateOrderStatusMutation();
+  const [updateStatus] = useUpdateOrderStatusMutation();
   const [status, setStatus] = useState<
     "success" | "error" | "warning" | "primary" | "disabled"
   >("success");
+
+  // Separate loading states
+  const [isApproving, setIsApproving] = useState(false);
+  const [isDeclining, setIsDeclining] = useState(false);
 
   const orderData = order?.data;
 
@@ -50,20 +54,34 @@ const OrderDetailsContainer = () => {
   }
 
   const handleApprove = async (id: string) => {
-    const response = await updateStatus({ id, status: "COMPLETED" });
-    if (response.data?.success) {
-      toast(<CustomToast title="Order approved successfully" type="success" />);
-    } else {
-      toast(<CustomToast title="Failed to approve order" type="error" />);
+    setIsApproving(true);
+    try {
+      const response = await updateStatus({ id, status: "COMPLETED" });
+      if (response.data?.success) {
+        toast(
+          <CustomToast title="Order approved successfully" type="success" />,
+        );
+      } else {
+        toast(<CustomToast title="Failed to approve order" type="error" />);
+      }
+    } finally {
+      setIsApproving(false);
     }
   };
 
   const handleDecline = async (id: string) => {
-    const response = await updateStatus({ id, status: "CANCELLED" });
-    if (response.data?.success) {
-      toast(<CustomToast title="Order declined successfully" type="success" />);
-    } else {
-      toast(<CustomToast title="Failed to decline order" type="error" />);
+    setIsDeclining(true);
+    try {
+      const response = await updateStatus({ id, status: "CANCELLED" });
+      if (response.data?.success) {
+        toast(
+          <CustomToast title="Order declined successfully" type="success" />,
+        );
+      } else {
+        toast(<CustomToast title="Failed to decline order" type="error" />);
+      }
+    } finally {
+      setIsDeclining(false);
     }
   };
 
@@ -155,13 +173,15 @@ const OrderDetailsContainer = () => {
       {/* Action Buttons */}
       <div className="flex justify-between gap-4">
         <Button
-          loading={isLoading}
+          loading={isApproving}
+          disabled={isDeclining}
           onClick={() => handleApprove(orderData?.id ?? "")}
         >
           Approve
         </Button>
         <Button
-          loading={isLoading}
+          loading={isDeclining}
+          disabled={isApproving}
           onClick={() => handleDecline(orderData?.id ?? "")}
           variant="outline"
         >
