@@ -73,7 +73,6 @@ const ActionCell: React.FC<ActionCellProps> = ({ order, row }) => {
           label="Approve Order"
           header="Are you sure you want to approve this order?"
           id={order.id}
-          toastMessage="Order approved successfully"
           button="Approve"
           handleAction={() => handleApprove(order.id)}
           setPopupModalOpen={setIsApproveModalOpen}
@@ -90,7 +89,6 @@ const ActionCell: React.FC<ActionCellProps> = ({ order, row }) => {
           label="Decline Order"
           header="Are you sure you want to decline this order?"
           id={order.id}
-          toastMessage="Order declined successfully"
           button="Decline"
           handleAction={() => handleDecline(order.id)}
           setPopupModalOpen={setIsDeclineModalOpen}

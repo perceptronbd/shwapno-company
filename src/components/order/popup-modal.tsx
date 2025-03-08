@@ -1,12 +1,10 @@
 import { Button, Text } from "@/shared-components";
 import React from "react";
-import { toast } from "sonner";
 
 interface PopupModalProps {
   label: string;
   header: string;
   id: string;
-  toastMessage: string;
   button: string;
   loading?: boolean;
   handleAction: (id: string) => void;
@@ -17,7 +15,6 @@ const PopupModal = ({
   label,
   header,
   id,
-  toastMessage,
   button,
   loading,
   handleAction,
@@ -35,7 +32,6 @@ const PopupModal = ({
           onClick={() => {
             setPopupModalOpen(false);
             handleAction(id);
-            toast.success(`${toastMessage}`);
           }}
         >
           {button}
