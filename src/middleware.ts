@@ -1,30 +1,39 @@
+// middleware.ts
 import { NextRequest, NextResponse } from "next/server";
-import { LOGIN, PUBLIC_ROUTES, ROOT } from "./utils/routes";
+import { ROUTES, PUBLIC_ROUTES } from "./utils/routes";
+import { COMPANY } from "./utils/constant";
 
 export async function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get("refreshToken");
-
   const { pathname } = request.nextUrl;
 
-  if (pathname === ROOT) {
-    return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
+  // Handle root path
+  if (pathname === ROUTES.ROOT) {
+    if (refreshToken) {
+      return NextResponse.redirect(new URL(ROUTES.ORDERS, request.nextUrl));
+    }
+    return NextResponse.redirect(new URL(ROUTES.LOGIN, request.nextUrl));
   }
 
-  const isPublicRoute = PUBLIC_ROUTES.find((route) =>
-    pathname.startsWith(route),
+  // Check if current route is public (including company prefix)
+  const isPublicRoute = PUBLIC_ROUTES.some(
+    (route) =>
+      pathname.startsWith(route) || pathname.startsWith(`${COMPANY}${route}`),
   );
 
-  if (!refreshToken && !isPublicRoute)
-    return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
+  // Redirect authenticated users away from public routes
+  if (refreshToken && isPublicRoute) {
+    return NextResponse.redirect(new URL(ROUTES.ORDERS, request.nextUrl));
+  }
+
+  // Protect private routes
+  if (!refreshToken && !isPublicRoute) {
+    return NextResponse.redirect(new URL(ROUTES.LOGIN, request.nextUrl));
+  }
 
   return NextResponse.next();
 }
 
 export const config = {
-  // Match all URLs EXCEPT:
-  // URLs starting with /api/
-  // URLs starting with /_next/
-  // URLs starting with /static/
-  // URLs for files with extensions (like images, fonts, etc.)
   matcher: ["/((?!api|_next|static|.*\\..*).*)"],
 };

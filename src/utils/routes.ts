@@ -1,14 +1,12 @@
+import { COMPANY } from "./constant";
+
 export const LOGIN = "/auth/login";
 export const ROOT = "/";
-
-export const COMPANY = "/shawpno";
-
-export const BRANCH_ID = "df5cce60-19a1-40b3-b22a-6d4f5dc694a0";
 
 export const ROUTES = {
   ROOT,
   COMPANY,
-  LOGIN: `${COMPANY}/auth/login`,
+  LOGIN: `${COMPANY}/login`,
   PROFILE: `${COMPANY}/profile`,
   ORDERS: `${COMPANY}/orders`,
   ORDER_DETAILS: (id: string) => `${COMPANY}/orders/${id}`,

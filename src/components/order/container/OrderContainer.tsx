@@ -1,8 +1,9 @@
 "use client";
 
 import { useGetOrdersByBranchQuery } from "@/stores/services/order.service";
-import { BRANCH_ID } from "@/utils/constants";
+
 import OrderTable from "../order-table/order-table";
+import { BRANCH_ID } from "@/utils/constant";
 
 const OrderContainer = () => {
   const {

@@ -1,4 +1,4 @@
-import { BRANCH_ID } from "@/utils/routes";
+import { BRANCH_ID } from "@/utils/constant";
 import { Stock, CreateStock, UpdateStock } from "../states/stock.states";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
