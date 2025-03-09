@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
+root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -14,8 +16,11 @@
   }
 }
 
+html,
 body {
-  color: var(--foreground);
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
