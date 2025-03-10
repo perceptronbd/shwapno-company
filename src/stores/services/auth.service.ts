@@ -10,20 +10,15 @@ export const authApi = secureApi.injectEndpoints({
         url: "/auth/login",
         method: "POST",
         body: credentials,
+        credentials: "include",
       }),
       transformResponse: (
         response: ApiResponse<User>,
         meta: FetchBaseQueryMeta | undefined,
       ): AuthState => {
-        const authHeader = meta?.response?.headers.get("Authorization");
-        const accessToken = authHeader?.startsWith("Bearer ")
-          ? authHeader.split(" ")[1]
-          : "";
+        const authHeader = meta?.response?.headers.get("authorization") || "";
 
-        if (!accessToken) {
-          throw new Error("Access token not found in response headers.");
-        }
-
+        const accessToken = authHeader.replace(/^Bearer\s+/i, "");
         return { user: response.data, accessToken };
       },
     }),

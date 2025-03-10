@@ -13,12 +13,7 @@ const baseQuerySecure = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_ENDPOINT,
   prepareHeaders: (headers, { getState }) => {
     const token = selectAccessToken(getState() as RootState);
-    console.log("selected token", token);
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    } else {
-      console.warn("No token found in store");
-    }
+    if (token) headers.set("Authorization", `Bearer ${token}`);
     return headers;
   },
   credentials: "include",
