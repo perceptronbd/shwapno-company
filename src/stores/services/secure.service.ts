@@ -10,7 +10,7 @@ import { TAG_TYPES_LIST } from "../tagTypes";
 import { ApiResponse } from "@/lib/types/api";
 
 const baseQuerySecure = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_ENDPOINT,
+  baseUrl: process.env.NEXT_PUBLIC_ENDPOINT + "/api/v1",
   prepareHeaders: (headers, { getState }) => {
     const token = selectAccessToken(getState() as RootState);
     if (token) headers.set("Authorization", `Bearer ${token}`);
