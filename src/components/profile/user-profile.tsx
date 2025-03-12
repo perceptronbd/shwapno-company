@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Chips, CustomToast, Text } from "@/shared-components";
+import { Button, CustomToast, Text } from "@/shared-components";
 import { useLogoutMutation } from "@/stores/services/auth.service";
 import { useGetProfileQuery } from "@/stores/services/user.service";
 import { ROUTES } from "@/utils/routes";
@@ -27,12 +27,16 @@ const UserProfile = () => {
         {/* header */}
         <div className="flex h-12 items-center justify-between">
           <span className="flex items-center">
-            <ChevronLeft />
+            <ChevronLeft
+              onClick={() => {
+                router.back();
+              }}
+            />
             <Text variant="titleLarge" weight="bold">
               Profile
             </Text>
           </span>
-          <Edit />
+          <Edit className="cursor-not-allowed text-neutral-400" />
         </div>
         {/* profile */}
         <div className="mt-4">
@@ -49,9 +53,9 @@ const UserProfile = () => {
                 {data?.email}
                 <RefreshCcw size={12} />
               </Text>
-              <Chips className="p-0 px-1" variant="success">
+              <span className="w-fit rounded-full border border-green-500 bg-green-200 px-2 text-sm text-green-500">
                 {data?.userRoles[0]?.role?.name}
-              </Chips>
+              </span>
             </span>
           </div>
         </div>
@@ -59,19 +63,7 @@ const UserProfile = () => {
         <div className="mt-6 space-y-4">
           <div className="space-y-2">
             <Text variant="bodyBase">Contact Information</Text>
-            <div className="flex w-full items-center gap-2 bg-secondary-100 px-4 py-2 text-lg">
-              <Phone /> {data?.phone}
-            </div>
-            <div className="flex w-full items-center gap-2 bg-secondary-100 px-4 py-2 text-lg">
-              <Phone /> {data?.phone}
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Text variant="bodyBase">Personal Information</Text>
-            <div className="flex w-full items-center gap-2 bg-secondary-100 px-4 py-2 text-lg">
-              <Phone /> {data?.phone}
-            </div>
-            <div className="flex w-full items-center gap-2 bg-secondary-100 px-4 py-2 text-lg">
+            <div className="flex w-full items-center gap-2 rounded-md bg-neutral-200 px-4 py-2 text-lg">
               <Phone /> {data?.phone}
             </div>
           </div>

@@ -20,8 +20,11 @@ import { convertToFormData } from "../../../utils/convert-to-form-data";
 import { transformToOptions } from "@/utils/transform-to-options";
 import { toast } from "sonner";
 import { BRANCH_ID } from "@/utils/constant";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/utils/routes";
 
 const AddProductsForm = () => {
+  const router = useRouter();
   const { data: categories, isLoading } = useGetCategoriesQuery();
   const [addProduct, { isLoading: isAddingProduct }] = useAddProductMutation();
 
@@ -51,9 +54,22 @@ const AddProductsForm = () => {
       formData: newFormData,
     });
     if (response.data?.success) {
-      toast(<CustomToast title="Product added successfully" type="success" />);
+      toast(
+        <CustomToast
+          title="Product added successfully"
+          description="The process was successful."
+          type="success"
+        />,
+      );
+      router.replace(ROUTES.PRODUCTS);
     } else {
-      toast(<CustomToast title="Failed to add product" type="error" />);
+      toast(
+        <CustomToast
+          title="Failed to add product"
+          description="Something went wrong!"
+          type="error"
+        />,
+      );
     }
   };
 
@@ -71,6 +87,7 @@ const AddProductsForm = () => {
           <ImageInput
             value={value}
             onChange={onChange}
+            className="h-60 w-full rounded-md border-neutral-300"
             error={errors.image?.message}
           />
         )}

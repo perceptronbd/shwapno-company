@@ -3,10 +3,14 @@
 import { Button, Text } from "@/shared-components";
 import { useGetProductByIdQuery } from "@/stores/services/product.service";
 import { formatDate } from "@/utils/format-time";
-import { useParams } from "next/navigation";
+import { ROUTES } from "@/utils/routes";
+import { Image as ImageIcon } from "lucide-react";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
 const ProductDetailsPage = () => {
+  const router = useRouter();
   const params = useParams();
   const id = params.id as string;
   const { data: product, isLoading, error } = useGetProductByIdQuery(id);
@@ -16,18 +20,21 @@ const ProductDetailsPage = () => {
 
   return (
     <div>
-      <div className="mt-10 w-full rounded-base bg-white px-3 py-5">
-        <Text
-          weight="bold"
-          variant="titleLarge"
-          className="mt-2 text-center text-gray-600"
-        >
-          Product Details
-        </Text>
-        <hr className="my-2 border-gray-300 px-4" />
-
+      <div className="w-full rounded-base bg-white px-3 py-5">
         <div className="mt-6 space-y-1 text-neutral-500">
-          <Text weight="bold" variant="bodyBase">
+          <div className="mb-8 aspect-square rounded-xl bg-neutral-100">
+            {product?.imgURL ? (
+              <Image
+                alt="Product Image"
+                src={product.imgURL}
+                fill
+                className="rounded-xl"
+              />
+            ) : (
+              <ImageIcon className="h-full w-full" strokeWidth={1} />
+            )}
+          </div>
+          <Text weight="bold" variant="titleLarge">
             {product?.name}
           </Text>
           <Text variant="bodySmall">
@@ -58,7 +65,14 @@ const ProductDetailsPage = () => {
         </div>
 
         <div className="mt-6 flex justify-center">
-          <Button size="md">OK</Button>
+          <Button
+            size="md"
+            onClick={() => {
+              router.replace(ROUTES.PRODUCTS);
+            }}
+          >
+            Go Back
+          </Button>
         </div>
       </div>
     </div>

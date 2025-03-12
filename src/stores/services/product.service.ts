@@ -54,7 +54,7 @@ export const productApi = secureApi.injectEndpoints({
         url: `/products/${productId}`,
         method: "DELETE",
       }),
-      invalidatesTags: [TAG_TYPES.PRODUCT],
+      invalidatesTags: [TAG_TYPES.PRODUCT, TAG_TYPES.STOCK],
     }),
   }),
 });

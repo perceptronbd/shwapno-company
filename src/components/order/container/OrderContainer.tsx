@@ -1,9 +1,10 @@
 "use client";
 
 import { useGetOrdersByBranchQuery } from "@/stores/services/order.service";
-
 import OrderTable from "../order-table/order-table";
 import { BRANCH_ID } from "@/utils/constant";
+import { Text } from "@/shared-components";
+import { ErrorComponent } from "@/components/error";
 
 const OrderContainer = () => {
   const {
@@ -17,11 +18,17 @@ const OrderContainer = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-[calc(100vh-100px)] w-full items-center justify-center">
+        <Text variant="headerLarge" className="text-neutral-400">
+          Loading...
+        </Text>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error</div>;
+    return <ErrorComponent />;
   }
   return (
     <div className="h-full w-full pb-10">
