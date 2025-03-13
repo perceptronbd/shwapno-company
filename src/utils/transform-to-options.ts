@@ -15,7 +15,7 @@ export const transformToOptions = <T extends Identifiable>(
   items: T[],
 ): Option[] => {
   return items.map((item) => ({
-    value: item.id,
+    value: item.name,
     label: item.name,
   }));
 };

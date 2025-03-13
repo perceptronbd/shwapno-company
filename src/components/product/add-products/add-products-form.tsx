@@ -43,7 +43,7 @@ const AddProductsForm = () => {
       barcode: data.barcode,
       description: data.description,
       price: data.price,
-      categoryId: data.categoryId,
+      category: data.category,
       image: data.image,
     };
 
@@ -111,9 +111,10 @@ const AddProductsForm = () => {
         }
       />
       <FilterableDropdown
-        name="categoryId"
+        name="category"
         control={control}
         options={modifiedCategories}
+        creatable
         placeholder="Select a category"
       />
       <Input
