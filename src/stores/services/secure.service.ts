@@ -35,9 +35,11 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
       extraOptions,
     );
 
-    const refreshResponse = refreshResult.data as ApiResponse<string>;
+    const refreshResponse = refreshResult.data as
+      | ApiResponse<string>
+      | undefined;
 
-    if (refreshResponse.data) {
+    if (refreshResponse?.data) {
       api.dispatch(accessTokenRefresh({ accessToken: refreshResponse.data }));
       return await baseQuerySecure(args, api, extraOptions);
     } else {

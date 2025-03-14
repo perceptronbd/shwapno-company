@@ -16,7 +16,7 @@ export const authApi = secureApi.injectEndpoints({
         response: ApiResponse<User>,
         meta: FetchBaseQueryMeta | undefined,
       ): AuthState => {
-        const authHeader = meta?.response?.headers.get("authorization") || "";
+        const authHeader = meta?.response?.headers.get("authorization") ?? "";
 
         const accessToken = authHeader.replace(/^Bearer\s+/i, "");
         return { user: response.data, accessToken };
