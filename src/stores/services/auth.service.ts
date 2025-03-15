@@ -19,7 +19,11 @@ export const authApi = secureApi.injectEndpoints({
         const authHeader = meta?.response?.headers.get("authorization") ?? "";
 
         const accessToken = authHeader.replace(/^Bearer\s+/i, "");
-        return { user: response.data, accessToken };
+        return {
+          user: response.data,
+          accessToken,
+          selectedBranchId: response.data.branches[0].id,
+        };
       },
     }),
     logout: builder.mutation<void, void>({

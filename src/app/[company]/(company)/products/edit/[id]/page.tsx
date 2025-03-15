@@ -46,7 +46,7 @@ const ProductEditPage = () => {
       barcode: undefined,
       price: "0",
       description: "",
-      categoryId: "",
+      category: "",
     },
   });
 
@@ -60,13 +60,13 @@ const ProductEditPage = () => {
         barcode: product.barcode ?? undefined,
         price: product.price,
         description: product.description,
-        categoryId: product.categoryId ?? undefined,
+        category: product.category ?? undefined,
       });
     }
   }, [product, categories, reset]);
 
   const categoryName = categories?.find(
-    (category) => category.id === product?.categoryId,
+    (category) => category.name === product?.category,
   )?.name;
 
   const onSubmit = async (data: FieldValues) => {
@@ -121,7 +121,7 @@ const ProductEditPage = () => {
         }
       />
       <FilterableDropdown
-        name="categoryId"
+        name="category"
         control={control}
         options={modifiedCategories}
         placeholder="Select a category"

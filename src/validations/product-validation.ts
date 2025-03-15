@@ -24,7 +24,7 @@ export const UpdateProductValidation = z.object({
   barcode: product.shape.barcode.optional(),
   price: product.shape.price.optional(),
   description: product.shape.description.optional(),
-  categoryId: product.shape.category.optional(),
+  category: product.shape.category.optional(),
 });
 
 export type CreateProductValidationType = z.infer<
