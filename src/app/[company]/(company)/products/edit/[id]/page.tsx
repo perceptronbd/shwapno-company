@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "@/components/loader";
 import {
   Button,
   CustomToast,
@@ -85,7 +86,7 @@ const ProductEditPage = () => {
   };
 
   if (isLoading || isCategoriesLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (

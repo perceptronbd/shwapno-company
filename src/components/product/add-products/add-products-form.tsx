@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import { ROUTES } from "@/utils/routes";
 import { useAppSelector } from "@/stores/hook";
 import { selectSelectedBranchId } from "@/stores/slices/auth.slice";
+import { Loader } from "@/components/loader";
 
 const AddProductsForm = () => {
   const router = useRouter();
@@ -76,7 +77,7 @@ const AddProductsForm = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return (

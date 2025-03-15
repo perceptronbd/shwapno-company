@@ -1,4 +1,5 @@
 "use client";
+import { Loader } from "@/components/loader";
 import {
   Button,
   Chips,
@@ -46,7 +47,7 @@ const OrderDetailsContainer = () => {
   }, [orderData]);
 
   if (isFetching) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {

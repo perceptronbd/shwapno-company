@@ -15,6 +15,7 @@ import {
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import React, { useEffect } from "react";
+import { Loader } from "@/components/loader";
 
 // Define the form values type
 
@@ -57,7 +58,7 @@ const EditStock = () => {
   };
 
   if (isFetching) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {

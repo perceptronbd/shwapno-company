@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "@/components/loader";
 import { Button, Text } from "@/shared-components";
 import { useGetProductByIdQuery } from "@/stores/services/product.service";
 import { formatDate } from "@/utils/format-time";
@@ -15,7 +16,7 @@ const ProductDetailsPage = () => {
   const id = params.id as string;
   const { data: product, isLoading, error } = useGetProductByIdQuery(id);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   if (error) return <div>Error</div>;
 
   return (

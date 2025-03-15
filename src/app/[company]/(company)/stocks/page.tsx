@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "@/components/loader";
 import StockHeader from "@/components/stock/stock-header";
 import StockTable from "@/components/stock/stock-table.tsx/stock-table";
 import { useGetStocksQuery } from "@/stores/services/stock.service";
@@ -14,7 +15,7 @@ const StockPage = () => {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   return (
     <div>

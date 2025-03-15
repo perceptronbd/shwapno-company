@@ -2,10 +2,10 @@
 
 import { useGetOrdersByBranchQuery } from "@/stores/services/order.service";
 import OrderTable from "../order-table/order-table";
-import { Text } from "@/shared-components";
 import { ErrorComponent } from "@/components/error";
 import { selectSelectedBranchId } from "@/stores/slices/auth.slice";
 import { useAppSelector } from "@/stores/hook";
+import { Loader } from "@/components/loader";
 
 const OrderContainer = () => {
   const branchId = useAppSelector(selectSelectedBranchId);
@@ -21,13 +21,7 @@ const OrderContainer = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex h-[calc(100vh-100px)] w-full items-center justify-center">
-        <Text variant="headerLarge" className="text-neutral-400">
-          Loading...
-        </Text>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error) {

@@ -7,6 +7,7 @@ import { ROUTES } from "@/utils/routes";
 import { ChevronLeft, Edit, Phone, RefreshCcw, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Loader } from "../loader";
 
 const UserProfile = () => {
   const { data, isLoading } = useGetProfileQuery();
@@ -19,7 +20,7 @@ const UserProfile = () => {
     router.push(ROUTES.LOGIN);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
   return (
     <article className="flex h-screen flex-col bg-white px-3 py-16">
