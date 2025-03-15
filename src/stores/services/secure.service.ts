@@ -5,9 +5,9 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { selectAccessToken, accessTokenRefresh } from "../slices/auth.slice";
 import { RootState } from "..";
-import { authApi } from "./auth.service";
 import { TAG_TYPES_LIST } from "../tagTypes";
 import { ApiResponse } from "@/lib/types/api";
+import { ROUTES } from "@/utils/routes";
 
 const baseQuerySecure = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_ENDPOINT + "/api/v1",
@@ -43,7 +43,8 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
       api.dispatch(accessTokenRefresh({ accessToken: refreshResponse.data }));
       return await baseQuerySecure(args, api, extraOptions);
     } else {
-      api.dispatch(authApi.endpoints.logout.initiate());
+      //redirect to login page
+      window.location.href = ROUTES.LOGIN;
       return { error: { status: 401, data: "Unauthorized" } };
     }
   }
