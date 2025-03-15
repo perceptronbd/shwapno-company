@@ -17,7 +17,7 @@ const HeaderWrapper = () => {
   const handleClose = () => setIsOpen(false);
 
   return (
-    <div className="w-full px-3">
+    <div className="w-full px-2">
       <TopBar handleOpen={handleOpen} />
       <Sidebar
         LinkComponent={Link}

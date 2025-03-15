@@ -7,6 +7,7 @@ import storage from "../../utils/local-storage";
 const initialState: AuthState = {
   user: null,
   accessToken: "",
+  selectedBranchId: "",
 };
 
 export const authSlice = createSlice({
@@ -24,6 +25,7 @@ export const authSlice = createSlice({
         (state, { payload }) => {
           state.user = payload.user;
           state.accessToken = payload.accessToken;
+          state.selectedBranchId = payload.user!.branches[0].id;
           storage.set("loggedUser", payload.user);
         },
       )
@@ -36,6 +38,9 @@ export const authSlice = createSlice({
 });
 
 export const selectAccessToken = (state: RootState) => state.auth.accessToken;
+
+export const selectSelectedBranchId = (state: RootState) =>
+  state.auth.selectedBranchId;
 
 export const { accessTokenRefresh } = authSlice.actions;
 

@@ -19,12 +19,14 @@ import {
 import { convertToFormData } from "../../../utils/convert-to-form-data";
 import { transformToOptions } from "@/utils/transform-to-options";
 import { toast } from "sonner";
-import { BRANCH_ID } from "@/utils/constant";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/utils/routes";
+import { useAppSelector } from "@/stores/hook";
+import { selectSelectedBranchId } from "@/stores/slices/auth.slice";
 
 const AddProductsForm = () => {
   const router = useRouter();
+  const branchId = useAppSelector(selectSelectedBranchId);
   const { data: categories, isLoading } = useGetCategoriesQuery();
   const [addProduct, { isLoading: isAddingProduct }] = useAddProductMutation();
 
@@ -50,7 +52,7 @@ const AddProductsForm = () => {
     const newFormData = convertToFormData(newProduct);
 
     const response = await addProduct({
-      branchId: BRANCH_ID,
+      branchId: branchId,
       formData: newFormData,
     });
     if (response.data?.success) {

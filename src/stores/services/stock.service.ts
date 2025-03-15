@@ -1,4 +1,4 @@
-import { BRANCH_ID } from "@/utils/constant";
+import { RootState } from "..";
 import { Stock, CreateStock, UpdateStock } from "../states/stock.states";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
@@ -7,8 +7,8 @@ import { ApiResponse } from "@/lib/types/api";
 export const stockApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
     getStocks: builder.query<Stock[], void>({
-      query: () => ({
-        url: `/products/stocks/branch/${BRANCH_ID}`,
+      query: () => (state: RootState) => ({
+        url: `/products/stocks/branch/${state.auth.selectedBranchId}`,
         method: "GET",
       }),
       transformResponse: (response: ApiResponse<Stock[]>) => response.data,
@@ -32,16 +32,16 @@ export const stockApi = secureApi.injectEndpoints({
       providesTags: (result, error, id) => [{ type: TAG_TYPES.STOCK, id }],
     }),
     updateStock: builder.mutation<ApiResponse<Stock>, UpdateStock>({
-      query: (stock) => ({
-        url: `/products/stocks/branch/${BRANCH_ID}`,
+      query: (stock) => (state: RootState) => ({
+        url: `/products/stocks/branch/${state.auth.selectedBranchId}`,
         method: "PATCH",
         body: stock,
       }),
       invalidatesTags: [TAG_TYPES.STOCK],
     }),
     addStock: builder.mutation<ApiResponse<Stock>, CreateStock>({
-      query: (stock) => ({
-        url: `/products/stocks/branch/${BRANCH_ID}`,
+      query: (stock) => (state: RootState) => ({
+        url: `/products/stocks/branch/${state.auth.selectedBranchId}`,
         method: "PATCH",
         body: stock,
       }),

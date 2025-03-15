@@ -15,7 +15,7 @@ const TopBar = ({ handleOpen }: TopBarProps) => {
   const user = storedData as User;
 
   return (
-    <div className="mt-16 flex w-full items-center justify-between">
+    <div className="flex w-full items-center justify-between py-2">
       <Link href={ROUTES.PROFILE} className="flex items-center gap-3">
         <span className="flex h-7 w-7 items-center justify-center rounded-full bg-secondary-200 text-white">
           <UserIcon strokeWidth={1} className="h-5 w-5" />

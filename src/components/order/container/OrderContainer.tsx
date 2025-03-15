@@ -2,17 +2,20 @@
 
 import { useGetOrdersByBranchQuery } from "@/stores/services/order.service";
 import OrderTable from "../order-table/order-table";
-import { BRANCH_ID } from "@/utils/constant";
 import { Text } from "@/shared-components";
 import { ErrorComponent } from "@/components/error";
+import { selectSelectedBranchId } from "@/stores/slices/auth.slice";
+import { useAppSelector } from "@/stores/hook";
 
 const OrderContainer = () => {
+  const branchId = useAppSelector(selectSelectedBranchId);
+
   const {
     data: orders,
     isLoading,
     error,
   } = useGetOrdersByBranchQuery({
-    branchId: BRANCH_ID,
+    branchId: branchId ?? "",
     page: 1,
     limit: 10,
   });
