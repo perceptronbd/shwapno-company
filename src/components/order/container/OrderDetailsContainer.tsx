@@ -1,4 +1,5 @@
 "use client";
+import { ErrorComponent } from "@/components/error";
 import { Loader } from "@/components/loader";
 import {
   Button,
@@ -51,7 +52,7 @@ const OrderDetailsContainer = () => {
   }
 
   if (error) {
-    return <div>Error</div>;
+    return <ErrorComponent />;
   }
 
   const handleApprove = async (id: string) => {

@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorComponent } from "@/components/error";
 import { Loader } from "@/components/loader";
 import { Button, Text } from "@/shared-components";
 import { useGetProductByIdQuery } from "@/stores/services/product.service";
@@ -17,7 +18,7 @@ const ProductDetailsPage = () => {
   const { data: product, isLoading, error } = useGetProductByIdQuery(id);
 
   if (isLoading) return <Loader />;
-  if (error) return <div>Error</div>;
+  if (error) return <ErrorComponent />;
 
   return (
     <div>
