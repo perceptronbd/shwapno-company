@@ -18,6 +18,7 @@ export const ROUTES = {
   ADD_PRODUCT: `${COMPANY}/products/add`,
   PRODUCT_DETAILS: (id: string) => `${COMPANY}/products//details/${id}`,
   PRODUCT_EDIT: (id: string) => `${COMPANY}/products/edit/${id}`,
+  QR_CODE: `${COMPANY}/qr-code`,
 } as const;
 
 export const PUBLIC_ROUTES = [ROUTES.LOGIN];
