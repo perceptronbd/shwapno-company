@@ -1,4 +1,4 @@
-import { Layers, Package, Package2 } from "lucide-react";
+import { Layers, Package, Package2, QrCode } from "lucide-react";
 import { ROUTES } from "./routes";
 
 export const NavLinks = {
@@ -33,17 +33,17 @@ export const NavLinks = {
       href: ROUTES.PRODUCTS,
       Icon: Package2,
     },
+    {
+      name: "QR Code",
+      href: ROUTES.QR_CODE,
+      Icon: QrCode,
+    },
   ],
   bottomLinks: [
     // {
     //   name: "Employee",
     //   href: "/employee",
     //   Icon: Users2,
-    // },
-    // {
-    //   name: "QR Code",
-    //   href: "/settings",
-    //   Icon: QrCode,
     // },
     // {
     //   name: "Settings",
