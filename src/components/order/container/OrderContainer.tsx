@@ -25,7 +25,9 @@ const OrderContainer = () => {
   }
 
   if (error) {
-    return <ErrorComponent />;
+    return (
+      <ErrorComponent title="Not Found!" text="No Orders Have Been Placed!" />
+    );
   }
   return (
     <div className="h-full w-full pb-10">
