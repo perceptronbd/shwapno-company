@@ -59,16 +59,20 @@ export const stockApi = secureApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.STOCK],
     }),
-    uploadStockFile: builder.mutation<ApiResponse<UploadJobResponse>, FormData>(
-      {
-        query: (formData) => (state: RootState) => ({
-          url: `/products/stocks/upload/branch/${state.auth.selectedBranchId}`,
+    uploadStockFile: builder.mutation<
+      ApiResponse<UploadJobResponse>,
+      { data: FormData; branchId: string }
+    >({
+      query: ({ data, branchId }) => {
+        return {
+          url: `/products/stocks/upload/branch/${branchId}`,
           method: "POST",
-          body: formData,
-        }),
-        invalidatesTags: [TAG_TYPES.STOCK],
+          body: data,
+          formData: true,
+        };
       },
-    ),
+      invalidatesTags: [TAG_TYPES.STOCK],
+    }),
 
     getUploadJobStatus: builder.query<ApiResponse<UploadJobResponse>, string>({
       query: (jobId) => ({

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,7 +13,8 @@ import {
 } from "@/stores/services/stock.service";
 import { toast } from "sonner";
 import { Progress } from "@/components/stock/progress";
-import { FileInput } from "@/components/file-input";
+import { useAppSelector } from "@/stores/hook";
+import { FileUploader } from "./FileUploader";
 
 // Define the form schema with Zod
 const uploadSchema = z.object({
@@ -20,17 +22,19 @@ const uploadSchema = z.object({
     .instanceof(File, { message: "Excel file is required" })
     .refine((file) => {
       const acceptedTypes = [
-        "application/vnd.ms-excel",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "application/vnd.ms-excel.sheet.binary.macroEnabled.12",
+        "application/vnd.ms-excel", // .xls
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+        "application/vnd.ms-excel.sheet.binary.macroEnabled.12", // .xlsb
+        "application/vnd.ms-excel.sheet.macroEnabled.12", // .xlsm
       ];
       return acceptedTypes.includes(file.type);
-    }, "Only Excel files are allowed (.xls, .xlsx)"),
+    }, "Only Excel files are allowed (.xls, .xlsx, .xlsb, .xlsm)"),
 });
 
 type UploadFormValues = z.infer<typeof uploadSchema>;
 
 const UploadStock = () => {
+  const branchId = useAppSelector((state) => state.auth.selectedBranchId);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [jobId, setJobId] = useState<string | null>(null);
@@ -44,11 +48,10 @@ const UploadStock = () => {
     refetch: refetchJobStatus,
   } = useGetUploadJobStatusQuery(jobId || "", {
     skip: !jobId,
-    pollingInterval: jobId ? 5000 : 0, // Poll every 5 seconds if we have a jobId
+    pollingInterval: jobId ? 1000 : 0, // Poll every 1 seconds if we have a jobId
   });
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
     setValue,
@@ -62,11 +65,7 @@ const UploadStock = () => {
     if (file) {
       setValue("file", file, { shouldValidate: true });
       setUploadedFile(file);
-    } else {
-      // Reset the form when file is removed
-      reset({ file: undefined }, { keepErrors: false });
       clearErrors("file");
-      setUploadedFile(null);
     }
   };
 
@@ -77,20 +76,35 @@ const UploadStock = () => {
       const formData = new FormData();
       formData.append("file", data.file);
 
-      const response = await uploadStockFile(formData).unwrap();
+      const response = await uploadStockFile({
+        data: formData,
+        branchId: branchId,
+      }).unwrap();
 
       if (response.success) {
         setJobId(response.data.id);
         toast.success("File upload started. Processing your data...");
       } else {
-        toast.error("Failed to start upload process");
+        toast.error(response.message || "Failed to start upload process");
       }
     } catch (error) {
-      console.error(
-        "Error uploading file:",
-        error instanceof Error ? error.message : "Unknown error",
-      );
-      toast.error("Error uploading file. Please try again.");
+      let errorMessage = "Error uploading file. Please try again.";
+
+      if (error && typeof error === "object") {
+        if ("data" in error) {
+          // Handle RTK Query error
+          const rtkError = error as {
+            data?: { message?: string; error?: string };
+          };
+          errorMessage =
+            rtkError.data?.message || rtkError.data?.error || errorMessage;
+        } else if ("message" in error) {
+          errorMessage = (error as Error).message;
+        }
+      }
+
+      console.error("Error uploading file:", error);
+      toast.error(errorMessage);
     } finally {
       setIsUploading(false);
     }
@@ -102,7 +116,7 @@ const UploadStock = () => {
       toast.success("Stock data processed successfully!");
       reset();
       setUploadedFile(null);
-      setJobId(null);
+      // setJobId(null);
     } else if (jobStatus?.data?.status === "failed") {
       toast.error(
         "Failed to process stock data. Please check for errors and try again.",
@@ -124,22 +138,16 @@ const UploadStock = () => {
 
       <div className="rounded-lg bg-white p-6 shadow-md">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <FileInput
-            name="file"
-            register={register}
-            required
-            label="Upload Stock Excel File"
-            maxSize={20 * 1024 * 1024}
-            onFileChange={handleFileChange}
-            fileTypeMessage="Stock data Excel files only (.xlsb)"
-            accept=".xlsb"
-          />
-
-          {errors.file && (
-            <Text variant="bodySmall" className="text-red-500">
-              {errors.file.message}
+          <div>
+            <Text variant="bodyMedium" weight="medium" className="mb-2">
+              Upload Stock Excel File
             </Text>
-          )}
+            <FileUploader
+              onFileChange={handleFileChange}
+              error={errors.file?.message}
+              maxSize={20 * 1024 * 1024} // 20MB
+            />
+          </div>
 
           {jobId && jobStatus?.data && (
             <div className="mt-4">
@@ -150,6 +158,14 @@ const UploadStock = () => {
                 value={jobStatus.data.progress}
                 max={100}
                 className="mb-2"
+                color={`
+                  ${jobStatus.data.progress < 25 ? "bg-red-400" : ""}
+                  ${jobStatus.data.progress >= 25 && jobStatus.data.progress < 50 ? "bg-yellow-400" : ""}
+                  ${jobStatus.data.progress >= 50 && jobStatus.data.progress < 75 ? "bg-blue-400" : ""}
+                  ${jobStatus.data.progress >= 75 && jobStatus.data.progress < 100 ? "bg-indigo-400" : ""}
+                  ${jobStatus.data.progress === 100 ? "bg-green-500" : ""}
+                `}
+                animated={true}
               />
               <Text variant="bodySmall" className="text-gray-500">
                 Processed {jobStatus.data.processed} of {jobStatus.data.total}{" "}

@@ -10,7 +10,7 @@ const initialState: AuthState = {
   accessToken: "",
   selectedBranchId: (() => {
     const branchId = storage.get("QR-branchId");
-    return typeof branchId === 'string' ? branchId : "";
+    return typeof branchId === "string" ? branchId : "";
   })(),
 };
 
