@@ -48,7 +48,7 @@ const UploadStock = () => {
     refetch: refetchJobStatus,
   } = useGetUploadJobStatusQuery(jobId || "", {
     skip: !jobId,
-    pollingInterval: jobId ? 1000 : 0, // Poll every 1 seconds if we have a jobId
+    pollingInterval: jobId ? 5000 : 0, // Poll every 5 seconds if we have a jobId
   });
 
   const {
@@ -65,6 +65,7 @@ const UploadStock = () => {
     if (file) {
       setValue("file", file, { shouldValidate: true });
       setUploadedFile(file);
+      setJobId(null);
       clearErrors("file");
     }
   };
@@ -116,7 +117,6 @@ const UploadStock = () => {
       toast.success("Stock data processed successfully!");
       reset();
       setUploadedFile(null);
-      // setJobId(null);
     } else if (jobStatus?.data?.status === "failed") {
       toast.error(
         "Failed to process stock data. Please check for errors and try again.",
