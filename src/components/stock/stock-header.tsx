@@ -1,6 +1,6 @@
 import { Button, Input, Text } from "@/shared-components";
 import { ROUTES } from "@/utils/routes";
-import { FilePlus, Filter, Search } from "lucide-react";
+import { Filter, Plus, Search, Sheet } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const StockHeader = ({
@@ -16,11 +16,16 @@ const StockHeader = ({
           Stock List
         </Text>
         <div className="flex items-center gap-2">
-          <Button onClick={() => router.push(ROUTES.ADD_STOCK)} size="sm">
-            <FilePlus /> Add
+          <Button onClick={() => router.push(ROUTES.STOCK_UPLOAD)} size="sm">
+            <Sheet />
+            Upload Excel
           </Button>
-          <Button size="sm" variant="outline">
-            Add CSV
+          <Button
+            onClick={() => router.push(ROUTES.STOCK_ADD)}
+            size="sm"
+            variant="outline"
+          >
+            <Plus /> Add
           </Button>
         </div>
       </div>

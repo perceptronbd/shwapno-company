@@ -1,1 +1,1 @@
-export const COMPANY = "/shawpno";
+export const COMPANY = "/Nurer%20Chala";

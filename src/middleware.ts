@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get("refreshToken");
   const { pathname } = request.nextUrl;
 
+
   // Handle root path
   if (pathname === ROUTES.ROOT) {
     if (refreshToken) {

@@ -1,5 +1,10 @@
 import { RootState } from "..";
-import { Stock, CreateStock, UpdateStock } from "../states/stock.states";
+import {
+  Stock,
+  CreateStock,
+  UpdateStock,
+  UploadJobResponse,
+} from "../states/stock.states";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
 import { ApiResponse } from "@/lib/types/api";
@@ -54,6 +59,27 @@ export const stockApi = secureApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.STOCK],
     }),
+    uploadStockFile: builder.mutation<
+      ApiResponse<UploadJobResponse>,
+      { data: FormData; branchId: string }
+    >({
+      query: ({ data, branchId }) => {
+        return {
+          url: `/products/stocks/upload/branch/${branchId}`,
+          method: "POST",
+          body: data,
+          formData: true,
+        };
+      },
+      invalidatesTags: [TAG_TYPES.STOCK],
+    }),
+
+    getUploadJobStatus: builder.query<ApiResponse<UploadJobResponse>, string>({
+      query: (jobId) => ({
+        url: `/products/stocks/status/${jobId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -63,4 +89,6 @@ export const {
   useGetStockByIdQuery,
   useAddStockMutation,
   useUpdateStockMutation,
+  useUploadStockFileMutation,
+  useGetUploadJobStatusQuery,
 } = stockApi;

@@ -20,3 +20,14 @@ export interface UpdateStock {
   quantity?: Stock["quantity"] | null;
   productId?: Stock["productId"] | null;
 }
+
+export interface UploadJobResponse {
+  id: string;
+  status: string;
+  progress: number;
+  processed: number;
+  total: number;
+  errors: string[];
+  createdAt: string;
+  updatedAt: string;
+}

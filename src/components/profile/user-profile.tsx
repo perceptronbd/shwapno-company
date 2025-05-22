@@ -23,7 +23,7 @@ const UserProfile = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <article className="flex h-screen flex-col bg-white px-3 py-16">
+    <article className="flex h-screen flex-col bg-white p-4">
       <div>
         {/* header */}
         <div className="flex h-12 items-center justify-between">
@@ -71,7 +71,7 @@ const UserProfile = () => {
         </div>
       </div>
       {/* logout */}
-      <div className="flex h-full flex-grow items-end pb-4">
+      <div className="flex h-full flex-grow items-end">
         <Button
           loading={isLogoutLoading}
           onClick={handleLogout}
