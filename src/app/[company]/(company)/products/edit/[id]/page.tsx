@@ -43,7 +43,7 @@ const ProductEditPage = () => {
     resolver: zodResolver(UpdateProductValidation),
     defaultValues: {
       name: "",
-      imgURL: "",
+      imgURL: undefined,
       barcode: undefined,
       price: "0",
       description: "",
@@ -97,7 +97,7 @@ const ProductEditPage = () => {
         rules={{ required: "Image is required" }}
         render={({ field: { value, onChange } }) => (
           <ImageInput
-            value={value}
+            value={value ?? ""}
             onChange={onChange}
             error={errors.imgURL?.message}
           />

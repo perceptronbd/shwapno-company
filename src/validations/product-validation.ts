@@ -2,10 +2,13 @@ import { z } from "zod";
 
 export const product = z.object({
   name: z.string().min(1, "Product Name is required"),
-  image: z
-    .instanceof(File)
-    .nullable()
-    .refine((file) => !!file, { message: "Image is required" }),
+  image: z.union([
+    z.string(),
+    z
+      .instanceof(File)
+      .nullable()
+      .refine((file) => !!file, { message: "Image is required" }),
+  ]),
   barcode: z.string().min(1, "Barcode is required"),
   price: z.string().min(1, "Price is required"),
   description: z.string().min(1, "Description is required"),
