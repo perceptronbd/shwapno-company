@@ -13,6 +13,10 @@ export interface UserProfile {
   lastName: string;
   phone: string;
   userRoles: UserRole[];
+  branches: Array<{
+    id: string;
+    name: string;
+  }>;
 }
 
 export interface ProfileResponse {

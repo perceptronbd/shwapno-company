@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "@/components/loader";
 import StockViewCard from "@/components/stock/stock-view-card";
 import { useGetStockByIdQuery } from "@/stores/services/stock.service";
 import { useParams } from "next/navigation";
@@ -10,7 +11,7 @@ const StockDetailsPage = () => {
   const id = params.id as string;
   const { data, isFetching } = useGetStockByIdQuery(id);
 
-  if (isFetching) return <div>Loading...</div>;
+  if (isFetching) return <Loader />;
 
   return <div>{data && <StockViewCard stock={data} onClose={() => {}} />}</div>;
 };

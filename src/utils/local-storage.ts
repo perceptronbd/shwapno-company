@@ -9,8 +9,11 @@ const storage = {
 
   get: (key: string): unknown => {
     try {
-      const storedData = localStorage.getItem(key);
-      return storedData ? JSON.parse(storedData) : null;
+      if (typeof window !== "undefined") {
+        const storedData = localStorage.getItem(key);
+        return storedData ? JSON.parse(storedData) : null;
+      }
+      return null;
     } catch (error) {
       console.error("Error getting storage data:", error);
       return null;

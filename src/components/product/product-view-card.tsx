@@ -28,7 +28,7 @@ const ProductViewCard = ({ product, onClose }: ProductViewCardProps) => {
           <span className="font-bold">{product.barcode}</span>
         </Text>
         <Text variant="bodySmall">
-          <span className="font-semibold">category:</span> {product.categoryId}
+          <span className="font-semibold">category:</span> {product.category}
         </Text>
         <Text variant="bodySmall">
           <span className="font-semibold">Available Stock:</span> 200

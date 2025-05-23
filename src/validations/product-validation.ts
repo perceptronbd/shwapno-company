@@ -2,11 +2,17 @@ import { z } from "zod";
 
 export const product = z.object({
   name: z.string().min(1, "Product Name is required"),
-  image: z.any().refine((file) => file, { message: "Image is required" }),
+  image: z.union([
+    z.string(),
+    z
+      .instanceof(File)
+      .nullable()
+      .refine((file) => !!file, { message: "Image is required" }),
+  ]),
   barcode: z.string().min(1, "Barcode is required"),
   price: z.string().min(1, "Price is required"),
   description: z.string().min(1, "Description is required"),
-  categoryId: z.string().min(1, "Category is required"),
+  category: z.string().min(1, "Category is required"),
 });
 
 export const CreateProductValidation = z.object({
@@ -14,8 +20,8 @@ export const CreateProductValidation = z.object({
   image: product.shape.image,
   barcode: product.shape.barcode,
   price: product.shape.price,
-  description: product.shape.description,
-  categoryId: product.shape.categoryId,
+  description: product.shape.description.optional(),
+  category: product.shape.category,
 });
 
 export const UpdateProductValidation = z.object({
@@ -24,7 +30,7 @@ export const UpdateProductValidation = z.object({
   barcode: product.shape.barcode.optional(),
   price: product.shape.price.optional(),
   description: product.shape.description.optional(),
-  categoryId: product.shape.categoryId.optional(),
+  category: product.shape.category.optional(),
 });
 
 export type CreateProductValidationType = z.infer<

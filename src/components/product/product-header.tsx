@@ -16,7 +16,7 @@ const ProductHeader = ({
           Product List
         </Text>
         <div className="flex items-center gap-2">
-          <Button onClick={() => router.push(ROUTES.ADD_PRODUCT)} size="sm">
+          <Button onClick={() => router.push(ROUTES.PRODUCT_ADD)} size="sm">
             <FilePlus /> Add
           </Button>
           <Button size="sm" variant="outline">

@@ -55,7 +55,7 @@ const ProductTable = ({ productData }: ProductTableProps) => {
                     key={header.id}
                     className="py-5 text-center text-2xs"
                   >
-                    <div
+                    <button
                       className={`flex items-center justify-center gap-1 ${
                         isActionColumn ? "" : "cursor-pointer select-none"
                       }`}
@@ -78,7 +78,7 @@ const ProductTable = ({ productData }: ProductTableProps) => {
                           }`}
                         />
                       )}
-                    </div>
+                    </button>
                   </TableHead>
                 );
               })}
