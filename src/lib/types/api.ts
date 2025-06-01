@@ -1,8 +1,11 @@
+import { TMeta } from "@/stores/states/meta.state";
+
 export interface ApiResponse<T = unknown> {
   success: true;
   code: number;
   data: T;
   message: string;
+  meta: TMeta | null;
 }
 
 export interface ApiErrorResponse {
@@ -10,6 +13,7 @@ export interface ApiErrorResponse {
   code: number;
   message: string;
   data?: never;
+  meta?: never;
 }
 
 export type ApiResponseType<T = unknown> = ApiResponse<T> | ApiErrorResponse;
