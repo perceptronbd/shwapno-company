@@ -13,18 +13,16 @@ export const stockApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
     getStocks: builder.query<
       { data: Stock[]; meta: TMeta | null },
-      { branchId: string; query: Record<string, unknown> }
+      { branchId: string; page: number; limit: number }
     >({
-      query: ({ branchId, query }) => {
-        const queryString = new URLSearchParams(
-          query as Record<string, string>,
-        ).toString();
-
-        return {
-          url: `/products/stocks/branch/${branchId}?${queryString}`,
-          method: "GET",
-        };
-      },
+      query: ({ branchId, page, limit }) => ({
+        url: `/products/stocks/branch/${branchId}`,
+        method: "GET",
+        params: {
+          page,
+          limit,
+        },
+      }),
       transformResponse: (response: ApiResponse<Stock[]>) => ({
         data: response.data,
         meta: response.meta ?? null,

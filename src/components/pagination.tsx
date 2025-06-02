@@ -105,7 +105,7 @@ function PaginationLink({
   );
 }
 
-// Previous button with icon and text
+// Previous button
 function PaginationPrevious({
   className,
   disabled,
@@ -129,7 +129,7 @@ function PaginationPrevious({
   );
 }
 
-// Next button with icon and text
+// Next button
 function PaginationNext({
   className,
   disabled,
@@ -214,16 +214,65 @@ function PaginationEllipsis({
   );
 }
 
-// Page info component for mobile
+// Page info component for mobile with input
 function PaginationInfo({
   currentPage,
   totalPages,
+  onPageChange,
   className,
   ...props
 }: {
   currentPage: number;
   totalPages: number;
+  onPageChange?: (page: number) => void;
 } & React.ComponentProps<"div">) {
+  const [inputValue, setInputValue] = React.useState<string>(
+    currentPage.toString(),
+  );
+  const [isEditing, setIsEditing] = React.useState<boolean>(false);
+
+  // Update input value when currentPage changes
+  React.useEffect(() => {
+    setInputValue(currentPage.toString());
+  }, [currentPage]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Only allow numbers
+    if (value === "" || /^\d+$/.test(value)) {
+      setInputValue(value);
+    }
+  };
+
+  const handleInputSubmit = () => {
+    const pageNumber = parseInt(inputValue, 10);
+
+    if (isNaN(pageNumber) || pageNumber < 1) {
+      setInputValue("1");
+      onPageChange?.(1);
+    } else if (pageNumber > totalPages) {
+      setInputValue(totalPages.toString());
+      onPageChange?.(totalPages);
+    } else {
+      onPageChange?.(pageNumber);
+    }
+
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleInputSubmit();
+    } else if (e.key === "Escape") {
+      setInputValue(currentPage.toString());
+      setIsEditing(false);
+    }
+  };
+
+  const handleBlur = () => {
+    handleInputSubmit();
+  };
+
   return (
     <div
       className={cn(
@@ -232,8 +281,27 @@ function PaginationInfo({
       )}
       {...props}
     >
-      <span className="font-medium">
-        Page {currentPage} of {totalPages}
+      <span className="flex items-center gap-1 font-medium">
+        Page{" "}
+        {isEditing ? (
+          <input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            onBlur={handleBlur}
+            className="w-12 rounded border border-gray-300 bg-white px-1 py-0.5 text-center text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            autoFocus
+          />
+        ) : (
+          <button
+            onClick={() => setIsEditing(true)}
+            className="min-w-[1.5rem] rounded px-1 py-0.5 text-center transition-colors duration-150 hover:bg-gray-200"
+          >
+            {currentPage}
+          </button>
+        )}{" "}
+        of {totalPages}
       </span>
     </div>
   );
@@ -250,7 +318,7 @@ function generatePageNumbers(
   }
 
   const pages: (number | "ellipsis")[] = [];
-  const sidePages = Math.floor((maxVisible - 3) / 2); // Reserve space for first, last, and ellipsis
+  const sidePages = Math.floor((maxVisible - 3) / 2);
 
   if (currentPage <= sidePages + 2) {
     // Near the beginning
@@ -306,7 +374,9 @@ function PaginationComponent({ meta }: { meta?: TMeta }) {
             <PaginationPrevious disabled />
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink isActive={true}>1</PaginationLink>
+            <PaginationLink disabled isActive={true}>
+              1
+            </PaginationLink>
           </PaginationItem>
           <PaginationItem>
             <PaginationNext disabled />
@@ -349,7 +419,11 @@ function PaginationComponent({ meta }: { meta?: TMeta }) {
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationInfo currentPage={currentPage} totalPages={totalPages} />
+            <PaginationInfo
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePagination}
+            />
           </PaginationItem>
 
           <PaginationItem>

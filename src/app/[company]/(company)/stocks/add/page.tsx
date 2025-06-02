@@ -18,9 +18,12 @@ import { selectSelectedBranchId } from "@/stores/slices/auth.slice";
 // Define the form values type
 
 const AddStock = () => {
-  const { data: products, isFetching } = useGetProductsQuery();
+  const { data: products, isFetching } = useGetProductsQuery({
+    page: 1,
+    limit: 1000,
+  });
   const [addStock] = useAddStockMutation();
-  const modifiedProducts = transformToOptionsWithId(products || []);
+  const modifiedProducts = transformToOptionsWithId(products?.data || []);
   const branchId = useAppSelector(selectSelectedBranchId);
 
   const {

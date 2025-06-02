@@ -15,11 +15,11 @@ const StockPage = () => {
   const branchId = useAppSelector(selectSelectedBranchId);
   const searchParams = useSearchParams();
 
-  const page = searchParams.get("page") || "1";
-  // const limit = searchParams.get("limit") || "20;
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 20;
 
   const { data: stocks, isLoading } = useGetStocksQuery(
-    { branchId, query: { page: page } },
+    { branchId, page, limit },
     {
       skip: !branchId,
     },
