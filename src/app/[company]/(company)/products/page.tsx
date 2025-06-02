@@ -27,8 +27,6 @@ const Product = () => {
     return <Loader />;
   }
 
-  console.log(products?.data);
-
   return (
     <div>
       <ProductHeader setSearchTerm={setSearchTerm} />
