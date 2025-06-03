@@ -100,7 +100,10 @@ const ProductTable = ({ productData }: ProductTableProps) => {
                         );
 
                   return (
-                    <TableCell key={cell.id} className="px-2 py-7 text-2xs">
+                    <TableCell
+                      key={cell.id}
+                      className={`px-2 py-7 text-2xs ${cell.column.id === "category" ? "capitalize" : ""}`}
+                    >
                       {cellValue}
                     </TableCell>
                   );

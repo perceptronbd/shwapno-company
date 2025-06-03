@@ -77,14 +77,14 @@ function PaginationLink({
       disabled={disabled}
       className={cn(
         // Base styles
-        "relative inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:pointer-events-none disabled:opacity-50",
+        "relative inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:ring-offset-1 disabled:pointer-events-none disabled:opacity-50",
         // Size variants
         "h-9 w-9 sm:h-10 sm:w-10",
         // Default variant
         variant === "default" && [
           "border border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50 hover:text-gray-900",
           isActive &&
-            "border-blue-600 bg-blue-600 text-white shadow-md hover:bg-blue-700",
+            "border-secondary-400 bg-secondary-400 text-white shadow-md hover:bg-secondary-400/90",
         ],
         // Outline variant
         variant === "outline" && [
