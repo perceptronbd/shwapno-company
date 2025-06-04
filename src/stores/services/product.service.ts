@@ -7,16 +7,30 @@ import {
 } from "../states/product.state";
 import { TAG_TYPES } from "../tagTypes";
 import { secureApi } from "./secure.service";
+import { TMeta } from "../states/meta.state";
 
 export const productApi = secureApi.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query<Product[], void>({
-      query: () => "/products",
-      transformResponse: (response: ApiResponse<Product[]>) => response.data,
+    getProducts: builder.query<
+      { data: Product[]; meta: TMeta | null },
+      { page: number; limit: number }
+    >({
+      query: ({ page, limit }) => ({
+        url: "/products",
+        method: "GET",
+        params: { page, limit },
+      }),
+      transformResponse: (response: ApiResponse<Product[]>) => ({
+        data: response.data,
+        meta: response.meta,
+      }),
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: TAG_TYPES.PRODUCT, id })),
+              ...result.data?.map(({ id }) => ({
+                type: TAG_TYPES.PRODUCT,
+                id,
+              })),
               TAG_TYPES.PRODUCT,
             ]
           : [TAG_TYPES.PRODUCT],

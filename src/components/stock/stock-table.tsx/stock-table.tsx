@@ -41,7 +41,7 @@ const StockTable = ({ stockData }: StockTableProps) => {
   });
 
   return (
-    <div className="mt-5 w-full overflow-auto rounded-lg border border-neutral-300 bg-neutral-50">
+    <div className="mb-10 mt-5 w-full overflow-auto rounded-lg border border-neutral-300 bg-neutral-50">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

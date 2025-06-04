@@ -61,13 +61,13 @@ const ProductEditPage = () => {
         barcode: product.barcode ?? undefined,
         price: product.price,
         description: product.description,
-        category: product.category ?? undefined,
+        category: product.category?.name ?? undefined,
       });
     }
   }, [product, categories, reset]);
 
   const categoryName = categories?.find(
-    (category) => category.name === product?.category,
+    (category) => category.name === product?.category?.name,
   )?.name;
 
   const onSubmit = async (data: FieldValues) => {
@@ -127,6 +127,7 @@ const ProductEditPage = () => {
         options={modifiedCategories}
         placeholder="Select a category"
         defaultText={categoryName}
+        className="capitalize"
       />
       <Input
         placeholder="price"
