@@ -3,22 +3,16 @@ import {
   createApi,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
-import { selectAccessToken, accessTokenRefresh } from "../slices/auth.slice";
 import { RootState } from "..";
-import { authApi } from "./auth.service";
 import { TAG_TYPES_LIST } from "../tagTypes";
-import { ApiResponse } from "@/lib/types/api";
+
+const baseUrl = process.env.NEXT_PUBLIC_ENDPOINT + "/api/v1";
 
 const baseQuerySecure = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_ENDPOINT,
+  baseUrl: baseUrl,
   prepareHeaders: (headers, { getState }) => {
-    const token = selectAccessToken(getState() as RootState);
-    console.log("selected token", token);
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    } else {
-      console.warn("No token found in store");
-    }
+    const token = (getState() as RootState).auth.accessToken;
+    if (token) headers.set("Authorization", `Bearer ${token}`);
     return headers;
   },
   credentials: "include",
@@ -34,19 +28,24 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
   if (isUnauthorizedError && isNotAuthEndpoint) {
     console.warn("Access token expired, trying refresh...");
 
-    const refreshResult = await baseQuerySecure(
-      { url: "/auth/refresh", method: "POST" },
-      api,
-      extraOptions,
-    );
+    const res = await fetch(baseUrl + "/auth/refresh", {
+      method: "POST",
+      credentials: "include",
+    });
 
-    const refreshResponse = refreshResult.data as ApiResponse<string>;
+    const refreshResult = await res.json();
 
-    if (refreshResponse.data) {
-      api.dispatch(accessTokenRefresh({ accessToken: refreshResponse.data }));
+    if (refreshResult?.data) {
+      api.dispatch({
+        type: "auth/accessTokenRefresh",
+        payload: { accessToken: refreshResult.data },
+      });
       return await baseQuerySecure(args, api, extraOptions);
     } else {
-      api.dispatch(authApi.endpoints.logout.initiate());
+      await fetch(baseUrl + "/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
       return { error: { status: 401, data: "Unauthorized" } };
     }
   }

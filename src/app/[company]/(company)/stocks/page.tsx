@@ -1,25 +1,45 @@
 "use client";
 
+import { Loader } from "@/components/loader";
+import { PaginationComponent } from "@/components/pagination";
 import StockHeader from "@/components/stock/stock-header";
 import StockTable from "@/components/stock/stock-table.tsx/stock-table";
+import { useAppSelector } from "@/stores/hook";
 import { useGetStocksQuery } from "@/stores/services/stock.service";
+import { selectSelectedBranchId } from "@/stores/slices/auth.slice";
+import { Stock } from "@/stores/states/stock.states";
+import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
 const StockPage = () => {
-  const { data: stocks, isLoading } = useGetStocksQuery();
+  const branchId = useAppSelector(selectSelectedBranchId);
+  const searchParams = useSearchParams();
+
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 20;
+
+  const { data: stocks, isLoading } = useGetStocksQuery(
+    { branchId, page, limit },
+    {
+      skip: !branchId,
+    },
+  );
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const filteredProducts = stocks?.filter((stock) =>
+  const filteredProducts = stocks?.data?.filter((stock: Stock) =>
     stock.product.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
+
   return (
     <div>
       <StockHeader setSearchTerm={setSearchTerm} />
       <StockTable stockData={filteredProducts || []} />
+
+      <PaginationComponent meta={stocks?.meta ?? undefined} />
     </div>
   );
 };

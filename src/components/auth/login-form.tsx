@@ -45,7 +45,13 @@ export default function LoginForm() {
       // Handle success (e.g., store token, redirect, etc.)
       if (result.accessToken.length > 0) {
         setTimeout(() => {
-          toast(<CustomToast title="Login Successful" type="success" />);
+          toast(
+            <CustomToast
+              title="Login Successful"
+              description="Logged in successfully!"
+              type="success"
+            />,
+          );
           router.push(ROUTES.ORDERS);
         }, 2000); // 2 seconds delay
       }

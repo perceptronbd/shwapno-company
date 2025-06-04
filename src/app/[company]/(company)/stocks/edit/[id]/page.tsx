@@ -15,6 +15,10 @@ import {
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import React, { useEffect } from "react";
+import { Loader } from "@/components/loader";
+import { ErrorComponent } from "@/components/error";
+import { useAppSelector } from "@/stores/hook";
+import { selectSelectedBranchId } from "@/stores/slices/auth.slice";
 
 // Define the form values type
 
@@ -23,6 +27,7 @@ const EditStock = () => {
   const stockId = params.id as string;
   const { data: stock, isFetching, error } = useGetStockByIdQuery(stockId);
   const [updateStock] = useUpdateStockMutation();
+  const branchId = useAppSelector(selectSelectedBranchId);
   const {
     handleSubmit,
     register,
@@ -48,7 +53,7 @@ const EditStock = () => {
       productId: stock?.productId,
     };
 
-    const response = await updateStock(stockData);
+    const response = await updateStock({ stock: stockData, branchId });
     if (response.data?.success) {
       toast(<CustomToast title="Stock updated successfully" type="success" />);
     } else {
@@ -57,11 +62,11 @@ const EditStock = () => {
   };
 
   if (isFetching) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
-    return <div>Error</div>;
+    return <ErrorComponent />;
   }
 
   return (

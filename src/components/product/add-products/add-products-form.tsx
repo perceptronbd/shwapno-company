@@ -19,9 +19,15 @@ import {
 import { convertToFormData } from "../../../utils/convert-to-form-data";
 import { transformToOptions } from "@/utils/transform-to-options";
 import { toast } from "sonner";
-import { BRANCH_ID } from "@/utils/constant";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/utils/routes";
+import { useAppSelector } from "@/stores/hook";
+import { selectSelectedBranchId } from "@/stores/slices/auth.slice";
+import { Loader } from "@/components/loader";
 
 const AddProductsForm = () => {
+  const router = useRouter();
+  const branchId = useAppSelector(selectSelectedBranchId);
   const { data: categories, isLoading } = useGetCategoriesQuery();
   const [addProduct, { isLoading: isAddingProduct }] = useAddProductMutation();
 
@@ -40,25 +46,38 @@ const AddProductsForm = () => {
       barcode: data.barcode,
       description: data.description,
       price: data.price,
-      categoryId: data.categoryId,
+      category: data.category,
       image: data.image,
     };
 
     const newFormData = convertToFormData(newProduct);
 
     const response = await addProduct({
-      branchId: BRANCH_ID,
+      branchId: branchId,
       formData: newFormData,
     });
     if (response.data?.success) {
-      toast(<CustomToast title="Product added successfully" type="success" />);
+      toast(
+        <CustomToast
+          title="Product added successfully"
+          description="The process was successful."
+          type="success"
+        />,
+      );
+      router.replace(ROUTES.PRODUCTS);
     } else {
-      toast(<CustomToast title="Failed to add product" type="error" />);
+      toast(
+        <CustomToast
+          title="Failed to add product"
+          description="Something went wrong!"
+          type="error"
+        />,
+      );
     }
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return (
@@ -71,6 +90,7 @@ const AddProductsForm = () => {
           <ImageInput
             value={value}
             onChange={onChange}
+            className="h-60 w-full rounded-md border-neutral-300"
             error={errors.image?.message}
           />
         )}
@@ -94,9 +114,10 @@ const AddProductsForm = () => {
         }
       />
       <FilterableDropdown
-        name="categoryId"
+        name="category"
         control={control}
         options={modifiedCategories}
+        creatable
         placeholder="Select a category"
       />
       <Input

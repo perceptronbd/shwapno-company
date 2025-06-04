@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "@/components/loader";
 import {
   Button,
   CustomToast,
@@ -42,11 +43,11 @@ const ProductEditPage = () => {
     resolver: zodResolver(UpdateProductValidation),
     defaultValues: {
       name: "",
-      imgURL: "",
+      imgURL: undefined,
       barcode: undefined,
       price: "0",
       description: "",
-      categoryId: "",
+      category: "",
     },
   });
 
@@ -60,13 +61,13 @@ const ProductEditPage = () => {
         barcode: product.barcode ?? undefined,
         price: product.price,
         description: product.description,
-        categoryId: product.categoryId ?? undefined,
+        category: product.category?.name ?? undefined,
       });
     }
   }, [product, categories, reset]);
 
   const categoryName = categories?.find(
-    (category) => category.id === product?.categoryId,
+    (category) => category.name === product?.category?.name,
   )?.name;
 
   const onSubmit = async (data: FieldValues) => {
@@ -85,7 +86,7 @@ const ProductEditPage = () => {
   };
 
   if (isLoading || isCategoriesLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
@@ -96,7 +97,7 @@ const ProductEditPage = () => {
         rules={{ required: "Image is required" }}
         render={({ field: { value, onChange } }) => (
           <ImageInput
-            value={value}
+            value={value ?? ""}
             onChange={onChange}
             error={errors.imgURL?.message}
           />
@@ -121,11 +122,12 @@ const ProductEditPage = () => {
         }
       />
       <FilterableDropdown
-        name="categoryId"
+        name="category"
         control={control}
         options={modifiedCategories}
         placeholder="Select a category"
         defaultText={categoryName}
+        className="capitalize"
       />
       <Input
         placeholder="price"

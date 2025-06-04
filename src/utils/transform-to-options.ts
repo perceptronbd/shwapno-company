@@ -15,7 +15,16 @@ export const transformToOptions = <T extends Identifiable>(
   items: T[],
 ): Option[] => {
   return items.map((item) => ({
-    value: item.id,
+    value: item.name, // Use the 'name' property as the value
+    label: item.name,
+  }));
+};
+
+export const transformToOptionsWithId = <T extends Identifiable>(
+  items: T[],
+): Option[] => {
+  return items.map((item) => ({
+    value: item.id, // Use the 'id' property as the value
     label: item.name,
   }));
 };

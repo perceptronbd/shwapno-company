@@ -41,7 +41,7 @@ const ProductTable = ({ productData }: ProductTableProps) => {
   });
 
   return (
-    <div className="mt-5 w-full overflow-auto rounded-lg border border-neutral-300 bg-neutral-50">
+    <div className="mb-10 mt-5 w-full overflow-auto rounded-lg border border-neutral-300 bg-neutral-50">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -55,7 +55,7 @@ const ProductTable = ({ productData }: ProductTableProps) => {
                     key={header.id}
                     className="py-5 text-center text-2xs"
                   >
-                    <div
+                    <button
                       className={`flex items-center justify-center gap-1 ${
                         isActionColumn ? "" : "cursor-pointer select-none"
                       }`}
@@ -78,7 +78,7 @@ const ProductTable = ({ productData }: ProductTableProps) => {
                           }`}
                         />
                       )}
-                    </div>
+                    </button>
                   </TableHead>
                 );
               })}
@@ -89,11 +89,25 @@ const ProductTable = ({ productData }: ProductTableProps) => {
           {table.getRowModel().rows.length > 0 ? (
             table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="px-2 py-7 text-2xs">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                  // Check if this cell is for the category column
+                  const cellValue =
+                    cell.column.id === "category"
+                      ? row.original.category?.name.trim()
+                      : flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        );
+
+                  return (
+                    <TableCell
+                      key={cell.id}
+                      className={`px-2 py-7 text-2xs ${cell.column.id === "category" ? "capitalize" : ""}`}
+                    >
+                      {cellValue}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))
           ) : (

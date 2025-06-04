@@ -2,7 +2,7 @@
 
 import { Button, CustomToast, Input } from "@/shared-components";
 import { FilterableDropdown } from "@/shared-components/src/components/inputs/filterable-dropdown/filterable.dropdown";
-import { transformToOptions } from "@/utils/transform-to-options";
+import { transformToOptionsWithId } from "@/utils/transform-to-options";
 import { useGetProductsQuery } from "@/stores/services/product.service";
 import {
   CreateStock,
@@ -12,13 +12,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAddStockMutation } from "@/stores/services/stock.service";
 import { toast } from "sonner";
+import { useAppSelector } from "@/stores/hook";
+import { selectSelectedBranchId } from "@/stores/slices/auth.slice";
 
 // Define the form values type
 
 const AddStock = () => {
-  const { data: products } = useGetProductsQuery();
+  const { data: products, isFetching } = useGetProductsQuery({
+    page: 1,
+    limit: 1000,
+  });
   const [addStock] = useAddStockMutation();
-  const modifiedProducts = transformToOptions(products || []);
+  const modifiedProducts = transformToOptionsWithId(products?.data || []);
+  const branchId = useAppSelector(selectSelectedBranchId);
+
   const {
     control,
     handleSubmit,
@@ -38,7 +45,8 @@ const AddStock = () => {
       productId: data.productId,
     };
 
-    const response = await addStock(stockData);
+    const response = await addStock({ stock: stockData, branchId });
+
     if (response.data?.success) {
       toast(<CustomToast title="Stock added successfully" type="success" />);
     } else {
@@ -50,6 +58,7 @@ const AddStock = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-6">
         <FilterableDropdown
+          disabled={isFetching}
           name="productId"
           control={control}
           options={modifiedProducts}

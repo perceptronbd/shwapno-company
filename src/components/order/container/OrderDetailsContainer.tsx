@@ -1,4 +1,6 @@
 "use client";
+import { ErrorComponent } from "@/components/error";
+import { Loader } from "@/components/loader";
 import {
   Button,
   Chips,
@@ -46,11 +48,11 @@ const OrderDetailsContainer = () => {
   }, [orderData]);
 
   if (isFetching) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
-    return <div>Error</div>;
+    return <ErrorComponent />;
   }
 
   const handleApprove = async (id: string) => {
